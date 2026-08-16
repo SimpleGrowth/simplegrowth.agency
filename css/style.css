@@ -897,6 +897,8 @@ section.page-section.tint { background: var(--purple-50); }
 }
 .price-amount .unit { font-size: 15px; font-weight: 500; color: var(--text-muted); }
 .price-amount .price-from { font-size: 15px; font-weight: 500; color: var(--text-muted); margin-right: 2px; }
+/* muted grey would all but disappear on the highlighted card */
+.price-card.is-popular .price-amount .price-from { color: rgba(255, 255, 255, 0.55); }
 /* sits directly under the headline figure — e.g. what the plan plus its
    recommended ad budget comes to, since the ad spend is not ours to bill */
 .price-note {
