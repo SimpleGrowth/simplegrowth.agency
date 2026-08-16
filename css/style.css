@@ -17,7 +17,7 @@
   --purple-700:  #49338B;
   --purple-800:  #382673;
   --purple-900:  #281A54;
-  --pink-200:    #FBD3FF;
+  --pink-200:    #fac8ff;
 
   /* ── derived aliases ── */
   --purple:       var(--purple-700);
@@ -77,7 +77,8 @@ button { font-family: inherit; }
   left: 0;
   right: 0;
   z-index: 50;
-  padding: 10px 24px;
+  /* 16px so the 60px inner bar sits in a 92px header, per Figma 397:729 */
+  padding: 16px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,11 +112,14 @@ button { font-family: inherit; }
   justify-content: flex-end;
   gap: 20px;
   list-style: none;
+  /* the li line box, not just the anchor, sets the row height */
+  line-height: normal;
 }
 .nav-links a {
   font-family: 'Inter Tight', sans-serif;
   font-weight: 500;
   font-size: 16px;
+  line-height: normal;
   color: var(--sg-dark);
   transition: opacity 0.2s;
 }
@@ -293,6 +297,9 @@ button { font-family: inherit; }
   color: var(--sg-dark);
   max-width: 480px;
 }
+/* "marketing duo" — Purple/500 on the desktop frame only; the mobile
+   frame (400:1029) keeps the headline a single colour. */
+.hero-h1-accent { color: var(--purple-500); }
 
 /* pills — Figma 397:673 */
 .hero-pills {
@@ -349,8 +356,7 @@ button { font-family: inherit; }
 
 .btn-dark {
   background: var(--sg-dark);
-  border: 2px solid var(--white);
-  color: var(--white);
+  color: var(--pink-200);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 .btn-tint {
@@ -371,6 +377,9 @@ button { font-family: inherit; }
   font-family: 'Inter Tight', sans-serif;
   font-weight: 400;
   font-size: 16px;
+  /* not the body's 1.6 — that made the text column 6.6px tall and, since
+     it is vertically centred, pushed everything above it 3.3px up */
+  line-height: normal;
   color: var(--purple-800);
 }
 .hero-email a { text-decoration: underline; }
@@ -1004,11 +1013,33 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .only-desktop { display: none !important; }
   .only-mobile  { display: block; }
 
-  /* home header: logo + burger, in normal flow above the hero content */
-  .site-header:not(.site-header--solid) { position: static; padding: 24px 24px 0; }
-  .site-header-inner { padding: 0; }
+  /* home header: centred logo pill in normal flow above the hero content
+     (Figma 404:1183 — 48px from the top, logo in a 268x66 capsule) */
+  .site-header:not(.site-header--solid) { position: static; padding: 48px 24px 0; }
+  .site-header-inner { padding: 0; justify-content: center; position: relative; }
+  .site-header:not(.site-header--solid) .site-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 12/24 not 13/25: the 1px border counts toward the box, giving
+       Figma's 267.8x66 capsule exactly */
+    padding: 12px 24px;
+    background: #fcfcff;
+    border: 1px solid #e8e7ed;
+    border-radius: var(--radius-pill);
+  }
   .site-header--solid .site-logo img { width: 152px; height: 28px; }
-  .nav-toggle { display: inline-flex; }
+  /* the design has no mobile nav; the burger a five-page site needs is
+     floated out of the centred row rather than displacing the logo */
+  .nav-toggle {
+    display: inline-flex;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .site-header--solid .nav-toggle { position: static; transform: none; }
+  .site-header--solid .site-header-inner { justify-content: space-between; }
 
   .hero-columns {
     flex-direction: column;
@@ -1032,7 +1063,10 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     max-width: none;
     text-align: center;
     font-size: 36px;
+    line-height: 44px;
   }
+  /* the mobile frame keeps the headline one colour */
+  .hero-h1-accent { color: inherit; }
   .hero-pills { justify-content: center; }
   .pill { padding: 6px 12px; }
   .hero-actions {
@@ -1045,7 +1079,9 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 
   /* stacked: the frame is full-width, so its own ratio drives the height
      again — don't let the desktop stretch rule override it */
-  .hero-col-image { flex: none; margin-top: 48px; align-items: flex-end; }
+  /* no gap: Figma stacks the image column straight onto the text column
+     (404:1047), the apparent space is transparent area in the cut-out */
+  .hero-col-image { flex: none; margin-top: 0; align-items: flex-end; }
   .hero-image { aspect-ratio: 402 / 471.094; }
 
   .trust { padding: 32px 24px; }
