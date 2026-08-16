@@ -75,19 +75,19 @@
 <!-- HEADER — same markup on every page (Figma 397:729) -->
 <header class="site-header site-header--solid site-header--home">
   <div class="site-header-inner">
-    <a class="site-logo" href="index.html">
+    <a class="site-logo" href="/">
       <img src="logo/purple.svg" alt="SimpleGrowth" width="174" height="32">
     </a>
     <ul class="nav-links only-desktop">
-      <li><a href="services.html">Services</a></li>
+      <li><a href="/services">Services</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="/about">About</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="/contact">Contact</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
-      <li><a href="pricing.html">Plans &amp; Pricing</a></li>
+      <li><a href="/pricing">Plans &amp; Pricing</a></li>
     </ul>
-    <a href="contact.html" class="btn-header only-desktop">Send message</a>
+    <a href="/contact" class="btn-header only-desktop">Send message</a>
     <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu-panel">
       Menu
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -98,15 +98,15 @@
   <!-- Mobile header menu — Figma 429:2072. See js/main.js's wireTogglePanel. -->
   <div class="mobile-menu-panel" id="mobile-menu-panel" hidden>
     <ul class="mobile-menu-links">
-      <li><a href="index.html" class="is-active">Home</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="pricing.html">Plans &amp; Pricing</a></li>
+      <li><a href="/" class="is-active">Home</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/pricing">Plans &amp; Pricing</a></li>
     </ul>
     <div class="mobile-menu-actions">
-      <a href="contact.html" class="mobile-menu-btn--dark">Send message</a>
-      <a href="request-a-call.html" class="mobile-menu-btn--outline">Request a call</a>
+      <a href="/contact" class="mobile-menu-btn--dark">Send message</a>
+      <a href="/request-a-call" class="mobile-menu-btn--outline">Request a call</a>
     </div>
   </div>
 </header>
@@ -136,11 +136,11 @@
         </div>
 
         <div class="hero-actions">
-          <a href="contact.html" class="btn-lg btn-dark">
+          <a href="/contact" class="btn-lg btn-dark">
             Send message
             <img src="icons/pink-arrow-right.svg" alt="" width="24" height="24">
           </a>
-          <a href="request-a-call.html" class="btn-lg btn-white">Request a call</a>
+          <a href="/request-a-call" class="btn-lg btn-white">Request a call</a>
         </div>
 
         <p class="hero-email only-desktop">or email us:
@@ -207,7 +207,7 @@
 
     <div class="whoarewe-foot">
       <img class="avatars" src="images/grouped_avatars.webp" alt="Lana and Stuart" width="402" height="268">
-      <a href="about.html" class="btn-lg btn-white only-desktop">Find out more</a>
+      <a href="/about" class="btn-lg btn-white only-desktop">Find out more</a>
     </div>
 
   </div>
@@ -280,10 +280,10 @@
         <p class="section-label">What we do</p>
         <h2 class="section-title">Marketing that drives more customers to you</h2>
       </div>
-      <p class="section-sub">Four core services that work together, plus social media managed separately. <a href="services.html" style="text-decoration:underline;">See what's included and what it costs</a>.</p>
+      <p class="section-sub">Four core services that work together, plus social media managed separately. <a href="/services" style="text-decoration:underline;">See what's included and what it costs</a>.</p>
     </div>
     <div class="services-grid">
-      <a class="service-card reveal" href="services.html">
+      <a class="service-card reveal" href="/services">
         <div class="service-card-bg" style="background-image: url('images/google-ad-plumber.webp')"></div>
         <div class="service-card-body">
           <div class="service-icon"><img src="icons/search.svg" alt=""></div>
@@ -291,7 +291,7 @@
           <p>Google search ads that only show to the right people at the right time — maximising every pound of your budget.</p>
         </div>
       </a>
-      <a class="service-card reveal" href="services.html">
+      <a class="service-card reveal" href="/services">
         <div class="service-card-bg" style="background-image: url('images/meta-background.webp')"></div>
         <div class="service-card-body">
           <div class="service-icon"><img src="icons/speakerphone.svg" alt=""></div>
@@ -299,7 +299,7 @@
           <p>Reach your ideal customers on social media with ads that stop the scroll and drive real enquiries.</p>
         </div>
       </a>
-      <a class="service-card reveal" href="services.html">
+      <a class="service-card reveal" href="/services">
         <div class="service-card-bg" style="background-image: url('images/seo-background.webp')"></div>
         <div class="service-card-body">
           <div class="service-icon"><img src="icons/world.svg" alt=""></div>
@@ -307,7 +307,7 @@
           <p>Long-term SEO that brings Google search customers to you — without paying for every click.</p>
         </div>
       </a>
-      <a class="service-card reveal" href="services.html">
+      <a class="service-card reveal" href="/services">
         <div class="service-card-bg" style="background-image: url('images/web-design-background.webp')"></div>
         <div class="service-card-body">
           <div class="service-icon"><img src="icons/target.svg" alt=""></div>
@@ -338,7 +338,7 @@
           How much does it cost?
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="faq-answer"><div class="faq-answer-inner">Our services are tailored to your budget and goals. You can see indicative plan pricing on the <a href="pricing.html" style="text-decoration:underline;">services page</a>, but the best way to find out is to book a free marketing review — we'll give you a clear picture of what's possible and what it costs before you commit to anything.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Our services are tailored to your budget and goals. You can see indicative plan pricing on the <a href="/pricing" style="text-decoration:underline;">services page</a>, but the best way to find out is to book a free marketing review — we'll give you a clear picture of what's possible and what it costs before you commit to anything.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
@@ -369,7 +369,7 @@
   <div class="cta-inner reveal">
     <h2>Supercharge your business with <em>simplegrowth</em></h2>
     <p>Let's talk about getting you more customers. Book a free marketing review — no commitment, no jargon, just a clear plan.</p>
-    <a href="contact.html" class="btn btn-pink">Book your free review</a>
+    <a href="/contact" class="btn btn-pink">Book your free review</a>
   </div>
 </section>
 
@@ -384,21 +384,21 @@
         <div class="footer-col">
           <h4>Services</h4>
           <ul>
-            <li><a href="services.html">Google Ads</a></li>
-            <li><a href="services.html">Meta Ads</a></li>
-            <li><a href="services.html">SEO</a></li>
-            <li><a href="services.html">Website Design</a></li>
-            <li><a href="services.html#social-media">Social Media</a></li>
-            <li><a href="pricing.html">Plans &amp; Pricing</a></li>
+            <li><a href="/services">Google Ads</a></li>
+            <li><a href="/services">Meta Ads</a></li>
+            <li><a href="/services">SEO</a></li>
+            <li><a href="/services">Website Design</a></li>
+            <li><a href="/services#social-media">Social Media</a></li>
+            <li><a href="/pricing">Plans &amp; Pricing</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
           <ul>
-            <li><a href="about.html">About</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="request-a-call.html">Request a call</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/#faq">FAQ</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/request-a-call">Request a call</a></li>
           </ul>
         </div>
       </div>
