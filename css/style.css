@@ -760,15 +760,28 @@ section.page-section.tint { background: var(--purple-50); }
 /* ── team ── */
 .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 720px; margin: 0 auto; }
 .team-card { text-align: center; }
-.team-avatar {
-  width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 16px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--purple-100);
-  font-family: 'Inter Tight', sans-serif;
-  font-size: 28px; font-weight: 600; color: var(--purple-800);
-}
 .team-card h3 { font-size: 17px; margin-bottom: 4px; }
 .team-card span { font-size: 14px; color: var(--text-muted); }
+
+/* Pre-composed bio cards. Each PNG carries its own rounded corners and
+   drop shadow inside a transparent margin, so nothing is added here —
+   a second shadow would double up on the baked-in one. */
+.team-grid--cards {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 660px;
+  gap: 8px;
+}
+.team-grid--cards .team-card { width: 100%; height: auto; }
+/* Two portrait cards side by side on a phone render ~140px wide, which
+   scales the name set inside the artwork down to about 5px. Stack them so
+   the baked-in text stays legible — it can't reflow like real copy. */
+@media (max-width: 768px) {
+  .team-grid--cards {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    gap: 0;
+  }
+}
 
 /* ── stats ── */
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
