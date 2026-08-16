@@ -970,6 +970,18 @@ section.page-section.tint { background: var(--purple-50); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-note { font-size: 13px; color: var(--text-muted); margin-top: 12px; text-align: center; }
 
+/* submission feedback from the HubSpot Forms API */
+.form-status {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.form-status[data-state="pending"] { background: var(--purple-50); color: var(--text-muted); }
+.form-status[data-state="success"] { background: var(--purple-100); color: var(--purple-900); }
+.form-status[data-state="error"]   { background: #FCE9E9; color: #8A1C1C; }
+
 /* ════════════════════════════════════════
    FOOTER
    ════════════════════════════════════════ */
