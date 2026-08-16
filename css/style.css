@@ -1100,15 +1100,15 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .only-mobile  { display: block; }
 
   /* One header now, the same on every page (Figma 429:1878): logo left,
-     a Menu toggle right, in normal document flow rather than the old
-     floated/pill treatments this replaces. `position: relative` (not
-     static) so it still stays in flow but can anchor the dropdown panel
-     below via the panel's own `position: absolute`. */
+     a Menu toggle right. Sticky rather than the old floated/pill
+     treatments this replaces — it stays pinned to the top as the page
+     scrolls, and still anchors the dropdown panel below via the panel's
+     own `position: absolute`, same as a plain in-flow header would. */
   .site-header,
   .site-header--solid,
   .site-header--home {
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: 0;
     left: auto;
     right: auto;
     background: var(--white);
