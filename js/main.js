@@ -1,71 +1,72 @@
-// Mobile bottom nav — the Menu button opens a panel above the bar
-const mobileBar = document.querySelector('.mobile-bar');
+// "Past the fold" — one signal, two consumers.
+//
+// A 60vh sentinel pinned to the top of the document does the measuring, and
+// its result lands as .has-scrolled on <html>. CSS decides what that means:
+// on mobile the bottom bar slides up, on desktop the header returns fixed.
+// An IntersectionObserver rather than a scroll handler, so nothing runs per
+// frame, and the height in vh re-evaluates on rotation without a resize
+// listener.
+const root = document.documentElement;
 const barToggle = document.querySelector('.mobile-bar-menu');
 const barPanel = document.querySelector('.mobile-bar-panel');
+
+const setPanelOpen = (open) => {
+  if (!barToggle || !barPanel) return;
+  barPanel.hidden = !open;
+  barToggle.setAttribute('aria-expanded', String(open));
+};
+
+const setScrolled = (scrolled) => {
+  root.classList.toggle('has-scrolled', scrolled);
+  // don't leave the mobile panel hanging open as its bar slides away
+  if (!scrolled) setPanelOpen(false);
+};
+
+if ('IntersectionObserver' in window) {
+  const sentinel = document.createElement('div');
+  sentinel.setAttribute('aria-hidden', 'true');
+  Object.assign(sentinel.style, {
+    position: 'absolute', top: '0', left: '0',
+    width: '1px', height: '60vh',
+    pointerEvents: 'none', visibility: 'hidden',
+  });
+  document.body.appendChild(sentinel);
+  new IntersectionObserver(
+    ([entry]) => setScrolled(!entry.isIntersecting)
+  ).observe(sentinel);
+
+  // A page too short to scroll past the sentinel would never reveal the
+  // mobile bar at all, leaving navigation unreachable there. Every page
+  // clears it today, but that shouldn't be a thing a future short page
+  // breaks.
+  const revealIfPageTooShort = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollable <= window.innerHeight * 0.6) setScrolled(true);
+  };
+  revealIfPageTooShort();
+  window.addEventListener('load', revealIfPageTooShort);
+} else {
+  setScrolled(true); // no observer support: better present than never
+}
+
+// Mobile bottom nav — the Menu button opens a panel above the bar
 if (barToggle && barPanel) {
-  const setOpen = (open) => {
-    barPanel.hidden = !open;
-    barToggle.setAttribute('aria-expanded', String(open));
-  };
-
-  // The bar stays out of the way until the visitor has scrolled past the
-  // fold. Its Contact / Request call buttons duplicate the ones in the
-  // hero, so showing it immediately would put the same two actions on
-  // screen twice.
-  //
-  // A 60vh sentinel pinned to the top of the document does the measuring:
-  // once it scrolls out of view the bar comes in. That is an
-  // IntersectionObserver rather than a scroll handler — no listener firing
-  // on every frame, and the height is expressed in vh so it re-evaluates
-  // on rotation without a resize handler.
-  const setBarVisible = (show) => {
-    mobileBar.classList.toggle('is-visible', show);
-    // don't leave the panel hanging open as the bar slides away
-    if (!show && !barPanel.hidden) setOpen(false);
-  };
-
-  if ('IntersectionObserver' in window) {
-    const sentinel = document.createElement('div');
-    sentinel.setAttribute('aria-hidden', 'true');
-    Object.assign(sentinel.style, {
-      position: 'absolute', top: '0', left: '0',
-      width: '1px', height: '60vh',
-      pointerEvents: 'none', visibility: 'hidden',
-    });
-    document.body.appendChild(sentinel);
-    new IntersectionObserver(
-      ([entry]) => setBarVisible(!entry.isIntersecting)
-    ).observe(sentinel);
-
-    // A page too short to scroll past the sentinel would never reveal the
-    // bar at all, leaving mobile navigation unreachable. Every page clears
-    // it today, but that shouldn't be a thing a future short page breaks.
-    const revealIfPageTooShort = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollable <= window.innerHeight * 0.6) setBarVisible(true);
-    };
-    revealIfPageTooShort();
-    window.addEventListener('load', revealIfPageTooShort);
-  } else {
-    setBarVisible(true); // no observer support: better present than never
-  }
-
   barToggle.addEventListener('click', (event) => {
     event.stopPropagation();
-    setOpen(barPanel.hidden);
+    setPanelOpen(barPanel.hidden);
   });
 
   // Close when a link is followed, so in-page anchors don't leave it hanging open
-  barPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+  barPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setPanelOpen(false)));
 
   // ...and on a tap outside or Escape, which is what people expect of a
   // panel floating over the page
   document.addEventListener('click', (event) => {
-    if (!barPanel.hidden && !barPanel.contains(event.target)) setOpen(false);
+    if (!barPanel.hidden && !barPanel.contains(event.target)) setPanelOpen(false);
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !barPanel.hidden) {
-      setOpen(false);
+      setPanelOpen(false);
       barToggle.focus();
     }
   });

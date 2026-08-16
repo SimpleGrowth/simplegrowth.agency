@@ -35,6 +35,11 @@
   --radius-sm: 12px;
   --radius-pill: 999px;
 
+  /* the solid header's measured height: 6px padding + 10px inner padding,
+     doubled, around a 40px row (the Contact button, not the 32px logo, is
+     the tallest thing in it) plus the 1px bottom border */
+  --header-height: 73px;
+
   /* horizontal page gutter: 120px at the 1280 desktop frame */
   --gutter: clamp(24px, 9.375vw, 120px);
   /* the Figma content frame — every section lines up to this */
@@ -96,8 +101,6 @@ button { font-family: inherit; }
 
 /* Inner pages: no hero to sit on, so the bar becomes solid and sticky */
 .site-header--solid {
-  position: sticky;
-  top: 0;
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -105,6 +108,32 @@ button { font-family: inherit; }
   padding: 6px 24px;
 }
 .site-header--solid .site-logo img { width: 174px; height: 32px; }
+
+/* Desktop: the header sits at the top of the document and scrolls away with
+   it, then returns fixed once the visitor is past the fold. It is taken out
+   of flow with body padding standing in for it, so switching to fixed moves
+   nothing — an in-flow header would yank the page up by its own height at
+   the moment it pinned. Mobile keeps its own header and bottom bar. */
+@media (min-width: 901px) {
+  .site-header--solid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  body { padding-top: var(--header-height); }
+  .has-scrolled .site-header--solid {
+    position: fixed;
+    animation: site-header-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes site-header-in {
+    from { transform: translateY(-100%); }
+    to   { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .has-scrolled .site-header--solid { animation: none; }
+  }
+}
 
 .nav-links {
   display: flex;
@@ -183,6 +212,14 @@ button { font-family: inherit; }
   align-items: center;
   justify-content: space-between;
 }
+/* The header used to float over the hero on the home page; now it sits above
+   it, so trim the hero's own top padding by the header's height to keep the
+   distance from page top to the eyebrow at Figma's 82px. Placed after the
+   base rule above, which would otherwise win on source order. */
+@media (min-width: 901px) {
+  .hero-columns { padding-top: calc(82px - var(--header-height)); }
+}
+
 .hero-col-text {
   flex: 1 1 50%;
   min-width: 0;
@@ -1039,11 +1076,25 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .only-desktop { display: none !important; }
   .only-mobile  { display: block; }
 
-  /* home header: centred logo pill in normal flow above the hero content
-     (Figma 404:1183 — 48px from the top, logo in a 268x66 capsule) */
-  .site-header:not(.site-header--solid) { position: static; padding: 48px 24px 0; }
   .site-header-inner { padding: 0; justify-content: center; position: relative; }
-  .site-header:not(.site-header--solid) .site-logo {
+  .site-header--solid .site-logo img { width: 152px; height: 28px; }
+  /* navigation lives in the bottom bar on mobile, so the header is just
+     the logo — centred on every page */
+  .site-header--solid .site-header-inner { justify-content: center; }
+
+  /* The home page shares the desktop header markup now, so mobile keeps its
+     own treatment through --home rather than "not solid": a centred logo
+     capsule in normal flow above the hero (Figma 404:1183 — 48px from the
+     top, logo in a 268x66 capsule), with none of the solid bar's chrome. */
+  .site-header--home {
+    position: static;
+    padding: 48px 24px 0;
+    background: none;
+    border-bottom: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .site-header--home .site-logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1054,10 +1105,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     border: 1px solid #e8e7ed;
     border-radius: var(--radius-pill);
   }
-  .site-header--solid .site-logo img { width: 152px; height: 28px; }
-  /* navigation lives in the bottom bar on mobile, so the header is just
-     the logo — centred on every page */
-  .site-header--solid .site-header-inner { justify-content: center; }
+  .site-header--home .site-logo img { width: 217.817px; height: 40px; }
 
   /* ── bottom nav (Figma 404:1637 / 404:1639) ──
      370x74 bar inset 16px, sitting 24px off the bottom of the viewport. */
@@ -1077,7 +1125,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
                 opacity 0.24s ease,
                 visibility 0.32s;
   }
-  .mobile-bar.is-visible {
+  .has-scrolled .mobile-bar {
     transform: none;
     opacity: 1;
     visibility: visible;
