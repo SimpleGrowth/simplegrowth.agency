@@ -950,6 +950,10 @@ section.page-section.tint { background: var(--purple-50); }
 .form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--purple-500); }
 .form-field input::placeholder, .form-field textarea::placeholder { color: var(--text-muted); opacity: 0.8; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+/* A text input carries an intrinsic width of roughly 20 characters, which a
+   grid track honours as its minimum. Without this the pair refuses to shrink
+   and pushes the whole page sideways on a phone. */
+.form-field { min-width: 0; }
 .form-note { font-size: 13px; color: var(--text-muted); margin-top: 12px; text-align: center; }
 
 /* submission feedback from the HubSpot Forms API */
@@ -1278,6 +1282,8 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   #plans .pricing-grid > :nth-child(2) { order: 2; }
   #plans .pricing-grid > :nth-child(3) { order: 1; }
   .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  /* first/last name stack rather than squeezing into half a phone width */
+  .form-row { grid-template-columns: 1fr; }
   .split-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
   .split-row.reverse .split-media { order: -1; }
   .section-head.split { flex-direction: column; align-items: flex-start; }
@@ -1292,12 +1298,26 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     align-items: flex-start;
   }
   .footer-top { flex-direction: column; }
+
+  /* ── one 24px gutter, everywhere ──
+     The section supplies it. .container was adding its own 24px on top,
+     so content sat at 44px in sections that use one and 20px in those
+     that don't — a visible step from block to block down the page.
+     Sections keep their own horizontal padding; .container drops its. */
+  .container { padding-left: 0; padding-right: 0; }
+  section.page-section,
+  .page-header,
+  .cta {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 
 @media (max-width: 480px) {
-  section.page-section { padding: 60px 20px; }
-  .page-header { padding: 56px 20px 64px; }
-  .cta { padding: 72px 20px; }
+  /* vertical rhythm only — the gutter above stays at 24px */
+  section.page-section { padding-top: 60px; padding-bottom: 60px; }
+  .page-header { padding-top: 56px; padding-bottom: 64px; }
+  .cta { padding-top: 72px; padding-bottom: 72px; }
   .stats-grid { grid-template-columns: 1fr; }
   .contact-form { padding: 24px 20px; }
   .addon-card { padding: 28px 24px; }
