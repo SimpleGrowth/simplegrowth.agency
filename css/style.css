@@ -911,6 +911,8 @@ section.page-section.tint { background: var(--purple-50); }
 
 /* ── pricing ── */
 .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+/* one-off website builds — two cards rather than three tiers */
+.pricing-grid--two { grid-template-columns: repeat(2, 1fr); max-width: 780px; margin: 0 auto; }
 .price-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -938,6 +940,28 @@ section.page-section.tint { background: var(--purple-50); }
   color: var(--purple-800);
 }
 .price-amount .unit { font-size: 15px; font-weight: 500; color: var(--text-muted); }
+.price-amount .price-from { font-size: 15px; font-weight: 500; color: var(--text-muted); margin-right: 2px; }
+/* sits directly under the headline figure — e.g. what the plan plus its
+   recommended ad budget comes to, since the ad spend is not ours to bill */
+.price-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-muted);
+  margin: -18px 0 22px;
+}
+.price-card.is-popular .price-note { color: rgba(255, 255, 255, 0.6); }
+/* a saving or condition called out inside the feature list */
+.price-card li.price-highlight { font-weight: 600; color: var(--purple-700); }
+.price-card.is-popular li.price-highlight { color: var(--purple-300); }
+.price-terms {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+.price-card.is-popular .price-terms { color: rgba(255, 255, 255, 0.55); border-top-color: rgba(255, 255, 255, 0.18); }
 .price-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; flex: 1; }
 .price-card li { font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
 .price-card li img { width: 16px; height: 16px; margin-top: 3px; flex-shrink: 0; }
@@ -1194,7 +1218,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .services-grid { grid-template-columns: 1fr; }
   .bento-3col { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-grid, .pricing-grid--two { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 48px; }
   .split-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
   .split-row.reverse .split-media { order: -1; }
