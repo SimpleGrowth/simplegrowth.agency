@@ -13,10 +13,24 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
+      /* Pink tonal ramp — 100 (lightest) to 1000 (darkest).
+         Generated in OKLCH from the --pink anchor at tone 300,
+         holding hue 323.25deg constant across every step. */
+      --pink-100: #FEEDFF;
+      --pink-200: #FAC8FF;
+      --pink-300: #F59DFF;
+      --pink-400: #E679F3;
+      --pink-500: #D456E3;
+      --pink-600: #BC34CD;
+      --pink-700: #A017AF;
+      --pink-800: #7F048C;
+      --pink-900: #5E0068;
+      --pink-1000: #3D0044;
+
       --purple: #49338B;
       --purple-dark: #2D1F5E;
       --purple-light: #B49DFF;
-      --pink: #F59DFF;
+      --pink: var(--pink-300);
       --white: #ffffff;
       --off-white: #F8F7FF;
       --text: #1A1A2E;
