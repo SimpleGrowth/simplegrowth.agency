@@ -400,10 +400,18 @@ button { font-family: inherit; }
   display: flex;
   align-self: stretch;
   align-items: stretch;
+  /* frame hugs the right edge once the column is wider than the cap below */
+  justify-content: flex-end;
 }
 .hero-image {
   position: relative;
   width: 100%;
+  /* The cut-out is near-square (1664x1660) while the frame is 640x750, so
+     `cover` scales it by height and trims the sides. Capping the frame at
+     the photo's own ratio for this height stops the box ever growing wider
+     than the photo — which would flip cover to scaling by width and crop
+     downward into the tops of their heads. */
+  max-width: calc(750px * 1664 / 1660);
   overflow: hidden;
 }
 /* decorative "Shadow" ellipses behind the photo — Figma 400:1543 / 400:1544 */
@@ -444,11 +452,9 @@ button { font-family: inherit; }
    cover scale by width, which would crop the tops of their heads. The
    extra width to the photo's left is just hero gradient. */
 @media (min-width: 1281px) {
+  /* run the column out to the viewport edge; the frame's max-width above
+     then holds the photo at its natural ratio, flush to that edge */
   .hero-col-image { margin-right: calc((1280px - 100vw) / 2); }
-  .hero-photo img {
-    width: auto;
-    margin-left: auto;
-  }
 }
 
 /* ════════════════════════════════════════
@@ -559,7 +565,7 @@ button { font-family: inherit; }
    (images/grouped_avatars.png) rather than two cropped copies of the
    group photo positioned by hand. */
 .avatars {
-  width: 134px;
+  width: 135px;
   height: 90px;
   flex-shrink: 0;
 }
@@ -1209,7 +1215,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .whoarewe-body { font-size: 20px; }
 
   /* keeps the export's 134:90 ratio */
-  .avatars { width: 158px; height: 106px; }
+  .avatars { width: 159px; height: 106px; }
 
   /* inner-page layouts collapse to one column */
   .pain-inner { grid-template-columns: 1fr; gap: 40px; }
