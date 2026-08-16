@@ -1,57 +1,12 @@
-// "Past the fold" — one signal, two consumers.
-//
-// A 60vh sentinel pinned to the top of the document does the measuring, and
-// its result lands as .has-scrolled on <html>. CSS decides what that means:
-// on mobile the bottom bar slides up, on desktop the header returns fixed.
-// An IntersectionObserver rather than a scroll handler, so nothing runs per
+// "Past the fold" — drives the desktop header's return-as-fixed. A 60vh
+// sentinel pinned to the top of the document does the measuring, and its
+// result lands as .has-scrolled on <html>; CSS pins the header once it's
+// set. Mobile doesn't consume this — its header is sticky outright. An
+// IntersectionObserver rather than a scroll handler, so nothing runs per
 // frame, and the height in vh re-evaluates on rotation without a resize
 // listener.
 const root = document.documentElement;
-
-// Wires a toggle button to the panel it opens: click to flip it, a tap
-// outside or Escape to close it, and closing on any link inside it so an
-// in-page anchor doesn't leave the panel hanging open. Used for both the
-// header's own Menu button and the bottom bar's — two independent panels,
-// not a shared one, so each gets its own instance rather than one hard-coded
-// pair.
-const wireTogglePanel = (toggle, panel) => {
-  if (!toggle || !panel) return () => {};
-  const setOpen = (open) => {
-    panel.hidden = !open;
-    toggle.setAttribute('aria-expanded', String(open));
-  };
-  toggle.addEventListener('click', (event) => {
-    event.stopPropagation();
-    setOpen(panel.hidden);
-  });
-  panel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
-  document.addEventListener('click', (event) => {
-    if (!panel.hidden && !panel.contains(event.target)) setOpen(false);
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !panel.hidden) {
-      setOpen(false);
-      toggle.focus();
-    }
-  });
-  return setOpen;
-};
-
-const setBarPanelOpen = wireTogglePanel(
-  document.querySelector('.mobile-bar-menu'),
-  document.querySelector('.mobile-bar-panel')
-);
-wireTogglePanel(
-  document.querySelector('.mobile-menu-toggle'),
-  document.querySelector('.mobile-menu-panel')
-);
-
-const setScrolled = (scrolled) => {
-  root.classList.toggle('has-scrolled', scrolled);
-  // don't leave the bottom bar's panel hanging open as its bar slides away —
-  // the header's own menu isn't scroll-gated, so it's untouched here
-  if (!scrolled) setBarPanelOpen(false);
-};
+const setScrolled = (scrolled) => root.classList.toggle('has-scrolled', scrolled);
 
 if ('IntersectionObserver' in window) {
   const sentinel = document.createElement('div');
@@ -66,10 +21,8 @@ if ('IntersectionObserver' in window) {
     ([entry]) => setScrolled(!entry.isIntersecting)
   ).observe(sentinel);
 
-  // A page too short to scroll past the sentinel would never reveal the
-  // mobile bar at all, leaving navigation unreachable there. Every page
-  // clears it today, but that shouldn't be a thing a future short page
-  // breaks.
+  // A page too short to scroll past the sentinel would never trigger the
+  // fixed header at all — reveal it up front instead.
   const revealIfPageTooShort = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     if (scrollable <= window.innerHeight * 0.6) setScrolled(true);
@@ -78,6 +31,33 @@ if ('IntersectionObserver' in window) {
   window.addEventListener('load', revealIfPageTooShort);
 } else {
   setScrolled(true); // no observer support: better present than never
+}
+
+// Mobile header menu — the site's only mobile nav now. Click the toggle to
+// flip it, a tap outside or Escape to close it (returning focus to the
+// toggle), and closing on any link inside it so an in-page anchor doesn't
+// leave the panel hanging open.
+const menuToggle = document.querySelector('.mobile-menu-toggle');
+const menuPanel = document.querySelector('.mobile-menu-panel');
+if (menuToggle && menuPanel) {
+  const setMenuOpen = (open) => {
+    menuPanel.hidden = !open;
+    menuToggle.setAttribute('aria-expanded', String(open));
+  };
+  menuToggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setMenuOpen(menuPanel.hidden);
+  });
+  menuPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
+  document.addEventListener('click', (event) => {
+    if (!menuPanel.hidden && !menuPanel.contains(event.target)) setMenuOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !menuPanel.hidden) {
+      setMenuOpen(false);
+      menuToggle.focus();
+    }
+  });
 }
 
 // FAQ accordion

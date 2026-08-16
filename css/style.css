@@ -191,18 +191,11 @@ button { font-family: inherit; }
 
 /* ════════════════════════════════════════
    MOBILE HEADER MENU  (Figma 429:1878 closed / 429:2065-2072 open)
-   The header's own toggle + dropdown, independent of the bottom bar below.
-   Hidden outside the mobile media query, same as the bottom bar.
+   The header's own toggle + dropdown — mobile's only nav now that the
+   bottom bar is gone. Hidden outside the mobile media query.
    ════════════════════════════════════════ */
 .mobile-menu-toggle { display: none; }
 .mobile-menu-panel { display: none; }
-
-/* ════════════════════════════════════════
-   MOBILE BOTTOM NAV  (Figma 404:1637 closed / 404:1639 open)
-   A floating bar pinned to the bottom of the viewport, with the menu
-   panel opening upward above it. Desktop uses the header nav instead.
-   ════════════════════════════════════════ */
-.mobile-bar { display: none; }
 
 /* ════════════════════════════════════════
    HERO  (Figma 397:648)
@@ -1200,108 +1193,6 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   }
   .mobile-menu-btn--dark { background: var(--sg-dark); color: var(--pink-200); }
   .mobile-menu-btn--outline { border: 1px solid var(--sg-dark); color: var(--sg-dark); }
-
-  /* ── bottom nav (Figma 404:1637 / 404:1639) ──
-     370x74 bar inset 16px, sitting 24px off the bottom of the viewport. */
-  .mobile-bar {
-    display: block;
-    position: fixed;
-    left: 16px;
-    right: 16px;
-    bottom: max(24px, env(safe-area-inset-bottom, 24px));
-    z-index: 60;
-    /* parked off-screen until js/main.js sees the visitor scroll past the
-       fold; visibility keeps its links out of the tab order while hidden */
-    transform: translateY(calc(100% + 32px));
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.24s ease,
-                visibility 0.32s;
-  }
-  .has-scrolled .mobile-bar {
-    transform: none;
-    opacity: 1;
-    visibility: visible;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .mobile-bar {
-      transform: none;
-      transition: opacity 0.01s, visibility 0.01s;
-    }
-  }
-  .mobile-bar-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    height: 74px;
-    padding: 17px;
-    background: var(--white);
-    border: 1px solid #e9e9ec;
-    border-radius: 37px;
-    box-shadow: 0 8px 28px rgba(25, 15, 54, 0.14);
-  }
-  .mobile-bar-actions { display: flex; align-items: center; gap: 8px; }
-  .mobile-bar-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    height: 40px;
-    padding: 0 13px;
-    border: 1px solid #d4d2d9;
-    border-radius: var(--radius-pill);
-    background: var(--white);
-    color: var(--sg-dark);
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: normal;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .mobile-bar-btn:active { transform: scale(0.97); }
-  .mobile-bar-btn--dark {
-    background: var(--sg-dark);
-    border-color: var(--sg-dark);
-    color: var(--pink-200);
-  }
-  .mobile-bar-menu { padding-right: 9px; }
-  /* filled while the panel is open, so the button reads as the toggle */
-  .mobile-bar-menu[aria-expanded="true"] { background: #e7e7ea; }
-  .mobile-bar-chevron {
-    flex-shrink: 0;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .mobile-bar-menu[aria-expanded="true"] .mobile-bar-chevron { transform: rotate(180deg); }
-
-  .mobile-bar-panel {
-    margin-bottom: 8px;
-    padding: 17px;
-    background: var(--white);
-    border: 1px solid #e9e9ec;
-    border-radius: var(--radius-md);
-    box-shadow: 0 8px 28px rgba(25, 15, 54, 0.14);
-    max-height: calc(100vh - 160px);
-    overflow-y: auto;
-  }
-  .mobile-bar-panel[hidden] { display: none; }
-  .mobile-bar-panel ul { list-style: none; }
-  .mobile-bar-panel a {
-    display: flex;
-    align-items: center;
-    height: 42px;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 500;
-    font-size: 17px;
-    color: var(--sg-dark);
-  }
-  .mobile-bar-panel a.is-active { color: var(--purple-700); }
-
-  /* extend the footer so the floating bar never covers its last row */
-  footer { padding-bottom: 122px; }
 
   .hero-columns {
     flex-direction: column;

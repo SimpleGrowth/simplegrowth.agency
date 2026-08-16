@@ -45,8 +45,7 @@
       </svg>
     </button>
   </div>
-  <!-- Mobile header menu — Figma 429:2072. Independent of the bottom bar
-       below; see js/main.js's wireTogglePanel. -->
+  <!-- Mobile header menu — Figma 429:2072. See js/main.js's wireTogglePanel. -->
   <div class="mobile-menu-panel" id="mobile-menu-panel" hidden>
     <ul class="mobile-menu-links">
       <li><a href="index.html">Home</a></li>
@@ -186,33 +185,6 @@
     </div>
   </div>
 </footer>
-
-<!-- Mobile bottom nav — Figma 404:1637 (closed) / 404:1639 (open).
-     Fixed to the bottom of the viewport; the panel opens upward above it.
-     Hidden above 900px, where the header nav takes over. -->
-<nav class="mobile-bar" aria-label="Main">
-  <div class="mobile-bar-panel" id="mobile-bar-panel" hidden>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="contact.html" class="is-active">Contact</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="pricing.html">Plans &amp; Pricing</a></li>
-    </ul>
-  </div>
-  <div class="mobile-bar-row">
-    <div class="mobile-bar-actions">
-      <a href="contact.html" class="mobile-bar-btn mobile-bar-btn--dark">Contact</a>
-      <a href="request-a-call.html" class="mobile-bar-btn">Request call</a>
-    </div>
-    <button type="button" class="mobile-bar-btn mobile-bar-menu" aria-expanded="false" aria-controls="mobile-bar-panel">
-      Menu
-      <svg class="mobile-bar-chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M18 15L12 9L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-</nav>
 
 <script src="js/main.js"></script>
 <script src="js/hubspot-form.js"></script>
