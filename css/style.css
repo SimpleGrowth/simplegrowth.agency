@@ -398,7 +398,7 @@ button { font-family: inherit; }
 .hero-shadow-1 { inset: 16.93% -6.47% -27.66% 51.3%; }
 .hero-shadow-2 { inset: 38.01% 43.35% -19.06% 12.09%; }
 
-/* hero_image.png is a cut-out (transparent background) exported at the
+/* hero_image.webp is a cut-out (transparent background) exported at the
    frame's own 640:750 ratio — the shadow ellipses above sit behind it as
    its glow. cover scales it to the frame's height and crops the sides
    when the column is narrower than 640px; at 1280+ the ratios match, so
@@ -555,7 +555,7 @@ button { font-family: inherit; }
 }
 
 /* grouped avatars — Figma 404:1077, now a single pre-grouped export
-   (images/grouped_avatars.png) rather than two cropped copies of the
+   (images/grouped_avatars.webp) rather than two cropped copies of the
    group photo positioned by hand. */
 .avatars {
   width: 135px;
