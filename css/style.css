@@ -1271,6 +1271,12 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .bento-3col { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .pricing-grid, .pricing-grid--two { grid-template-columns: 1fr; }
+  /* Stacked, the plans read top-to-bottom instead of left-to-right, so
+     lead with the flagship: Growth, Premium, then Hosting & Maintenance.
+     Scoped to #plans so the two website build cards keep their order. */
+  #plans .pricing-grid > :nth-child(1) { order: 3; }
+  #plans .pricing-grid > :nth-child(2) { order: 2; }
+  #plans .pricing-grid > :nth-child(3) { order: 1; }
   .contact-grid { grid-template-columns: 1fr; gap: 48px; }
   .split-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
   .split-row.reverse .split-media { order: -1; }
