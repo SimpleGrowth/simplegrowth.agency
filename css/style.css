@@ -393,6 +393,20 @@ button { font-family: inherit; }
   .hero-col-image { margin-right: calc((1280px - 100vw) / 2); }
 }
 
+/* Between the stacking breakpoint and ~1100px the image column is only 56%
+   of an already narrow viewport, so the frame falls well short of the
+   photo's 727px natural width at full height and `cover` trims the
+   difference off the sides — 23% of the photo at 1000px, taking the "Lana"
+   label and Stuart's arm with it. Fit by width through that band instead
+   and let the photo stand shorter on the hero's base; the space it leaves
+   above is gradient. */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .hero-photo img {
+    object-fit: contain;
+    object-position: bottom center;
+  }
+}
+
 /* ════════════════════════════════════════
    TRUST STRIP  (Figma 399:814)
    ════════════════════════════════════════ */
