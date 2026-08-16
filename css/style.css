@@ -190,6 +190,14 @@ button { font-family: inherit; }
 .btn-header:hover { transform: translateY(-1px); opacity: 0.9; }
 
 /* ════════════════════════════════════════
+   MOBILE HEADER MENU  (Figma 429:1878 closed / 429:2065-2072 open)
+   The header's own toggle + dropdown, independent of the bottom bar below.
+   Hidden outside the mobile media query, same as the bottom bar.
+   ════════════════════════════════════════ */
+.mobile-menu-toggle { display: none; }
+.mobile-menu-panel { display: none; }
+
+/* ════════════════════════════════════════
    MOBILE BOTTOM NAV  (Figma 404:1637 closed / 404:1639 open)
    A floating bar pinned to the bottom of the viewport, with the menu
    panel opening upward above it. Desktop uses the header nav instead.
@@ -1091,36 +1099,106 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .only-desktop { display: none !important; }
   .only-mobile  { display: block; }
 
-  .site-header-inner { padding: 0; justify-content: center; position: relative; }
-  .site-header--solid .site-logo img { width: 152px; height: 28px; }
-  /* navigation lives in the bottom bar on mobile, so the header is just
-     the logo — centred on every page */
-  .site-header--solid .site-header-inner { justify-content: center; }
-
-  /* The home page shares the desktop header markup now, so mobile keeps its
-     own treatment through --home rather than "not solid": a centred logo
-     capsule in normal flow above the hero (Figma 404:1183 — 48px from the
-     top, logo in a 268x66 capsule), with none of the solid bar's chrome. */
+  /* One header now, the same on every page (Figma 429:1878): logo left,
+     a Menu toggle right, in normal document flow rather than the old
+     floated/pill treatments this replaces. `position: relative` (not
+     static) so it still stays in flow but can anchor the dropdown panel
+     below via the panel's own `position: absolute`. */
+  .site-header,
+  .site-header--solid,
   .site-header--home {
-    position: static;
-    padding: 48px 24px 0;
-    background: none;
-    border-bottom: none;
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    background: var(--white);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    padding: 24px;
   }
+  .site-header-inner { padding: 0; justify-content: space-between; }
+  .site-header--solid .site-logo img,
+  .site-header--home .site-logo img {
+    width: 196.035px;
+    height: 36px;
+  }
+  /* undo the desktop pill capsule the home page's logo sits in */
   .site-header--home .site-logo {
+    display: block;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+  }
+
+  .mobile-menu-toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* 12/24 not 13/25: the 1px border counts toward the box, giving
-       Figma's 267.8x66 capsule exactly */
-    padding: 12px 24px;
-    background: #fcfcff;
-    border: 1px solid #e8e7ed;
+    gap: 4px;
+    height: 40px;
+    padding: 8px 8px 8px 12px;
+    border: 1px solid var(--sg-dark);
     border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--sg-dark);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: normal;
+    cursor: pointer;
+    transition: background 0.2s;
   }
-  .site-header--home .site-logo img { width: 217.817px; height: 40px; }
+  /* matches the panel's own open-state highlight in Figma */
+  .mobile-menu-toggle[aria-expanded="true"] { background: rgba(25, 15, 54, 0.1); }
+  .mobile-menu-toggle svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transform: rotate(180deg);
+    transition: transform 0.2s;
+  }
+  .mobile-menu-toggle[aria-expanded="true"] svg { transform: none; }
+
+  .mobile-menu-panel {
+    display: block;
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 100%;
+    margin-top: 16px;
+    z-index: 55;
+    background: var(--white);
+    border: 1px solid rgba(25, 15, 54, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+  }
+  .mobile-menu-panel[hidden] { display: none; }
+  .mobile-menu-links { list-style: none; }
+  .mobile-menu-links a {
+    display: block;
+    padding: 12px 0;
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 18px;
+    color: var(--sg-dark);
+  }
+  .mobile-menu-links a.is-active { color: var(--purple-700); }
+  .mobile-menu-actions { display: flex; gap: 8px; padding-top: 16px; }
+  .mobile-menu-actions a {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .mobile-menu-btn--dark { background: var(--sg-dark); color: var(--pink-200); }
+  .mobile-menu-btn--outline { border: 1px solid var(--sg-dark); color: var(--sg-dark); }
 
   /* ── bottom nav (Figma 404:1637 / 404:1639) ──
      370x74 bar inset 16px, sitting 24px off the bottom of the viewport. */

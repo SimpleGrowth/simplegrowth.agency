@@ -7,19 +7,50 @@
 // frame, and the height in vh re-evaluates on rotation without a resize
 // listener.
 const root = document.documentElement;
-const barToggle = document.querySelector('.mobile-bar-menu');
-const barPanel = document.querySelector('.mobile-bar-panel');
 
-const setPanelOpen = (open) => {
-  if (!barToggle || !barPanel) return;
-  barPanel.hidden = !open;
-  barToggle.setAttribute('aria-expanded', String(open));
+// Wires a toggle button to the panel it opens: click to flip it, a tap
+// outside or Escape to close it, and closing on any link inside it so an
+// in-page anchor doesn't leave the panel hanging open. Used for both the
+// header's own Menu button and the bottom bar's — two independent panels,
+// not a shared one, so each gets its own instance rather than one hard-coded
+// pair.
+const wireTogglePanel = (toggle, panel) => {
+  if (!toggle || !panel) return () => {};
+  const setOpen = (open) => {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setOpen(panel.hidden);
+  });
+  panel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('click', (event) => {
+    if (!panel.hidden && !panel.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  return setOpen;
 };
+
+const setBarPanelOpen = wireTogglePanel(
+  document.querySelector('.mobile-bar-menu'),
+  document.querySelector('.mobile-bar-panel')
+);
+wireTogglePanel(
+  document.querySelector('.mobile-menu-toggle'),
+  document.querySelector('.mobile-menu-panel')
+);
 
 const setScrolled = (scrolled) => {
   root.classList.toggle('has-scrolled', scrolled);
-  // don't leave the mobile panel hanging open as its bar slides away
-  if (!scrolled) setPanelOpen(false);
+  // don't leave the bottom bar's panel hanging open as its bar slides away —
+  // the header's own menu isn't scroll-gated, so it's untouched here
+  if (!scrolled) setBarPanelOpen(false);
 };
 
 if ('IntersectionObserver' in window) {
@@ -47,29 +78,6 @@ if ('IntersectionObserver' in window) {
   window.addEventListener('load', revealIfPageTooShort);
 } else {
   setScrolled(true); // no observer support: better present than never
-}
-
-// Mobile bottom nav — the Menu button opens a panel above the bar
-if (barToggle && barPanel) {
-  barToggle.addEventListener('click', (event) => {
-    event.stopPropagation();
-    setPanelOpen(barPanel.hidden);
-  });
-
-  // Close when a link is followed, so in-page anchors don't leave it hanging open
-  barPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setPanelOpen(false)));
-
-  // ...and on a tap outside or Escape, which is what people expect of a
-  // panel floating over the page
-  document.addEventListener('click', (event) => {
-    if (!barPanel.hidden && !barPanel.contains(event.target)) setPanelOpen(false);
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !barPanel.hidden) {
-      setPanelOpen(false);
-      barToggle.focus();
-    }
-  });
 }
 
 // FAQ accordion
