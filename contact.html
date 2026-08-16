@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - SimpleGrowth</title>
+  <meta name="description" content="Book a free marketing review with SimpleGrowth. No commitment, no jargon, just a clear plan for getting more customers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><img src="logo/purple.svg" alt="SimpleGrowth"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="contact.html" class="is-active">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="btn btn-primary btn-sm">Book a free review</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="badge tone-pink reveal" style="justify-content:center;"><span class="dot"></span>Get in touch</div>
+  <h1 class="reveal">Ready to get more customers?</h1>
+  <p class="reveal">Have a project in mind, or just want to ask a question? We're here to help you grow.</p>
+</section>
+
+<!-- CONTACT -->
+<section>
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <h2 class="section-title" style="font-size:28px;">Talk to us directly</h2>
+        <p class="section-sub">No account managers, no call centres. You'll hear back from Stuart or Lana directly.</p>
+        <div class="contact-info-list">
+          <div class="contact-info-item">
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:hello@simplegrowth.agency">hello@simplegrowth.agency</a>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div>
+              <h4>Response time</h4>
+              <p>We usually reply within one business day.</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div>
+              <h4>Where we work</h4>
+              <p>Based in Edinburgh, working with local business owners. Happy to hear from businesses further afield too.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Static form: submits via mailto since this is a static site.
+           Swap the form action for a real handler (e.g. Formspree or
+           Netlify Forms) before launch for a proper inbox experience. -->
+      <form class="reveal" action="mailto:hello@simplegrowth.agency" method="post" enctype="text/plain">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="Name" placeholder="Your name" required>
+          </div>
+          <div class="form-field">
+            <label for="business">Business name</label>
+            <input type="text" id="business" name="Business" placeholder="Your business">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="Email" placeholder="you@business.com" required>
+        </div>
+        <div class="form-field">
+          <label for="message">What can we help with?</label>
+          <textarea id="message" name="Message" rows="5" placeholder="Tell us a bit about your business and what you're looking for" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Send message</button>
+        <p class="form-note">By sending this, you agree to be contacted about your enquiry.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" style="background:var(--surface-tint);">
+  <div class="cta-inner reveal">
+    <h2>Prefer a <span class="muted">quick call?</span></h2>
+    <p>Book a free 30-minute marketing review. No sales pressure, no commitment.</p>
+    <a href="mailto:hello@simplegrowth.agency" class="btn btn-primary">Book a free review</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="logo/purple.svg" alt="SimpleGrowth">
+        <p>Simple marketing that gets you more customers from Google, Meta, and your website.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html">Google Ads</a></li>
+            <li><a href="services.html">Meta Ads</a></li>
+            <li><a href="services.html">SEO</a></li>
+            <li><a href="services.html">Website Design</a></li>
+            <li><a href="services.html#social-media">Social Media</a></li>
+            <li><a href="services.html#pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SimpleGrowth. All rights reserved.</span>
+      <span>hello@simplegrowth.agency</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
