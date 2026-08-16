@@ -301,12 +301,6 @@ button { font-family: inherit; }
   color: var(--pink-200);
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
-.btn-tint {
-  background: rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  color: var(--sg-dark);
-}
 .btn-white {
   background: var(--white);
   backdrop-filter: blur(25px);
