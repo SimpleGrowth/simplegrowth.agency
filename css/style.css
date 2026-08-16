@@ -1115,7 +1115,8 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    padding: 24px;
+    /* 20px top/bottom; the 24px sides match the mobile gutter everywhere else */
+    padding: 20px 24px;
   }
   .site-header-inner { padding: 0; justify-content: space-between; }
   .site-header--solid .site-logo img,
