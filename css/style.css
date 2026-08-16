@@ -1,0 +1,1392 @@
+/* ==========================================================================
+   SimpleGrowth — shared design system
+   Built on the SG Kit Figma tokens. The homepage hero, trust strip and
+   "who are we" card are pixel-derived from the Figma frame; everything else
+   (inner pages, cards, pricing, forms) is styled to sit alongside them.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── SG Kit tokens (Figma variables) ── */
+  --sg-dark:     #190F36;
+  --purple-50:   #F8F5FF;
+  --purple-100:  #EBE2FF;
+  --purple-300:  #B49DFF;
+  --purple-500:  #6E57B8;
+  --purple-700:  #49338B;
+  --purple-800:  #382673;
+  --purple-900:  #281A54;
+  --pink-200:    #fac8ff;
+
+  /* ── derived aliases ── */
+  --purple:       var(--purple-700);
+  --purple-dark:  #2D1F5E;
+  --purple-light: var(--purple-300);
+  --pink:         #F59DFF;
+  --white:        #ffffff;
+  --off-white:    var(--purple-50);
+  --text:         var(--sg-dark);
+  --text-muted:   #6B6B8A;
+  --border:       #E8E4F5;
+
+  --radius-lg: 24px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+  --radius-pill: 999px;
+
+  /* the solid header's measured height: 6px padding + 10px inner padding,
+     doubled, around a 40px row (the Contact button, not the 32px logo, is
+     the tallest thing in it) plus the 1px bottom border */
+  --header-height: 73px;
+
+  /* horizontal page gutter: 120px at the 1280 desktop frame */
+  --gutter: clamp(24px, 9.375vw, 120px);
+  /* the Figma content frame — every section lines up to this */
+  --content-max: 1040px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--sg-dark);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; }
+
+.container { max-width: var(--content-max); margin: 0 auto; padding: 0 24px; }
+.muted { color: var(--text-muted); }
+
+/* Shown only on the desktop frame / only on the mobile frame */
+.only-mobile { display: none; }
+
+/* ════════════════════════════════════════
+   HEADER  (Figma 397:729)
+   ════════════════════════════════════════ */
+.site-header {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  /* 16px so the 60px inner bar sits in a 92px header, per Figma 397:729 */
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.site-header-inner {
+  width: 100%;
+  max-width: var(--content-max);
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.site-logo img { width: 217.817px; height: 40px; }
+
+/* Inner pages: no hero to sit on, so the bar becomes solid and sticky */
+.site-header--solid {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 24px;
+}
+.site-header--solid .site-logo img { width: 174px; height: 32px; }
+
+/* Desktop: the header sits at the top of the document and scrolls away with
+   it, then returns fixed once the visitor is past the fold. It is taken out
+   of flow with body padding standing in for it, so switching to fixed moves
+   nothing — an in-flow header would yank the page up by its own height at
+   the moment it pinned. Mobile keeps its own header and bottom bar. */
+@media (min-width: 901px) {
+  .site-header--solid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  body { padding-top: var(--header-height); }
+  .has-scrolled .site-header--solid {
+    position: fixed;
+    animation: site-header-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes site-header-in {
+    from { transform: translateY(-100%); }
+    to   { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .has-scrolled .site-header--solid { animation: none; }
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  list-style: none;
+  /* the li line box, not just the anchor, sets the row height */
+  line-height: normal;
+}
+.nav-links a {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--sg-dark);
+  transition: opacity 0.2s;
+}
+.nav-links a:hover { opacity: 0.6; }
+.nav-links a.is-active { position: relative; opacity: 1; }
+.nav-links a.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--purple-500);
+}
+.nav-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(25, 15, 54, 0.4);
+  flex-shrink: 0;
+}
+
+.btn-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 8px 16px;
+  border-radius: 555px;
+  background: var(--sg-dark);
+  color: var(--pink-200);
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  white-space: nowrap;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.btn-header:hover { transform: translateY(-1px); opacity: 0.9; }
+
+/* ════════════════════════════════════════
+   MOBILE BOTTOM NAV  (Figma 404:1637 closed / 404:1639 open)
+   A floating bar pinned to the bottom of the viewport, with the menu
+   panel opening upward above it. Desktop uses the header nav instead.
+   ════════════════════════════════════════ */
+.mobile-bar { display: none; }
+
+/* ════════════════════════════════════════
+   HERO  (Figma 397:648)
+   ════════════════════════════════════════ */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--white) 0%, var(--purple-100) 100%);
+}
+.hero-columns {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* The header used to float over the hero on the home page; now it sits above
+   it, so trim the hero's own top padding by the header's height to keep the
+   distance from page top to the eyebrow at Figma's 82px. Placed after the
+   base rule above, which would otherwise win on source order. */
+@media (min-width: 901px) {
+  .hero-columns { padding-top: calc(82px - var(--header-height)); }
+}
+
+.hero-col-text {
+  flex: 1 1 50%;
+  min-width: 0;
+  min-height: 750px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: var(--gutter);
+}
+.hero-content {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* eyebrow — Figma 398:763 */
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 8px;
+}
+.hero-eyebrow-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--purple-500);
+  flex-shrink: 0;
+}
+.hero-eyebrow span {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: var(--sg-dark);
+}
+
+.hero-headline-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+.hero h1 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: clamp(36px, 3.95vw, 50px);
+  line-height: 1.2;
+  color: var(--sg-dark);
+  max-width: 480px;
+}
+/* "marketing duo" — Purple/500 on the desktop frame only; the mobile
+   frame (400:1029) keeps the headline a single colour. */
+.hero-h1-accent { color: var(--purple-500); }
+
+/* pills — Figma 397:673 */
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  align-content: flex-start;
+  list-style: none;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--purple-800);
+  white-space: nowrap;
+}
+
+/* buttons — Figma 399:766 */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.btn-lg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 64px;
+  padding: 20px 32px;
+  border-radius: var(--radius-pill);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: normal;
+  white-space: nowrap;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.btn-lg:hover { transform: translateY(-2px); opacity: 0.92; }
+.btn-lg:active { transform: scale(0.98); }
+.btn-lg img { width: 24px; height: 24px; flex-shrink: 0; }
+
+.btn-dark {
+  background: var(--sg-dark);
+  color: var(--pink-200);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.btn-white {
+  background: var(--white);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  color: var(--sg-dark);
+}
+
+/* email line — Figma 400:1316 */
+.hero-email {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  /* not the body's 1.6 — that made the text column 6.6px tall and, since
+     it is vertically centred, pushed everything above it 3.3px up */
+  line-height: normal;
+  color: var(--purple-800);
+}
+.hero-email a { text-decoration: underline; }
+
+/* ── hero image — Figma 400:1542 ── */
+/* The frame fills the hero row rather than deriving its height from its
+   width, so the cut-out stays the full height of the hero at every width.
+   Below the 1280 design width the column is narrower than the image, so
+   object-fit:cover crops the sides (arms, not faces) instead of shrinking
+   the figures away from the text. */
+.hero-col-image {
+  flex: 1 1 50%;
+  /* Floor the column so the crop stays off the faces and the "Lana"
+     label as the viewport narrows, capped at 640px so it never exceeds
+     the cut-out's own width at the 1280 design size (which would make
+     cover scale by width and crop the tops of their heads instead). */
+  min-width: min(56%, 640px);
+  display: flex;
+  align-self: stretch;
+  align-items: stretch;
+  /* frame hugs the right edge once the column is wider than the cap below */
+  justify-content: flex-end;
+}
+.hero-image {
+  position: relative;
+  width: 100%;
+  /* The cut-out is near-square (1608x1660) while the frame is 640x750, so
+     `cover` scales it by height and trims the sides. Capping the frame at
+     the photo's own ratio for this height stops the box ever growing wider
+     than the photo — which would flip cover to scaling by width and crop
+     downward into the tops of their heads. */
+  max-width: calc(750px * 1608 / 1660);
+  overflow: hidden;
+}
+/* decorative "Shadow" ellipses behind the photo — Figma 400:1543 / 400:1544 */
+.hero-shadow {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(110, 87, 184, 0.45), rgba(110, 87, 184, 0));
+  filter: blur(28px);
+  pointer-events: none;
+}
+.hero-shadow-1 { inset: 16.93% -6.47% -27.66% 51.3%; }
+.hero-shadow-2 { inset: 38.01% 43.35% -19.06% 12.09%; }
+
+/* hero_image.webp is a cut-out (transparent background) exported at the
+   frame's own 640:750 ratio — the shadow ellipses above sit behind it as
+   its glow. cover scales it to the frame's height and crops the sides
+   when the column is narrower than 640px; at 1280+ the ratios match, so
+   nothing is cropped. */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+}
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Only the stacked layout still crops (the desktop rule below fits by
+     width instead). Take all of it off the right: the canvas is tight to
+     Lana's shoulder and the "Lana" label on the left, where there is
+     nothing to give, while the right is Stuart's sleeve — which the Figma
+     mobile frame runs off the edge anyway. 100% vertically keeps them
+     standing on the hero's base. */
+  object-position: 0 100%;
+  max-width: none;
+}
+
+/* Past the 1280 design width the centred columns block stops growing and
+   the cut-out stops short of the right edge. Run the image column out to
+   the edge and pin the photo to it at full height and natural width.
+   Not object-fit: cover — a box wider than the photo's 0.854 ratio makes
+   cover scale by width, which would crop the tops of their heads. The
+   extra width to the photo's left is just hero gradient. */
+@media (min-width: 1281px) {
+  /* run the column out to the viewport edge; the frame's max-width above
+     then holds the photo at its natural ratio, flush to that edge */
+  .hero-col-image { margin-right: calc((1280px - 100vw) / 2); }
+}
+
+/* The cut-out has no horizontal slack — opaque pixels start 6px into its
+   1608px canvas — so any side crop at all eats into Lana's shoulder. Below
+   1281px the column never reaches the 727px the photo needs to stand at the
+   hero's full height (it is 640px even at the 1280 design width), so fit by
+   width across the whole desktop range and let the photo stand shorter on
+   the hero's base. The space it leaves above is gradient, which is how the
+   Figma desktop frame renders it too.
+
+   Above 1281 the frame is capped to the photo's own ratio, so `contain`
+   there is the same fit `cover` gave — full height, flush right, uncropped. */
+@media (min-width: 901px) {
+  .hero-photo img {
+    object-fit: contain;
+    object-position: bottom center;
+  }
+}
+
+/* ════════════════════════════════════════
+   TRUST STRIP  (Figma 399:814)
+   ════════════════════════════════════════ */
+.trust {
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.trust-inner {
+  width: 100%;
+  max-width: var(--content-max);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.trust-inner p {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: normal;
+  color: var(--purple-900);
+  text-align: center;
+}
+.trust-logos {
+  width: 100%;
+  padding: 7.479px 0;
+}
+/* Desktop: one centred, wrapping row. display:contents lets the set's
+   logos wrap as direct flex children of the track, and the duplicate set
+   the mobile marquee needs is dropped entirely. */
+.trust-logos-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+.trust-logos-set { display: contents; }
+.trust-logos-set--clone { display: none; }
+.trust-logos img { flex-shrink: 0; }
+/* explicit per-logo geometry, preserved from Figma */
+.logo-proshine     { width: 157px;     height: 42px; }
+.logo-shoreboxing  { width: 63px;      height: 42px; }
+.logo-inspirations { width: 195px;     height: 42px; }
+.logo-caledonian   { width: 96.721px;  height: 42px; }
+
+/* ════════════════════════════════════════
+   WHO ARE WE  (Figma 400:1519 desktop / 400:1372 mobile)
+   ════════════════════════════════════════ */
+.whoarewe {
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.whoarewe-card {
+  width: 100%;
+  max-width: var(--content-max);
+  padding: 56px;
+  border-radius: 8px;
+  background: var(--purple-50);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+.whoarewe-card h2 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.5;
+  color: var(--sg-dark);
+  width: 100%;
+}
+.whoarewe-body {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 1.7;
+  color: var(--sg-dark);
+  width: 100%;
+}
+.whoarewe-body em { font-style: italic; font-weight: 300; }
+.whoarewe-signoff {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 28px;
+  line-height: 1.5;
+  color: var(--sg-dark);
+  width: 100%;
+}
+.whoarewe-foot {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* grouped avatars — Figma 404:1077, now a single pre-grouped export
+   (images/grouped_avatars.webp) rather than two cropped copies of the
+   group photo positioned by hand. */
+.avatars {
+  width: 135px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   SHARED SECTION FURNITURE
+   ════════════════════════════════════════ */
+section.page-section { padding: 88px 24px; }
+section.page-section.tint { background: var(--purple-50); }
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--purple);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-sub { color: var(--text-muted); font-size: 17px; max-width: 560px; }
+.section-head { margin-bottom: 48px; }
+.section-head .badge { margin-bottom: 16px; }
+.section-head.centred { text-align: center; }
+.section-head.centred .section-sub { margin-left: auto; margin-right: auto; }
+.section-head.split {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+/* cap the headline column so the sub stays beside it instead of wrapping under */
+.section-head.split > :first-child { max-width: 620px; }
+.section-head.split .section-sub { text-align: right; max-width: 320px; }
+
+/* ── buttons (inner pages) ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 28px;
+  border-radius: var(--radius-pill);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s, background 0.2s;
+}
+.btn:hover { transform: translateY(-1px); opacity: 0.92; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--sg-dark); color: var(--white); }
+.btn-pink { background: var(--pink); color: var(--purple-dark); }
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--sg-dark);
+  color: var(--sg-dark);
+}
+.btn-outline:hover { background: var(--sg-dark); color: var(--white); opacity: 1; }
+.btn-sm { padding: 11px 22px; font-size: 14px; }
+
+/* ── badge / eyebrow pill ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px 7px 12px;
+  border-radius: var(--radius-pill);
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--purple-900);
+  background: var(--purple-100);
+}
+.badge.tone-lavender { background: var(--purple-100); }
+.badge.tone-pink     { background: var(--pink-200); }
+.badge.tone-lime     { background: var(--purple-50); border: 1px solid var(--border); }
+.badge.tone-sky      { background: #E2ECFF; }
+.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--purple-700); opacity: 0.7; flex-shrink: 0; }
+
+/* ── page header (About / Services / Contact) ── */
+.page-header {
+  background: linear-gradient(to bottom, var(--white) 0%, var(--purple-50) 100%);
+  padding: 80px 24px 88px;
+  text-align: center;
+}
+.page-header .badge { justify-content: center; }
+.page-header h1 {
+  font-size: clamp(32px, 4vw, 52px);
+  max-width: 720px;
+  margin: 20px auto 0;
+  color: var(--sg-dark);
+}
+.page-header p { color: var(--text-muted); font-size: 17px; max-width: 520px; margin: 16px auto 0; }
+
+/* ════════════════════════════════════════
+   HOMEPAGE SECTIONS BELOW THE FIGMA FRAME
+   ════════════════════════════════════════ */
+/* pain points */
+.pain-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.pain-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+.pain-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 16px;
+}
+.pain-list li img { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
+.pain-image img { border-radius: var(--radius-md); width: 100%; object-fit: cover; }
+
+/* how it works */
+.how { background: var(--sg-dark); color: var(--white); }
+.how .section-label { color: var(--purple-300); }
+.how .section-title { color: var(--white); }
+.how .section-sub { color: rgba(255, 255, 255, 0.65); }
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 56px;
+}
+.how-step { display: flex; flex-direction: column; gap: 16px; }
+.how-step-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px;
+  color: var(--purple-300);
+}
+.how-step h3 { font-size: 19px; }
+.how-step p { color: rgba(255, 255, 255, 0.65); font-size: 15px; }
+
+/* testimonial */
+.testimonial { background: var(--purple-50); text-align: center; }
+.testimonial-inner { max-width: 760px; margin: 0 auto; }
+.testimonial img.quote-mark { width: 48px; margin: 0 auto 24px; }
+.testimonial blockquote {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 300;
+  font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.testimonial-author img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+.testimonial-author strong { display: block; font-size: 15px; }
+.testimonial-author span { font-size: 13px; color: var(--text-muted); }
+
+/* services cards */
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.service-card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.service-card:hover { transform: translateY(-6px); }
+.service-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.service-card-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(25, 15, 54, 0.92) 0%, rgba(25, 15, 54, 0.4) 60%, transparent 100%);
+}
+.service-card-body { position: relative; z-index: 1; padding: 32px; color: var(--white); }
+.service-icon {
+  width: 40px; height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.service-icon img { width: 22px; height: 22px; filter: brightness(0) invert(1); }
+.service-card h3 { font-size: 22px; margin-bottom: 8px; }
+.service-card p { color: rgba(255, 255, 255, 0.75); font-size: 15px; line-height: 1.5; }
+
+/* faq */
+.faq { background: var(--purple-50); }
+.faq-inner { max-width: 760px; margin: 0 auto; }
+.faq-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 20px 24px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sg-dark);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.faq-question svg { flex-shrink: 0; transition: transform 0.3s; color: var(--purple); }
+.faq-item.open .faq-question svg { transform: rotate(180deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.faq-answer-inner { padding: 0 24px 20px; color: var(--text-muted); font-size: 15px; line-height: 1.7; }
+
+/* cta */
+.cta { background: var(--sg-dark); text-align: center; padding: 100px 24px; }
+.cta-inner { max-width: 640px; margin: 0 auto; }
+.cta h2 {
+  color: var(--white);
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.cta h2 em, .cta h2 .muted { font-style: italic; color: var(--purple-300); }
+.cta p { color: rgba(255, 255, 255, 0.7); font-size: 17px; margin-bottom: 40px; }
+
+/* ════════════════════════════════════════
+   INNER PAGE COMPONENTS
+   ════════════════════════════════════════ */
+/* ── team ── */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 720px; margin: 0 auto; }
+.team-card { text-align: center; }
+.team-card h3 { font-size: 17px; margin-bottom: 4px; }
+.team-card span { font-size: 14px; color: var(--text-muted); }
+
+/* Pre-composed bio cards. Each PNG carries its own rounded corners and
+   drop shadow inside a transparent margin, so nothing is added here —
+   a second shadow would double up on the baked-in one. */
+.team-grid--cards {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 660px;
+  gap: 8px;
+}
+.team-grid--cards .team-card { width: 100%; height: auto; }
+/* Two portrait cards side by side on a phone render ~140px wide, which
+   scales the name set inside the artwork down to about 5px. Stack them so
+   the baked-in text stays legible — it can't reflow like real copy. */
+@media (max-width: 768px) {
+  .team-grid--cards {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    gap: 0;
+  }
+}
+
+/* ── stats ── */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px 24px; }
+.stat-number {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  display: flex; align-items: baseline; gap: 2px;
+  color: var(--purple-800);
+}
+.stat-number .unit { font-size: 0.55em; font-weight: 600; color: var(--text-muted); }
+.stat-card p { color: var(--text-muted); font-size: 14px; margin-top: 8px; }
+.stat-note { color: var(--text-muted); font-size: 13px; margin-top: 20px; }
+
+/* ── values / why-choose ── */
+.bento-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.bento-card {
+  border-radius: var(--radius-md);
+  padding: 32px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  background: var(--purple-50);
+  border: 1px solid var(--border);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-card:hover { transform: translateY(-6px); }
+.bento-card.tone-lavender { background: var(--purple-100); border-color: transparent; }
+.bento-card.tone-pink { background: var(--pink-200); border-color: transparent; }
+.bento-card.tone-lime { background: var(--purple-50); }
+.bento-card h3 { font-size: 20px; margin-bottom: 8px; }
+.bento-card p { color: var(--purple-900); opacity: 0.75; font-size: 15px; }
+
+.reasons-list { display: flex; flex-direction: column; max-width: 760px; margin: 0 auto; }
+.reason-row { display: flex; gap: 24px; align-items: flex-start; padding: 28px 0; border-top: 1px solid var(--border); }
+.reason-row:last-child { border-bottom: 1px solid var(--border); }
+.reason-num { font-size: 14px; font-weight: 700; color: var(--purple-300); padding-top: 3px; flex-shrink: 0; width: 28px; }
+.reason-row h3 { font-size: 18px; margin-bottom: 6px; }
+.reason-row p { color: var(--text-muted); font-size: 15px; max-width: 520px; }
+
+/* ── service split rows ── */
+.split-row { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 56px 0; }
+.split-row.reverse .split-media { order: 2; }
+.split-media img { width: 100%; height: 320px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border); }
+.split-text .badge { margin-bottom: 20px; }
+.split-text h3 { font-size: 26px; margin-bottom: 12px; }
+.split-text p { color: var(--text-muted); font-size: 16px; margin-bottom: 16px; }
+.split-text ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.split-text li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+.split-text li img { width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0; }
+
+/* ── add-on card (standalone service, sold outside the tiered plans) ── */
+.addon-card {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 40px;
+}
+.addon-card-icon {
+  width: 56px; height: 56px; flex-shrink: 0;
+  background: var(--pink-200);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+}
+.addon-card-icon img { width: 28px; height: 28px; }
+.addon-card-body { flex: 1; }
+.addon-card-body h3 { font-size: 22px; margin: 10px 0 8px; }
+.addon-card-body p { color: var(--text-muted); font-size: 15px; margin-bottom: 16px; max-width: 60ch; }
+.addon-card-body ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.addon-card-body li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+.addon-card-body li img { width: 16px; height: 16px; margin-top: 3px; flex-shrink: 0; }
+.addon-card-price {
+  flex-shrink: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding-left: 32px;
+  border-left: 1px solid var(--border);
+}
+.addon-card-price .price-amount { margin-bottom: 0; }
+
+/* ── pricing ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+/* one-off website builds — two cards rather than three tiers */
+.pricing-grid--two { grid-template-columns: repeat(2, 1fr); max-width: 780px; margin: 0 auto; }
+.price-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+.price-card.is-popular { background: var(--sg-dark); color: var(--white); border-color: var(--sg-dark); }
+.price-card.is-popular .price-card-tag { color: var(--purple-300); }
+.price-card.is-popular .price-amount { color: var(--white); }
+.price-card.is-popular .price-amount .unit { color: rgba(255, 255, 255, 0.55); }
+.price-card.is-popular li { color: rgba(255, 255, 255, 0.85); }
+.price-card.is-popular li img { filter: brightness(0) invert(1); }
+.price-card.is-popular .btn-outline { border-color: rgba(255, 255, 255, 0.4); color: var(--white); }
+.price-card.is-popular .btn-outline:hover { background: var(--white); color: var(--sg-dark); }
+.price-card-tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple-700); margin-bottom: 12px; }
+.price-card h3 { font-size: 21px; margin-bottom: 8px; }
+.price-card > p { font-size: 14px; opacity: 0.7; margin-bottom: 20px; }
+.price-amount {
+  font-family: 'Inter Tight', sans-serif;
+  display: flex; align-items: baseline; gap: 4px;
+  font-size: 40px; font-weight: 600; letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: var(--purple-800);
+}
+.price-amount .unit { font-size: 15px; font-weight: 500; color: var(--text-muted); }
+.price-amount .price-from { font-size: 15px; font-weight: 500; color: var(--text-muted); margin-right: 2px; }
+/* muted grey would all but disappear on the highlighted card */
+.price-card.is-popular .price-amount .price-from { color: rgba(255, 255, 255, 0.55); }
+/* sits directly under the headline figure — e.g. what the plan plus its
+   recommended ad budget comes to, since the ad spend is not ours to bill */
+.price-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-muted);
+  margin: -18px 0 22px;
+}
+.price-card.is-popular .price-note { color: rgba(255, 255, 255, 0.6); }
+/* a saving or condition called out inside the feature list */
+.price-card li.price-highlight { font-weight: 600; color: var(--purple-700); }
+.price-card.is-popular li.price-highlight { color: var(--purple-300); }
+.price-terms {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+.price-card.is-popular .price-terms { color: rgba(255, 255, 255, 0.55); border-top-color: rgba(255, 255, 255, 0.18); }
+.price-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; flex: 1; }
+.price-card li { font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+.price-card li img { width: 16px; height: 16px; margin-top: 3px; flex-shrink: 0; }
+
+/* ── contact ── */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; }
+.contact-info-list { display: flex; flex-direction: column; gap: 24px; margin-top: 32px; }
+.contact-info-item { display: flex; gap: 16px; align-items: flex-start; }
+.contact-info-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--purple-100); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.contact-info-icon img { width: 20px; height: 20px; }
+.contact-info-item h4 { font-size: 15px; margin-bottom: 2px; }
+.contact-info-item p, .contact-info-item a { font-size: 14px; color: var(--text-muted); }
+.contact-info-item a { text-decoration: underline; }
+
+.contact-form {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+}
+.form-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.form-field label { font-size: 14px; font-weight: 600; }
+.form-field input, .form-field textarea {
+  font-family: inherit; font-size: 15px; padding: 14px 16px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border); background: var(--white); color: var(--sg-dark);
+  transition: border-color 0.2s;
+}
+.form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--purple-500); }
+.form-field input::placeholder, .form-field textarea::placeholder { color: var(--text-muted); opacity: 0.8; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+/* A text input carries an intrinsic width of roughly 20 characters, which a
+   grid track honours as its minimum. Without this the pair refuses to shrink
+   and pushes the whole page sideways on a phone. */
+.form-field { min-width: 0; }
+.form-note { font-size: 13px; color: var(--text-muted); margin-top: 12px; text-align: center; }
+
+/* submission feedback from the HubSpot Forms API */
+.form-status {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.form-status[data-state="pending"] { background: var(--purple-50); color: var(--text-muted); }
+.form-status[data-state="success"] { background: var(--purple-100); color: var(--purple-900); }
+.form-status[data-state="error"]   { background: #FCE9E9; color: #8A1C1C; }
+
+/* ════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════ */
+footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24px 32px; }
+.footer-inner { max-width: var(--content-max); margin: 0 auto; }
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.footer-brand img { height: 24px; margin-bottom: 12px; }
+.footer-brand p { font-size: 14px; max-width: 280px; }
+.footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
+.footer-col h4 {
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { font-size: 14px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ════════════════════════════════════════
+   REVEAL MOTION
+   ════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════════════════════════════
+   MOBILE FRAME  (Figma 400:1176)
+   ════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .only-desktop { display: none !important; }
+  .only-mobile  { display: block; }
+
+  .site-header-inner { padding: 0; justify-content: center; position: relative; }
+  .site-header--solid .site-logo img { width: 152px; height: 28px; }
+  /* navigation lives in the bottom bar on mobile, so the header is just
+     the logo — centred on every page */
+  .site-header--solid .site-header-inner { justify-content: center; }
+
+  /* The home page shares the desktop header markup now, so mobile keeps its
+     own treatment through --home rather than "not solid": a centred logo
+     capsule in normal flow above the hero (Figma 404:1183 — 48px from the
+     top, logo in a 268x66 capsule), with none of the solid bar's chrome. */
+  .site-header--home {
+    position: static;
+    padding: 48px 24px 0;
+    background: none;
+    border-bottom: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .site-header--home .site-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 12/24 not 13/25: the 1px border counts toward the box, giving
+       Figma's 267.8x66 capsule exactly */
+    padding: 12px 24px;
+    background: #fcfcff;
+    border: 1px solid #e8e7ed;
+    border-radius: var(--radius-pill);
+  }
+  .site-header--home .site-logo img { width: 217.817px; height: 40px; }
+
+  /* ── bottom nav (Figma 404:1637 / 404:1639) ──
+     370x74 bar inset 16px, sitting 24px off the bottom of the viewport. */
+  .mobile-bar {
+    display: block;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    z-index: 60;
+    /* parked off-screen until js/main.js sees the visitor scroll past the
+       fold; visibility keeps its links out of the tab order while hidden */
+    transform: translateY(calc(100% + 32px));
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.24s ease,
+                visibility 0.32s;
+  }
+  .has-scrolled .mobile-bar {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-bar {
+      transform: none;
+      transition: opacity 0.01s, visibility 0.01s;
+    }
+  }
+  .mobile-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    height: 74px;
+    padding: 17px;
+    background: var(--white);
+    border: 1px solid #e9e9ec;
+    border-radius: 37px;
+    box-shadow: 0 8px 28px rgba(25, 15, 54, 0.14);
+  }
+  .mobile-bar-actions { display: flex; align-items: center; gap: 8px; }
+  .mobile-bar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 40px;
+    padding: 0 13px;
+    border: 1px solid #d4d2d9;
+    border-radius: var(--radius-pill);
+    background: var(--white);
+    color: var(--sg-dark);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: normal;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .mobile-bar-btn:active { transform: scale(0.97); }
+  .mobile-bar-btn--dark {
+    background: var(--sg-dark);
+    border-color: var(--sg-dark);
+    color: var(--pink-200);
+  }
+  .mobile-bar-menu { padding-right: 9px; }
+  /* filled while the panel is open, so the button reads as the toggle */
+  .mobile-bar-menu[aria-expanded="true"] { background: #e7e7ea; }
+  .mobile-bar-chevron {
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mobile-bar-menu[aria-expanded="true"] .mobile-bar-chevron { transform: rotate(180deg); }
+
+  .mobile-bar-panel {
+    margin-bottom: 8px;
+    padding: 17px;
+    background: var(--white);
+    border: 1px solid #e9e9ec;
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 28px rgba(25, 15, 54, 0.14);
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+  .mobile-bar-panel[hidden] { display: none; }
+  .mobile-bar-panel ul { list-style: none; }
+  .mobile-bar-panel a {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--sg-dark);
+  }
+  .mobile-bar-panel a.is-active { color: var(--purple-700); }
+
+  /* extend the footer so the floating bar never covers its last row */
+  footer { padding-bottom: 122px; }
+
+  .hero-columns {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 48px;
+    gap: 0;
+  }
+  .hero-col-text {
+    flex: none;
+    min-height: 0;
+    padding: 0 24px;
+    align-items: center;
+  }
+  .hero-content {
+    max-width: none;
+    align-items: center;
+    gap: 24px;
+  }
+  .hero-eyebrow { justify-content: center; width: 100%; }
+  .hero h1 {
+    max-width: none;
+    text-align: center;
+    font-size: 36px;
+    line-height: 44px;
+  }
+  /* the mobile frame keeps the headline one colour */
+  .hero-h1-accent { color: inherit; }
+  .hero-pills { justify-content: center; }
+  .pill { padding: 6px 12px; }
+  .hero-actions {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: 100%;
+  }
+  .hero-actions .btn-lg { width: 100%; padding: 20px 24px; }
+
+  /* stacked: the frame is full-width, so its own ratio drives the height
+     again — don't let the desktop stretch rule override it */
+  /* no gap: Figma stacks the image column straight onto the text column
+     (404:1047), the apparent space is transparent area in the cut-out */
+  .hero-col-image { flex: none; margin-top: 0; align-items: flex-end; }
+  .hero-image { aspect-ratio: 402 / 471.094; }
+
+  .trust { padding: 32px 24px; }
+  .trust-inner { gap: 24px; }
+  .trust-inner p { font-size: 16px; }
+
+  /* ── mobile: one row, scrolling infinitely ──
+     The track holds two identical sets. Each set carries its own trailing
+     gap as padding-right, so the set's outer width is (content + gap) and
+     translating the track by exactly -50% lands the clone precisely where
+     the original was — a seamless loop with no jump. */
+  .trust-logos {
+    --marquee-gap: 40px;
+    overflow: hidden;
+    /* fade the logos in and out at the edges rather than clipping hard */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .trust-logos-track {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: max-content;
+    gap: 0;
+    animation: trust-marquee 22s linear infinite;
+    will-change: transform;
+  }
+  .trust-logos-set,
+  .trust-logos-set--clone {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: var(--marquee-gap);
+    padding-right: var(--marquee-gap);
+  }
+
+  @keyframes trust-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Reduced motion: stop the animation, but keep the row usable by
+     letting it scroll by hand instead of hiding most of it. */
+  @media (prefers-reduced-motion: reduce) {
+    .trust-logos {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .trust-logos-track { animation: none; }
+    .trust-logos-set--clone { display: none; }
+  }
+
+  .whoarewe { padding: 0 24px 40px; }
+  .whoarewe-card {
+    padding: 32px 24px;
+    gap: 24px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .whoarewe-heading-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .whoarewe-card h2 { font-size: 20px; }
+  .whoarewe-subtitle {
+    font-family: 'Inter Tight', sans-serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(25, 15, 54, 0.5);
+  }
+  .whoarewe-body { font-size: 20px; }
+
+  /* keeps the export's 134:90 ratio */
+  .avatars { width: 159px; height: 106px; }
+
+  /* inner-page layouts collapse to one column */
+  .pain-inner { grid-template-columns: 1fr; gap: 40px; }
+  .pain-image { order: -1; }
+  .how-grid { grid-template-columns: 1fr; gap: 32px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .bento-3col { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid, .pricing-grid--two { grid-template-columns: 1fr; }
+  /* Stacked, the plans read top-to-bottom instead of left-to-right, so
+     lead with the flagship: Growth, Premium, then Hosting & Maintenance.
+     Scoped to #plans so the two website build cards keep their order. */
+  #plans .pricing-grid > :nth-child(1) { order: 3; }
+  #plans .pricing-grid > :nth-child(2) { order: 2; }
+  #plans .pricing-grid > :nth-child(3) { order: 1; }
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  /* first/last name stack rather than squeezing into half a phone width */
+  .form-row { grid-template-columns: 1fr; }
+  .split-row { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
+  .split-row.reverse .split-media { order: -1; }
+  .section-head.split { flex-direction: column; align-items: flex-start; }
+  .section-head.split .section-sub { text-align: left; }
+  .addon-card { flex-direction: column; align-items: flex-start; }
+  .addon-card-price {
+    border-left: none;
+    padding-left: 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    align-items: flex-start;
+  }
+  .footer-top { flex-direction: column; }
+
+  /* ── one 24px gutter, everywhere ──
+     The section supplies it. .container was adding its own 24px on top,
+     so content sat at 44px in sections that use one and 20px in those
+     that don't — a visible step from block to block down the page.
+     Sections keep their own horizontal padding; .container drops its. */
+  .container { padding-left: 0; padding-right: 0; }
+  section.page-section,
+  .page-header,
+  .cta {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* vertical rhythm only — the gutter above stays at 24px */
+  section.page-section { padding-top: 60px; padding-bottom: 60px; }
+  .page-header { padding-top: 56px; padding-bottom: 64px; }
+  .cta { padding-top: 72px; padding-bottom: 72px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .contact-form { padding: 24px 20px; }
+  .addon-card { padding: 28px 24px; }
+}
