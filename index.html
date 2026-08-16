@@ -3,47 +3,579 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SimpleGrowth — Get more customers from your Website, Google & Meta</title>
-  <meta name="description" content="SimpleGrowth helps small businesses get more customers through Google Ads, Meta Ads, SEO, and website design.">
+  <title>SimpleGrowth — An Edinburgh based marketing duo helping businesses like yours grow</title>
+  <meta name="description" content="SimpleGrowth is an Edinburgh based marketing duo helping local businesses grow through websites, SEO, Google and Meta ads, social media and more.">
   <meta property="og:image" content="images/og_homepage.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --purple: #49338B;
-      --purple-dark: #2D1F5E;
-      --purple-light: #B49DFF;
-      --pink: #F59DFF;
-      --white: #ffffff;
-      --off-white: #F8F7FF;
-      --text: #1A1A2E;
-      --text-muted: #6B6B8A;
-      --border: #E8E4F5;
+      /* ── SG Kit tokens (Figma variables) ── */
+      --sg-dark:     #190F36;
+      --purple-50:   #F8F5FF;
+      --purple-100:  #EBE2FF;
+      --purple-300:  #B49DFF;
+      --purple-500:  #6E57B8;
+      --purple-700:  #49338B;
+      --purple-800:  #382673;
+      --purple-900:  #281A54;
+      --pink-200:    #FBD3FF;
+
+      /* ── legacy aliases used by the lower sections ── */
+      --purple:       var(--purple-700);
+      --purple-dark:  #2D1F5E;
+      --purple-light: var(--purple-300);
+      --pink:         #F59DFF;
+      --white:        #ffffff;
+      --off-white:    var(--purple-50);
+      --text:         var(--sg-dark);
+      --text-muted:   #6B6B8A;
+      --border:       #E8E4F5;
+
+      /* horizontal page gutter: 120px at the 1280 desktop frame */
+      --gutter: clamp(24px, 9.375vw, 120px);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
-      color: var(--text);
+      color: var(--sg-dark);
       background: var(--white);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
-
-    h1, h2, h3 { font-family: 'Playfair Display', serif; line-height: 1.2; }
 
     a { text-decoration: none; color: inherit; }
-
     img { max-width: 100%; display: block; }
 
-    .container {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    /* Shown only on the desktop frame / only on the mobile frame */
+    .only-mobile { display: none; }
+
+    /* ════════════════════════════════════════
+       HEADER  (Figma 397:729)
+       ════════════════════════════════════════ */
+    .site-header {
+      position: absolute;
+      top: 2px;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 10px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+    .site-header-inner {
+      width: 100%;
+      max-width: 1040px;
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-logo img { width: 217.817px; height: 40px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      color: var(--sg-dark);
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 0.6; }
+    .nav-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(25, 15, 54, 0.4);
+      flex-shrink: 0;
+    }
+
+    .btn-header {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 8px 16px;
+      border-radius: 555px;
+      background: var(--sg-dark);
+      color: var(--pink-200);
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      white-space: nowrap;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-header:hover { transform: translateY(-1px); opacity: 0.9; }
+
+    /* ════════════════════════════════════════
+       HERO  (Figma 397:648)
+       ════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(to bottom, var(--white) 0%, var(--purple-100) 100%);
+    }
+    .hero-columns {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-col-text {
+      flex: 1 1 50%;
+      min-width: 0;
+      min-height: 750px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: var(--gutter);
+    }
+    .hero-content {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    /* eyebrow — Figma 398:763 */
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 8px;
+    }
+    .hero-eyebrow-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--purple-500);
+      flex-shrink: 0;
+    }
+    .hero-eyebrow span {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: normal;
+      text-transform: uppercase;
+      color: var(--sg-dark);
+    }
+
+    .hero-headline-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+    .hero h1 {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 600;
+      font-size: clamp(36px, 3.95vw, 50px);
+      line-height: 1.2;
+      color: var(--sg-dark);
+      max-width: 480px;
+    }
+
+    /* pills — Figma 397:673 */
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: flex-start;
+      align-content: flex-start;
+      list-style: none;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      color: var(--purple-800);
+      white-space: nowrap;
+    }
+
+    /* buttons — Figma 399:766 */
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-start;
+      align-content: flex-start;
+    }
+    .btn-lg {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      height: 64px;
+      padding: 20px 32px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: normal;
+      white-space: nowrap;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-lg:hover { transform: translateY(-2px); opacity: 0.92; }
+    .btn-lg img { width: 24px; height: 24px; flex-shrink: 0; }
+
+    .btn-dark {
+      background: var(--sg-dark);
+      border: 2px solid var(--white);
+      color: var(--white);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    .btn-tint {
+      background: rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      color: var(--sg-dark);
+    }
+    .btn-white {
+      background: var(--white);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      color: var(--sg-dark);
+    }
+
+    /* email line — Figma 400:1316 */
+    .hero-email {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--purple-800);
+    }
+    .hero-email a { text-decoration: underline; }
+
+    /* ── hero image — Figma 400:1542 ── */
+    .hero-col-image {
+      flex: 1 1 50%;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+    }
+    .hero-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 640 / 750;
+      overflow: hidden;
+    }
+    /* decorative "Shadow" ellipses behind the photo — Figma 400:1543 / 400:1544 */
+    .hero-shadow {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(110, 87, 184, 0.45), rgba(110, 87, 184, 0));
+      filter: blur(28px);
+      pointer-events: none;
+    }
+    .hero-shadow-1 { inset: 16.93% -6.47% -27.66% 51.3%; }
+    .hero-shadow-2 { inset: 38.01% 43.35% -19.06% 12.09%; }
+
+    .hero-photo {
+      position: absolute;
+      top: -12.93%;
+      bottom: -48.25%;
+      left: calc(50% + 20.35px);
+      transform: translateX(-50%);
+      aspect-ratio: 1536 / 1266;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      max-width: none;
+    }
+
+    /* handwritten annotations — Figma 400:1546 (Stuart) / 400:1549 (Lana) */
+    .hero-annotation { position: absolute; pointer-events: none; }
+    .hero-annotation img { width: 100%; height: 100%; }
+    .annot-stuart { left: 41.41%; top: 19.63%; width: 14.45%; height: 10.55%; }
+    .annot-lana   { left: 5.32%;  top: 24.94%; width: 18.53%; height: 15.20%; }
+
+    /* ════════════════════════════════════════
+       TRUST STRIP  (Figma 399:814)
+       ════════════════════════════════════════ */
+    .trust {
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+    .trust-inner {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .trust-inner p {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: normal;
+      color: var(--purple-900);
+      text-align: center;
+    }
+    .trust-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 56px;
+      padding: 7.479px 0;
+      flex-wrap: wrap;
+    }
+    .trust-logos img { flex-shrink: 0; }
+    /* explicit per-logo geometry, preserved from Figma */
+    .logo-proshine     { width: 157px;     height: 42px; }
+    .logo-shoreboxing  { width: 62.114px;  height: 42px; }
+    .logo-inspirations { width: 195px;     height: 42px; }
+    .logo-caledonian   { width: 96.721px;  height: 42px; }
+
+    /* ════════════════════════════════════════
+       WHO ARE WE  (Figma 400:1519 desktop / 400:1372 mobile)
+       ════════════════════════════════════════ */
+    .whoarewe {
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .whoarewe-card {
+      width: 100%;
+      max-width: 1040px;
+      padding: 56px;
+      border-radius: 8px;
+      background: var(--purple-50);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+    }
+    .whoarewe-card h2 {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 600;
+      font-size: 40px;
+      line-height: 1.5;
+      color: var(--sg-dark);
+      width: 100%;
+    }
+    .whoarewe-body {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 300;
+      font-size: 28px;
+      line-height: 1.7;
+      color: var(--sg-dark);
+      width: 100%;
+    }
+    .whoarewe-body em { font-style: italic; font-weight: 300; }
+    .whoarewe-signoff {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 28px;
+      line-height: 1.5;
+      color: var(--sg-dark);
+      width: 100%;
+    }
+    .whoarewe-foot {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* grouped avatars — Figma 404:1077 */
+    .avatars {
+      position: relative;
+      width: 124.286px;
+      height: 72px;
+      flex-shrink: 0;
+    }
+    .avatar {
+      position: absolute;
+      top: 1.714px;
+      width: 68.571px;
+      height: 68.571px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--purple-100);
+      border: 1.714px solid var(--white);
+    }
+    .avatar img { position: absolute; max-width: none; }
+    .avatar-back { left: 55.287px; }
+    .avatar-back img {
+      width: 275.602px;
+      height: 227.139px;
+      left: calc(50% - 30.86px);
+      top: calc(50% + 44.14px);
+      transform: translate(-50%, -50%) rotate(6.51deg);
+    }
+    .avatar-front {
+      left: 2.144px;
+      box-shadow: 0 1.714px 8.571px rgba(0, 0, 0, 0.1);
+    }
+    .avatar-front img {
+      width: 295.345px;
+      height: 243.429px;
+      left: calc(50% + 29.57px);
+      top: calc(50% + 30px);
+      transform: translate(-50%, -50%);
+    }
+
+    /* ════════════════════════════════════════
+       MOBILE FRAME  (Figma 400:1176)
+       ════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .only-desktop { display: none !important; }
+      .only-mobile  { display: block; }
+
+      /* header: centred logo only, in normal flow above the hero content */
+      .site-header {
+        position: static;
+        padding: 48px 24px 0;
+      }
+      .site-header-inner { justify-content: center; padding: 0; }
+
+      .hero-columns {
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 48px;
+        gap: 0;
+      }
+      .hero-col-text {
+        flex: none;
+        min-height: 0;
+        padding: 0 24px;
+        align-items: center;
+      }
+      .hero-content {
+        max-width: none;
+        align-items: center;
+        gap: 24px;
+      }
+      .hero-eyebrow { justify-content: center; width: 100%; }
+      .hero h1 {
+        max-width: none;
+        text-align: center;
+        font-size: 36px;
+      }
+      .hero-pills { justify-content: center; }
+      .pill { padding: 6px 12px; }
+      .hero-actions {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 12px;
+        width: 100%;
+      }
+      .hero-actions .btn-lg { width: 100%; padding: 20px 24px; }
+
+      .hero-col-image { flex: none; margin-top: 48px; }
+      .hero-image { aspect-ratio: 402 / 471.094; }
+      .hero-photo { left: calc(50% + 12.78px); }
+
+      .trust { padding: 32px 24px; }
+      .trust-inner { gap: 24px; }
+      .trust-inner p { font-size: 16px; }
+      .trust-logos { gap: 32px; }
+
+      .whoarewe { padding: 0 24px 40px; }
+      .whoarewe-card {
+        padding: 32px 24px;
+        gap: 24px;
+        border-radius: 20px;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .whoarewe-heading-block {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+      }
+      .whoarewe-card h2 { font-size: 20px; }
+      .whoarewe-subtitle {
+        font-family: 'Inter Tight', sans-serif;
+        font-style: italic;
+        font-size: 16px;
+        line-height: 1.5;
+        color: rgba(25, 15, 54, 0.5);
+      }
+      .whoarewe-body { font-size: 20px; }
+
+      .avatars { width: 158px; height: 80px; }
+      .avatar { top: 0; width: 80px; height: 80px; border: none; }
+      .avatar-back { left: 62px; }
+      .avatar-back img {
+        width: 322px;
+        height: 265px;
+        left: calc(50% - 36px);
+        top: calc(50% + 51.5px);
+        transform: translate(-50%, -50%) rotate(6.5deg);
+      }
+      .avatar-front {
+        left: 0;
+        border: 2px solid var(--white);
+        box-shadow: none;
+      }
+      .avatar-front img {
+        width: 345px;
+        height: 284px;
+        left: calc(50% + 34.5px);
+        top: calc(50% + 35px);
+      }
+    }
+
+    /* ════════════════════════════════════════
+       LOWER SECTIONS — not part of the Figma frame
+       ════════════════════════════════════════ */
+    section.legacy { padding: 80px 24px; }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--purple);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 600;
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--text-muted); font-size: 17px; max-width: 560px; }
 
     .btn {
       display: inline-block;
@@ -56,161 +588,10 @@
       border: none;
     }
     .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary { background: var(--pink); color: var(--purple-dark); }
 
-    .btn-primary {
-      background: var(--pink);
-      color: var(--purple-dark);
-    }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--white);
-      color: var(--white);
-    }
-    .btn-purple {
-      background: var(--purple);
-      color: var(--white);
-    }
-
-    /* ── NAV ── */
-    nav {
-      background: var(--purple-dark);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 0 24px;
-    }
-    .nav-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
-      gap: 32px;
-    }
-    .nav-logo img { height: 28px; width: auto; }
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 28px;
-      flex: 1;
-      justify-content: center;
-    }
-    .nav-links a {
-      color: rgba(255,255,255,0.8);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-cta { font-size: 14px; white-space: nowrap; }
-
-    /* ── HERO ── */
-    .hero {
-      background: var(--purple-dark);
-      padding: 80px 24px 0;
-      overflow: hidden;
-      text-align: center;
-    }
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 100px;
-      padding: 6px 16px;
-      color: var(--purple-light);
-      font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-size: clamp(36px, 5vw, 64px);
-      color: var(--white);
-      max-width: 800px;
-      margin: 0 auto 24px;
-    }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--pink);
-    }
-    .hero-sub {
-      color: rgba(255,255,255,0.7);
-      font-size: 18px;
-      max-width: 560px;
-      margin: 0 auto 36px;
-    }
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 60px;
-    }
-    .hero-image {
-      max-width: 860px;
-      margin: 0 auto;
-      border-radius: 16px 16px 0 0;
-      overflow: hidden;
-      box-shadow: 0 -8px 60px rgba(0,0,0,0.3);
-    }
-    .hero-image img { width: 100%; }
-
-    /* ── TRUST BAR ── */
-    .trust-bar {
-      background: var(--off-white);
-      padding: 28px 24px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .trust-bar p {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-    .trust-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .trust-logos span {
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--text-muted);
-      opacity: 0.6;
-      letter-spacing: -0.02em;
-    }
-
-    /* ── SECTION DEFAULTS ── */
-    section { padding: 80px 24px; }
-    .section-label {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--purple);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(28px, 3.5vw, 44px);
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      color: var(--text-muted);
-      font-size: 17px;
-      max-width: 560px;
-    }
-
-    /* ── PAIN POINTS ── */
-    .pain {
-      background: var(--white);
-    }
+    /* pain points */
+    .pain { background: var(--white); }
     .pain-inner {
       max-width: 1160px;
       margin: 0 auto;
@@ -231,44 +612,14 @@
       align-items: flex-start;
       gap: 12px;
       font-size: 16px;
-      color: var(--text);
     }
     .pain-list li img { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
-    .pain-image img {
-      border-radius: 20px;
-      width: 100%;
-      object-fit: cover;
-    }
+    .pain-image img { border-radius: 20px; width: 100%; object-fit: cover; }
 
-    /* ── SOLUTION CARDS ── */
-    .solution {
-      background: var(--off-white);
-    }
-    .solution-inner { max-width: 1160px; margin: 0 auto; }
-    .solution-header { margin-bottom: 48px; }
-    .solution-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .solution-card {
-      background: var(--white);
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .solution-card img { width: 100%; height: 200px; object-fit: cover; }
-    .solution-card-body { padding: 24px; }
-    .solution-card h3 { font-size: 20px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700; }
-    .solution-card p { color: var(--text-muted); font-size: 15px; }
-
-    /* ── HOW IT WORKS ── */
-    .how {
-      background: var(--purple-dark);
-      color: var(--white);
-    }
+    /* how it works */
+    .how { background: var(--sg-dark); color: var(--white); }
     .how-inner { max-width: 1160px; margin: 0 auto; }
-    .how .section-label { color: var(--purple-light); }
+    .how .section-label { color: var(--purple-300); }
     .how .section-title { color: var(--white); }
     .how-grid {
       display: grid;
@@ -284,50 +635,19 @@
       border: 1px solid rgba(255,255,255,0.2);
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 18px;
-      color: var(--purple-light);
+      color: var(--purple-300);
     }
-    .how-step h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 19px; }
+    .how-step h3 { font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 19px; }
     .how-step p { color: rgba(255,255,255,0.65); font-size: 15px; }
 
-    /* ── ABOUT ── */
-    .about { background: var(--white); }
-    .about-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .about-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--purple);
-      color: var(--white);
-      border-radius: 100px;
-      padding: 10px 20px;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 28px;
-    }
-    .about-badge span { font-size: 22px; font-family: 'Playfair Display', serif; }
-    .about h2 { margin-bottom: 20px; }
-    .about p { color: var(--text-muted); font-size: 16px; margin-bottom: 16px; }
-    .about-image { position: relative; }
-    .about-image img { border-radius: 20px; width: 100%; object-fit: cover; }
-
-    /* ── TESTIMONIAL ── */
-    .testimonial {
-      background: var(--off-white);
-      text-align: center;
-    }
+    /* testimonial */
+    .testimonial { background: var(--purple-50); text-align: center; }
     .testimonial-inner { max-width: 760px; margin: 0 auto; }
     .testimonial img.quote-mark { width: 48px; margin: 0 auto 24px; }
     .testimonial blockquote {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 300;
       font-size: clamp(20px, 2.5vw, 28px);
-      color: var(--text);
       line-height: 1.5;
       margin-bottom: 32px;
     }
@@ -337,23 +657,15 @@
       justify-content: center;
       gap: 14px;
     }
-    .testimonial-author img {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+    .testimonial-author img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
     .testimonial-author strong { display: block; font-size: 15px; }
     .testimonial-author span { font-size: 13px; color: var(--text-muted); }
 
-    /* ── SERVICES ── */
+    /* services */
     .services { background: var(--white); }
     .services-inner { max-width: 1160px; margin: 0 auto; }
     .services-header { margin-bottom: 48px; }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
     .service-card {
       border-radius: 20px;
       overflow: hidden;
@@ -363,22 +675,13 @@
       flex-direction: column;
       justify-content: flex-end;
     }
-    .service-card-bg {
-      position: absolute; inset: 0;
-      background-size: cover;
-      background-position: center;
-    }
+    .service-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
     .service-card-bg::after {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(29,16,70,0.92) 0%, rgba(29,16,70,0.4) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(25,15,54,0.92) 0%, rgba(25,15,54,0.4) 60%, transparent 100%);
     }
-    .service-card-body {
-      position: relative;
-      z-index: 1;
-      padding: 32px;
-      color: var(--white);
-    }
+    .service-card-body { position: relative; z-index: 1; padding: 32px; color: var(--white); }
     .service-icon {
       width: 40px; height: 40px;
       background: rgba(255,255,255,0.15);
@@ -387,11 +690,11 @@
       margin-bottom: 16px;
     }
     .service-icon img { width: 22px; height: 22px; filter: brightness(0) invert(1); }
-    .service-card h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 22px; margin-bottom: 8px; }
+    .service-card h3 { font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 22px; margin-bottom: 8px; }
     .service-card p { color: rgba(255,255,255,0.75); font-size: 15px; line-height: 1.5; }
 
-    /* ── FAQ ── */
-    .faq { background: var(--off-white); }
+    /* faq */
+    .faq { background: var(--purple-50); }
     .faq-inner { max-width: 760px; margin: 0 auto; }
     .faq-header { text-align: center; margin-bottom: 48px; }
     .faq-item {
@@ -409,7 +712,7 @@
       text-align: left;
       font-size: 16px;
       font-weight: 600;
-      color: var(--text);
+      color: var(--sg-dark);
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -417,45 +720,28 @@
       gap: 16px;
       font-family: 'Inter', sans-serif;
     }
-    .faq-question svg {
-      flex-shrink: 0;
-      transition: transform 0.3s;
-      color: var(--purple);
-    }
+    .faq-question svg { flex-shrink: 0; transition: transform 0.3s; color: var(--purple); }
     .faq-item.open .faq-question svg { transform: rotate(180deg); }
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    .faq-answer-inner {
-      padding: 0 24px 20px;
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.7;
-    }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-answer-inner { padding: 0 24px 20px; color: var(--text-muted); font-size: 15px; line-height: 1.7; }
 
-    /* ── CTA ── */
-    .cta {
-      background: var(--purple-dark);
-      text-align: center;
-      padding: 100px 24px;
-    }
+    /* cta */
+    .cta { background: var(--sg-dark); text-align: center; padding: 100px 24px; }
     .cta-inner { max-width: 640px; margin: 0 auto; }
-    .cta h2 { color: var(--white); font-size: clamp(32px, 4vw, 52px); margin-bottom: 20px; }
-    .cta h2 em { font-style: italic; color: var(--pink); }
+    .cta h2 {
+      font-family: 'Inter Tight', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .cta h2 em { font-style: italic; color: var(--purple-300); }
     .cta p { color: rgba(255,255,255,0.7); font-size: 17px; margin-bottom: 40px; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: #160E35;
-      color: rgba(255,255,255,0.6);
-      padding: 48px 24px 32px;
-    }
-    .footer-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
+    /* footer */
+    footer { background: #120A28; color: rgba(255,255,255,0.6); padding: 48px 24px 32px; }
+    .footer-inner { max-width: 1160px; margin: 0 auto; }
     .footer-top {
       display: flex;
       justify-content: space-between;
@@ -469,7 +755,14 @@
     .footer-brand img { height: 24px; margin-bottom: 12px; }
     .footer-brand p { font-size: 14px; max-width: 280px; }
     .footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
-    .footer-col h4 { color: var(--white); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .footer-col h4 {
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
     .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .footer-col a { font-size: 14px; transition: color 0.2s; }
     .footer-col a:hover { color: var(--white); }
@@ -482,69 +775,144 @@
       gap: 8px;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .pain-inner, .about-inner { grid-template-columns: 1fr; gap: 40px; }
-      .solution-grid { grid-template-columns: 1fr; }
+    @media (max-width: 900px) {
+      .pain-inner { grid-template-columns: 1fr; gap: 40px; }
       .how-grid { grid-template-columns: 1fr; }
       .services-grid { grid-template-columns: 1fr; }
       .footer-top { flex-direction: column; }
       .pain-image { order: -1; }
     }
     @media (max-width: 480px) {
-      section { padding: 60px 20px; }
+      section.legacy { padding: 60px 20px; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="/">
-      <img src="logo/simple_white.svg" alt="SimpleGrowth">
-    </a>
-    <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#how-it-works">How it works</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <a href="#contact" class="btn btn-primary nav-cta">Book a free call</a>
-  </div>
-</nav>
-
-<!-- HERO -->
+<!-- ══════════ HERO + HEADER — Figma 397:648 / 397:729 ══════════ -->
 <section class="hero">
-  <div class="hero-eyebrow">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#B49DFF" opacity="0.3"/><circle cx="7" cy="7" r="3" fill="#B49DFF"/></svg>
-    Google & Meta Partner Agency
-  </div>
-  <h1>Get more customers from your <em>Website, Google & Meta</em></h1>
-  <p class="hero-sub">SimpleGrowth makes digital marketing simple and focused — so you can stop guessing and start growing.</p>
-  <div class="hero-actions">
-    <a href="#contact" class="btn btn-primary">Book a free marketing review</a>
-    <a href="#services" class="btn btn-outline">See our services</a>
-  </div>
-  <div class="hero-image">
-    <img src="images/hero-websites.png" alt="SimpleGrowth website design example">
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-logo" href="/">
+        <img src="logo/purple.svg" alt="SimpleGrowth" width="218" height="40">
+      </a>
+      <ul class="nav-links only-desktop">
+        <li><a href="#services">Services</a></li>
+        <li aria-hidden="true" class="nav-dot"></li>
+        <li><a href="#about">About</a></li>
+        <li aria-hidden="true" class="nav-dot"></li>
+        <li><a href="#contact">Contact</a></li>
+        <li aria-hidden="true" class="nav-dot"></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+      </ul>
+      <a href="mailto:getsimplegrowth@gmail.com" class="btn-header only-desktop">Send message</a>
+    </div>
+  </header>
+
+  <div class="hero-columns">
+    <div class="hero-col-text">
+      <div class="hero-content">
+
+        <p class="hero-eyebrow">
+          <span class="hero-eyebrow-dot" aria-hidden="true"></span>
+          <span>Local Edinburgh marketing agency</span>
+        </p>
+
+        <div class="hero-headline-block">
+          <h1>An Edinburgh based marketing duo helping businesses like yours grow</h1>
+          <ul class="hero-pills">
+            <li class="pill">Websites</li>
+            <li class="pill">Search ranking (SEO)</li>
+            <li class="pill">Google/Meta ads</li>
+            <li class="pill">Social media</li>
+            <li class="pill">AI</li>
+            <li class="pill">Back office operations</li>
+            <li class="pill">Brand &amp; Content</li>
+          </ul>
+        </div>
+
+        <div class="hero-actions">
+          <a href="mailto:getsimplegrowth@gmail.com" class="btn-lg btn-dark">
+            Send message
+            <img src="icons/white-arrow-right.svg" alt="" width="24" height="24">
+          </a>
+          <a href="#contact" class="btn-lg btn-tint">Request a call</a>
+        </div>
+
+        <p class="hero-email only-desktop">or email us:
+          <a href="mailto:getsimplegrowth@gmail.com">getsimplegrowth@gmail.com</a>
+        </p>
+
+      </div>
+    </div>
+
+    <div class="hero-col-image">
+      <div class="hero-image">
+        <span class="hero-shadow hero-shadow-1" aria-hidden="true"></span>
+        <span class="hero-shadow hero-shadow-2" aria-hidden="true"></span>
+        <div class="hero-photo">
+          <img src="images/professional_lana_stuart.png" alt="Lana and Stuart, the SimpleGrowth team">
+        </div>
+        <div class="hero-annotation annot-lana" aria-hidden="true">
+          <img src="images/annotation_lana.svg" alt="" onerror="this.parentNode.style.display='none'">
+        </div>
+        <div class="hero-annotation annot-stuart" aria-hidden="true">
+          <img src="images/annotation_stuart.svg" alt="" onerror="this.parentNode.style.display='none'">
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <p>Trusted by local businesses across the UK</p>
-  <div class="trust-logos">
-    <span>Catering by Lana</span>
-    <span>R&D12</span>
-    <span>Inspirations</span>
-    <span>Leslie Godsell</span>
+<!-- ══════════ TRUST STRIP — Figma 399:814 / 400:1181 ══════════ -->
+<section class="trust">
+  <div class="trust-inner">
+    <p class="only-desktop">Trusted by service based and shop businesses</p>
+    <p class="only-mobile">Trusted by local Edinburgh businesses</p>
+    <div class="trust-logos">
+      <img class="logo-proshine"     src="images/proshine_logo.svg"     alt="Proshine"     width="157" height="42">
+      <img class="logo-shoreboxing"  src="images/shoreboxing_logo.svg"  alt="Shore Boxing" width="62"  height="42">
+      <img class="logo-inspirations" src="images/inspirations_logo.svg" alt="Inspirations" width="195" height="42">
+      <img class="logo-caledonian"   src="images/caledonian_logo.svg"   alt="Caledonian"   width="97"  height="42">
+    </div>
   </div>
-</div>
+</section>
 
-<!-- PAIN POINTS -->
-<section class="pain" id="pain">
+<!-- ══════════ WHO ARE WE — Figma 400:1519 / 400:1372 ══════════ -->
+<section class="whoarewe" id="about">
+  <div class="whoarewe-card">
+
+    <!-- desktop copy -->
+    <h2 class="only-desktop">Who are we?</h2>
+    <p class="whoarewe-body only-desktop">Lana and I are two person setup. We keep it this way because <em>we</em> want to be the ones connecting with you and working with you to achieve your business goals. That means from day 1, you know who you’re working with. No handing off between sales teams and marketing teams. We’re obsessive over the details and are dedicated to making your business a success (just ask our clients). Schedule a call with us so we can provide some advice on what areas we think we could help you with.</p>
+    <p class="whoarewe-signoff only-desktop">– Stuart &amp; Lana</p>
+
+    <!-- mobile copy -->
+    <div class="whoarewe-heading-block only-mobile">
+      <h2>A message from Lana and Stuart</h2>
+      <p class="whoarewe-subtitle">(Written by Stuart, not AI)</p>
+    </div>
+    <p class="whoarewe-body only-mobile">We are not a regular one size fits all marketing agency. Lana and I pride ourselves on connecting with you on a personal level to understand your goals and vision. We’re obsessive over the details and are dedicated to making your business a success (just ask our clients). We would love to have a call and share what areas we think would help your business grow.</p>
+
+    <div class="whoarewe-foot">
+      <div class="avatars">
+        <div class="avatar avatar-back">
+          <img src="images/professional_lana_stuart.png" alt="">
+        </div>
+        <div class="avatar avatar-front">
+          <img src="images/professional_lana_stuart.png" alt="">
+        </div>
+      </div>
+      <a href="#contact" class="btn-lg btn-white only-desktop">Find out more</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ Sections below are not part of the Figma frame ══════════ -->
+
+<section class="legacy pain">
   <div class="pain-inner container">
     <div class="pain-content">
       <p class="section-label">Sound familiar?</p>
@@ -558,50 +926,15 @@
       </ul>
     </div>
     <div class="pain-image">
-      <img src="images/strategy-background.jpg" alt="Marketing strategy">
+      <img src="images/strategy-background.jpg" alt="Marketing strategy" loading="lazy">
     </div>
   </div>
 </section>
 
-<!-- SOLUTION -->
-<section class="solution">
-  <div class="solution-inner">
-    <div class="solution-header">
-      <p class="section-label">Our approach</p>
-      <h2 class="section-title">Grow your business —<br>without the guesswork</h2>
-      <p class="section-sub">We build clear, proven marketing systems that bring real customers to your door.</p>
-    </div>
-    <div class="solution-grid">
-      <div class="solution-card">
-        <img src="images/google-ad-plumber.jpg" alt="Google Ads">
-        <div class="solution-card-body">
-          <h3>Google Ads that work</h3>
-          <p>Targeted campaigns that put your business in front of people actively searching for what you offer.</p>
-        </div>
-      </div>
-      <div class="solution-card">
-        <img src="images/meta-background.jpg" alt="Meta Ads">
-        <div class="solution-card-body">
-          <h3>Meta Ads that convert</h3>
-          <p>Scroll-stopping Facebook and Instagram ads that turn strangers into loyal customers.</p>
-        </div>
-      </div>
-      <div class="solution-card">
-        <img src="images/web-design-background.jpg" alt="Website design">
-        <div class="solution-card-body">
-          <h3>Websites that sell</h3>
-          <p>Fast, beautiful websites designed from the ground up to turn visitors into enquiries.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how" id="how-it-works">
+<section class="legacy how" id="how-it-works">
   <div class="how-inner">
     <p class="section-label">The process</p>
-    <h2 class="section-title" style="color:white;">How it works</h2>
+    <h2 class="section-title">How it works</h2>
     <p class="section-sub" style="color:rgba(255,255,255,0.65)">We keep things simple and focused on getting results.</p>
     <div class="how-grid">
       <div class="how-step">
@@ -623,32 +956,12 @@
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="about-inner">
-    <div class="about-content">
-      <div class="about-badge">
-        <span>10+</span> years industry experience
-      </div>
-      <h2 class="section-title">Simple marketing, done right</h2>
-      <p>SimpleGrowth was built on one idea: small businesses deserve the same quality of marketing as the big ones — without the jargon, the bloated retainers, or the broken promises.</p>
-      <p>Stuart Walker founded SimpleGrowth after a decade working across Google Ads, websites, and growth strategy. My goal is to make your marketing actually work — and to make it easy to understand what we're doing and why.</p>
-      <p>No vanity metrics. No fluff. Just more customers.</p>
-      <a href="#contact" class="btn btn-purple" style="margin-top:16px;">Book a free call</a>
-    </div>
-    <div class="about-image">
-      <img src="images/about-graphic.png" alt="About SimpleGrowth">
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIAL -->
-<section class="testimonial">
+<section class="legacy testimonial" id="testimonials">
   <div class="testimonial-inner">
-    <img class="quote-mark" src="images/quotation-marks.svg" alt="">
-    <blockquote>"Really happy I worked with SimpleGrowth. They fixed our website so it actually made sense to visitors and ran ads that actually brought people in. We started getting more enquiries pretty quickly. I'd show how they explained everything every step of the way."</blockquote>
+    <img class="quote-mark" src="images/quotation-marks.svg" alt="" loading="lazy">
+    <blockquote>"Really happy I worked with SimpleGrowth. They fixed our website so it actually made sense to visitors and ran ads that actually brought people in. We started getting more enquiries pretty quickly, and they explained everything every step of the way."</blockquote>
     <div class="testimonial-author">
-      <img src="images/leslie-godsell.jpg" alt="Leslie Godsell">
+      <img src="images/leslie-godsell.jpg" alt="Leslie Godsell" loading="lazy">
       <div>
         <strong>Leslie Godsell</strong>
         <span>Business owner</span>
@@ -657,8 +970,7 @@
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="services" id="services">
+<section class="legacy services" id="services">
   <div class="services-inner">
     <div class="services-header">
       <p class="section-label">What we do</p>
@@ -677,7 +989,7 @@
         <div class="service-card-bg" style="background-image: url('images/meta-background.jpg')"></div>
         <div class="service-card-body">
           <div class="service-icon"><img src="icons/speakerphone.svg" alt=""></div>
-          <h3>Meta Ads (Facebook & Instagram)</h3>
+          <h3>Meta Ads (Facebook &amp; Instagram)</h3>
           <p>Reach your ideal customers on social media with ads that stop the scroll and drive real enquiries.</p>
         </div>
       </div>
@@ -701,8 +1013,7 @@
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="faq" id="faq">
+<section class="legacy faq" id="faq">
   <div class="faq-inner">
     <div class="faq-header">
       <p class="section-label">FAQ</p>
@@ -710,67 +1021,58 @@
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" aria-expanded="false">
           How quickly will I see results?
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="faq-answer"><div class="faq-answer-inner">Google and Meta Ads typically start generating enquiries within the first 1–2 weeks. SEO takes longer — usually 3–6 months to see significant organic growth. We'll always be upfront about what to expect and when.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" aria-expanded="false">
           How much does it cost?
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="faq-answer"><div class="faq-answer-inner">Our services are tailored to your budget and goals. The best way to find out is to book a free marketing review — we'll give you a clear picture of what's possible and what it costs before you commit to anything.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" aria-expanded="false">
           Do you work with small businesses?
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="faq-answer"><div class="faq-answer-inner">Absolutely — small and local businesses are who we exist for. Whether you're a sole trader or a team of 20, we build marketing that's right-sized for you.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" aria-expanded="false">
           Do you lock me into a contract?
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="faq-answer"><div class="faq-answer-inner">We work on rolling monthly agreements. We believe results should keep you — not a contract. We do ask for an initial period on some services to give campaigns enough time to perform properly.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-question">
+        <button class="faq-question" aria-expanded="false">
           What if I've tried ads before and they didn't work?
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="faq-answer"><div class="faq-answer-inner">This is very common. Most failed ad campaigns come down to poor targeting, bad landing pages, or the wrong platform. We'll review what was done before and show you exactly what went wrong — and how we'd fix it.</div></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">
-          Still have questions? The free marketing review is the perfect place to ask.
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="faq-answer"><div class="faq-answer-inner">Book a free 30-minute call and ask us anything. No sales pressure, no commitment — just honest advice about what will work for your business.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta" id="contact">
+<section class="legacy cta" id="contact">
   <div class="cta-inner">
     <h2>Supercharge your business with <em>simplegrowth</em></h2>
     <p>Let's talk about getting you more customers. Book a free marketing review — no commitment, no jargon, just a clear plan.</p>
-    <a href="mailto:hello@simplegrowth.agency" class="btn btn-primary">Book your free review</a>
+    <a href="mailto:getsimplegrowth@gmail.com" class="btn btn-primary">Book your free review</a>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
         <img src="logo/simple_white.svg" alt="SimpleGrowth">
-        <p>Simple marketing that gets you more customers from Google, Meta, and your website.</p>
+        <p>An Edinburgh based marketing duo helping businesses like yours grow.</p>
       </div>
       <div class="footer-links">
         <div class="footer-col">
@@ -787,14 +1089,14 @@
           <ul>
             <li><a href="#about">About</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="mailto:hello@simplegrowth.agency">Contact</a></li>
+            <li><a href="mailto:getsimplegrowth@gmail.com">Contact</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 SimpleGrowth. All rights reserved.</span>
-      <span>hello@simplegrowth.agency</span>
+      <span>getsimplegrowth@gmail.com</span>
     </div>
   </div>
 </footer>
@@ -809,10 +1111,12 @@
       document.querySelectorAll('.faq-item').forEach(i => {
         i.classList.remove('open');
         i.querySelector('.faq-answer').style.maxHeight = '0';
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
       });
       if (!isOpen) {
         item.classList.add('open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
       }
     });
   });
