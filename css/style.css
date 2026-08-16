@@ -411,10 +411,13 @@ button { font-family: inherit; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* 40% horizontally: bias the crop to the right, since the "Lana" label
-     sits near the left edge of the canvas but there is spare shoulder on
-     the right. 100% vertically keeps them standing on the hero's base. */
-  object-position: 40% 100%;
+  /* Only the stacked layout still crops (the desktop rule below fits by
+     width instead). Take all of it off the right: the canvas is tight to
+     Lana's shoulder and the "Lana" label on the left, where there is
+     nothing to give, while the right is Stuart's sleeve — which the Figma
+     mobile frame runs off the edge anyway. 100% vertically keeps them
+     standing on the hero's base. */
+  object-position: 0 100%;
   max-width: none;
 }
 
@@ -430,14 +433,17 @@ button { font-family: inherit; }
   .hero-col-image { margin-right: calc((1280px - 100vw) / 2); }
 }
 
-/* Between the stacking breakpoint and ~1100px the image column is only 56%
-   of an already narrow viewport, so the frame falls well short of the
-   photo's 727px natural width at full height and `cover` trims the
-   difference off the sides — 23% of the photo at 1000px, taking the "Lana"
-   label and Stuart's arm with it. Fit by width through that band instead
-   and let the photo stand shorter on the hero's base; the space it leaves
-   above is gradient. */
-@media (min-width: 901px) and (max-width: 1100px) {
+/* The cut-out has no horizontal slack — opaque pixels start 6px into its
+   1608px canvas — so any side crop at all eats into Lana's shoulder. Below
+   1281px the column never reaches the 727px the photo needs to stand at the
+   hero's full height (it is 640px even at the 1280 design width), so fit by
+   width across the whole desktop range and let the photo stand shorter on
+   the hero's base. The space it leaves above is gradient, which is how the
+   Figma desktop frame renders it too.
+
+   Above 1281 the frame is capped to the photo's own ratio, so `contain`
+   there is the same fit `cover` gave — full height, flush right, uncropped. */
+@media (min-width: 901px) {
   .hero-photo img {
     object-fit: contain;
     object-position: bottom center;
