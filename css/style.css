@@ -160,70 +160,12 @@ button { font-family: inherit; }
 }
 .btn-header:hover { transform: translateY(-1px); opacity: 0.9; }
 
-/* ── mobile menu ── */
-.nav-toggle {
-  display: none;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.7);
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-.nav-toggle-bars {
-  position: relative;
-  display: block;
-  width: 18px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--sg-dark);
-  transition: background 0.2s;
-}
-.nav-toggle-bars::before,
-.nav-toggle-bars::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 18px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--sg-dark);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.nav-toggle-bars::before { top: -6px; }
-.nav-toggle-bars::after { top: 6px; }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bars { background: transparent; }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: translateY(6px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { transform: translateY(-6px) rotate(-45deg); }
-
-.mobile-menu {
-  display: none;
-  width: 100%;
-  max-width: var(--content-max);
-  margin-top: 8px;
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--white);
-  box-shadow: 0 12px 40px rgba(25, 15, 54, 0.12);
-}
-.mobile-menu.is-open { display: block; }
-.mobile-menu ul { list-style: none; display: flex; flex-direction: column; }
-.mobile-menu li + li { border-top: 1px solid var(--border); }
-/* scoped to the list so it can't override .btn-header's colour below */
-.mobile-menu ul a {
-  display: block;
-  padding: 14px 8px;
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  font-size: 17px;
-  color: var(--sg-dark);
-}
-.mobile-menu ul a.is-active { color: var(--purple-700); }
-.mobile-menu .btn-header { width: 100%; margin-top: 16px; height: 48px; }
+/* ════════════════════════════════════════
+   MOBILE BOTTOM NAV  (Figma 404:1637 closed / 404:1639 open)
+   A floating bar pinned to the bottom of the viewport, with the menu
+   panel opening upward above it. Desktop uses the header nav instead.
+   ════════════════════════════════════════ */
+.mobile-bar { display: none; }
 
 /* ════════════════════════════════════════
    HERO  (Figma 397:648)
@@ -1085,17 +1027,92 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     border-radius: var(--radius-pill);
   }
   .site-header--solid .site-logo img { width: 152px; height: 28px; }
-  /* the design has no mobile nav; the burger a five-page site needs is
-     floated out of the centred row rather than displacing the logo */
-  .nav-toggle {
-    display: inline-flex;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+  /* navigation lives in the bottom bar on mobile, so the header is just
+     the logo — centred on every page */
+  .site-header--solid .site-header-inner { justify-content: center; }
+
+  /* ── bottom nav (Figma 404:1637 / 404:1639) ──
+     370x74 bar inset 16px, sitting 24px off the bottom of the viewport. */
+  .mobile-bar {
+    display: block;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    z-index: 60;
   }
-  .site-header--solid .nav-toggle { position: static; transform: none; }
-  .site-header--solid .site-header-inner { justify-content: space-between; }
+  .mobile-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    height: 74px;
+    padding: 17px;
+    background: var(--white);
+    border: 1px solid #e9e9ec;
+    border-radius: 37px;
+    box-shadow: 0 8px 28px rgba(25, 15, 54, 0.14);
+  }
+  .mobile-bar-actions { display: flex; align-items: center; gap: 8px; }
+  .mobile-bar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 40px;
+    padding: 0 13px;
+    border: 1px solid #d4d2d9;
+    border-radius: var(--radius-pill);
+    background: var(--white);
+    color: var(--sg-dark);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: normal;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .mobile-bar-btn:active { transform: scale(0.97); }
+  .mobile-bar-btn--dark {
+    background: var(--sg-dark);
+    border-color: var(--sg-dark);
+    color: var(--pink-200);
+  }
+  .mobile-bar-menu { padding-right: 9px; }
+  /* filled while the panel is open, so the button reads as the toggle */
+  .mobile-bar-menu[aria-expanded="true"] { background: #e7e7ea; }
+  .mobile-bar-chevron {
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mobile-bar-menu[aria-expanded="true"] .mobile-bar-chevron { transform: rotate(180deg); }
+
+  .mobile-bar-panel {
+    margin-bottom: 8px;
+    padding: 17px;
+    background: var(--white);
+    border: 1px solid #e9e9ec;
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 28px rgba(25, 15, 54, 0.14);
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+  .mobile-bar-panel[hidden] { display: none; }
+  .mobile-bar-panel ul { list-style: none; }
+  .mobile-bar-panel a {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--sg-dark);
+  }
+  .mobile-bar-panel a.is-active { color: var(--purple-700); }
+
+  /* extend the footer so the floating bar never covers its last row */
+  footer { padding-bottom: 122px; }
 
   .hero-columns {
     flex-direction: column;

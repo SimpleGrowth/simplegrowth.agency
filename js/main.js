@@ -1,17 +1,30 @@
-// Mobile menu
-const navToggle = document.querySelector('.nav-toggle');
-const mobileMenu = document.querySelector('.mobile-menu');
-if (navToggle && mobileMenu) {
-  navToggle.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('is-open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
+// Mobile bottom nav — the Menu button opens a panel above the bar
+const barToggle = document.querySelector('.mobile-bar-menu');
+const barPanel = document.querySelector('.mobile-bar-panel');
+if (barToggle && barPanel) {
+  const setOpen = (open) => {
+    barPanel.hidden = !open;
+    barToggle.setAttribute('aria-expanded', String(open));
+  };
+
+  barToggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setOpen(barPanel.hidden);
   });
+
   // Close when a link is followed, so in-page anchors don't leave it hanging open
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
+  barPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+
+  // ...and on a tap outside or Escape, which is what people expect of a
+  // panel floating over the page
+  document.addEventListener('click', (event) => {
+    if (!barPanel.hidden && !barPanel.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !barPanel.hidden) {
+      setOpen(false);
+      barToggle.focus();
+    }
   });
 }
 
