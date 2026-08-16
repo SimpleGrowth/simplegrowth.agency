@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Sent | SimpleGrowth</title>
+  <meta name="description" content="Thanks for getting in touch with SimpleGrowth. We've got your message and will reply within one business day.">
+  <!-- Thank-you page: no unique content of its own, and both forms already
+       show this same confirmation inline without ever navigating here — see
+       js/hubspot-form.js. This exists as the redirect target HubSpot's own
+       tooling and any future ad conversion tracking can point at, so it
+       stays out of the sitemap and out of search results. -->
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://simplegrowth.agency/success">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header site-header--solid">
+  <div class="site-header-inner">
+    <a class="site-logo" href="index.html">
+      <img src="logo/purple.svg" alt="SimpleGrowth" width="174" height="32">
+    </a>
+    <ul class="nav-links only-desktop">
+      <li><a href="services.html">Services</a></li>
+      <li aria-hidden="true" class="nav-dot"></li>
+      <li><a href="about.html">About</a></li>
+      <li aria-hidden="true" class="nav-dot"></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li aria-hidden="true" class="nav-dot"></li>
+      <li><a href="pricing.html">Plans &amp; Pricing</a></li>
+    </ul>
+    <a href="contact.html" class="btn-header only-desktop">Send message</a>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="page-header-icon reveal">
+    <img src="icons/purple-check-contained.svg" alt="" width="34" height="34">
+  </div>
+  <div class="badge tone-lavender reveal" style="margin-top:20px;"><span class="dot"></span>Message sent</div>
+  <h1 class="reveal">Thanks — we've got it</h1>
+  <p class="reveal">We usually reply within one business day. In the meantime, feel free to have a look around.</p>
+  <div class="page-header-actions reveal">
+    <a href="index.html" class="btn btn-primary">Back to homepage</a>
+    <a href="pricing.html" class="btn btn-outline">See plans &amp; pricing</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="logo/simple_white.svg" alt="SimpleGrowth">
+        <p>An Edinburgh based marketing duo helping businesses like yours grow.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="services.html">Google Ads</a></li>
+            <li><a href="services.html">Meta Ads</a></li>
+            <li><a href="services.html">SEO</a></li>
+            <li><a href="services.html">Website Design</a></li>
+            <li><a href="services.html#social-media">Social Media</a></li>
+            <li><a href="pricing.html">Plans &amp; Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="request-a-call.html">Request a call</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SimpleGrowth. All rights reserved.</span>
+      <span><a href="mailto:getsimplegrowth@gmail.com">getsimplegrowth@gmail.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile bottom nav — Figma 404:1637 (closed) / 404:1639 (open).
+     Fixed to the bottom of the viewport; the panel opens upward above it.
+     Hidden above 900px, where the header nav takes over. -->
+<nav class="mobile-bar" aria-label="Main">
+  <div class="mobile-bar-panel" id="mobile-bar-panel" hidden>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="pricing.html">Plans &amp; Pricing</a></li>
+    </ul>
+  </div>
+  <div class="mobile-bar-row">
+    <div class="mobile-bar-actions">
+      <a href="contact.html" class="mobile-bar-btn mobile-bar-btn--dark">Contact</a>
+      <a href="request-a-call.html" class="mobile-bar-btn">Request call</a>
+    </div>
+    <button type="button" class="mobile-bar-btn mobile-bar-menu" aria-expanded="false" aria-controls="mobile-bar-panel">
+      Menu
+      <svg class="mobile-bar-chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M18 15L12 9L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<script src="js/main.js"></script>
+</body>
+</html>

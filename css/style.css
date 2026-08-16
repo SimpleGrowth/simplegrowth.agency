@@ -662,6 +662,26 @@ section.page-section.tint { background: var(--purple-50); }
 }
 .page-header p { color: var(--text-muted); font-size: 17px; max-width: 520px; margin: 16px auto 0; }
 
+/* ── success / confirmation page ── */
+.page-header-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--purple-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-header-icon img { width: 34px; height: 34px; }
+.page-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
 /* ════════════════════════════════════════
    HOMEPAGE SECTIONS BELOW THE FIGMA FRAME
    ════════════════════════════════════════ */
