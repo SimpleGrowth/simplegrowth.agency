@@ -376,11 +376,16 @@ button { font-family: inherit; }
 .hero-email a { text-decoration: underline; }
 
 /* ── hero image — Figma 400:1542 ── */
+/* The frame's height comes from its width via aspect-ratio, so below the
+   1280 design width it is shorter than the text column's 750px min-height.
+   Stretch to the full row and bottom-align, so the slack falls above the
+   cut-out (invisible gradient) instead of gapping under it. */
 .hero-col-image {
   flex: 1 1 50%;
   min-width: 0;
   display: flex;
-  align-items: center;
+  align-self: stretch;
+  align-items: flex-end;
 }
 .hero-image {
   position: relative;
