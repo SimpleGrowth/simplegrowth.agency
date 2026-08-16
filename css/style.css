@@ -376,21 +376,25 @@ button { font-family: inherit; }
 .hero-email a { text-decoration: underline; }
 
 /* ── hero image — Figma 400:1542 ── */
-/* The frame's height comes from its width via aspect-ratio, so below the
-   1280 design width it is shorter than the text column's 750px min-height.
-   Stretch to the full row and bottom-align, so the slack falls above the
-   cut-out (invisible gradient) instead of gapping under it. */
+/* The frame fills the hero row rather than deriving its height from its
+   width, so the cut-out stays the full height of the hero at every width.
+   Below the 1280 design width the column is narrower than the image, so
+   object-fit:cover crops the sides (arms, not faces) instead of shrinking
+   the figures away from the text. */
 .hero-col-image {
   flex: 1 1 50%;
-  min-width: 0;
+  /* Floor the column so the crop stays off the faces and the "Lana"
+     label as the viewport narrows, capped at 640px so it never exceeds
+     the cut-out's own width at the 1280 design size (which would make
+     cover scale by width and crop the tops of their heads instead). */
+  min-width: min(56%, 640px);
   display: flex;
   align-self: stretch;
-  align-items: flex-end;
+  align-items: stretch;
 }
 .hero-image {
   position: relative;
   width: 100%;
-  aspect-ratio: 640 / 750;
   overflow: hidden;
 }
 /* decorative "Shadow" ellipses behind the photo — Figma 400:1543 / 400:1544 */
@@ -405,8 +409,10 @@ button { font-family: inherit; }
 .hero-shadow-2 { inset: 38.01% 43.35% -19.06% 12.09%; }
 
 /* hero_image.png is a cut-out (transparent background) exported at the
-   frame's own 640:750 ratio, so it fills the frame rather than being
-   cropped into — the shadow ellipses above sit behind it as its glow. */
+   frame's own 640:750 ratio — the shadow ellipses above sit behind it as
+   its glow. cover scales it to the frame's height and crops the sides
+   when the column is narrower than 640px; at 1280+ the ratios match, so
+   nothing is cropped. */
 .hero-photo {
   position: absolute;
   inset: 0;
@@ -414,8 +420,11 @@ button { font-family: inherit; }
 .hero-photo img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: bottom center;
+  object-fit: cover;
+  /* 40% horizontally: bias the crop to the right, since the "Lana" label
+     sits near the left edge of the canvas but there is spare shoulder on
+     the right. 100% vertically keeps them standing on the hero's base. */
+  object-position: 40% 100%;
   max-width: none;
 }
 
@@ -1055,7 +1064,9 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   }
   .hero-actions .btn-lg { width: 100%; padding: 20px 24px; }
 
-  .hero-col-image { flex: none; margin-top: 48px; }
+  /* stacked: the frame is full-width, so its own ratio drives the height
+     again — don't let the desktop stretch rule override it */
+  .hero-col-image { flex: none; margin-top: 48px; align-items: flex-end; }
   .hero-image { aspect-ratio: 402 / 471.094; }
 
   .trust { padding: 32px 24px; }
