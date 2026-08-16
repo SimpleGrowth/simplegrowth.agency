@@ -348,12 +348,12 @@ button { font-family: inherit; }
 .hero-image {
   position: relative;
   width: 100%;
-  /* The cut-out is near-square (1664x1660) while the frame is 640x750, so
+  /* The cut-out is near-square (1608x1660) while the frame is 640x750, so
      `cover` scales it by height and trims the sides. Capping the frame at
      the photo's own ratio for this height stops the box ever growing wider
      than the photo — which would flip cover to scaling by width and crop
      downward into the tops of their heads. */
-  max-width: calc(750px * 1664 / 1660);
+  max-width: calc(750px * 1608 / 1660);
   overflow: hidden;
 }
 /* decorative "Shadow" ellipses behind the photo — Figma 400:1543 / 400:1544 */
