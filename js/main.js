@@ -1,26 +1,12 @@
-// "Past the fold" — one signal, two consumers.
-//
-// A 60vh sentinel pinned to the top of the document does the measuring, and
-// its result lands as .has-scrolled on <html>. CSS decides what that means:
-// on mobile the bottom bar slides up, on desktop the header returns fixed.
-// An IntersectionObserver rather than a scroll handler, so nothing runs per
+// "Past the fold" — drives the desktop header's return-as-fixed. A 60vh
+// sentinel pinned to the top of the document does the measuring, and its
+// result lands as .has-scrolled on <html>; CSS pins the header once it's
+// set. Mobile doesn't consume this — its header is sticky outright. An
+// IntersectionObserver rather than a scroll handler, so nothing runs per
 // frame, and the height in vh re-evaluates on rotation without a resize
 // listener.
 const root = document.documentElement;
-const barToggle = document.querySelector('.mobile-bar-menu');
-const barPanel = document.querySelector('.mobile-bar-panel');
-
-const setPanelOpen = (open) => {
-  if (!barToggle || !barPanel) return;
-  barPanel.hidden = !open;
-  barToggle.setAttribute('aria-expanded', String(open));
-};
-
-const setScrolled = (scrolled) => {
-  root.classList.toggle('has-scrolled', scrolled);
-  // don't leave the mobile panel hanging open as its bar slides away
-  if (!scrolled) setPanelOpen(false);
-};
+const setScrolled = (scrolled) => root.classList.toggle('has-scrolled', scrolled);
 
 if ('IntersectionObserver' in window) {
   const sentinel = document.createElement('div');
@@ -35,10 +21,8 @@ if ('IntersectionObserver' in window) {
     ([entry]) => setScrolled(!entry.isIntersecting)
   ).observe(sentinel);
 
-  // A page too short to scroll past the sentinel would never reveal the
-  // mobile bar at all, leaving navigation unreachable there. Every page
-  // clears it today, but that shouldn't be a thing a future short page
-  // breaks.
+  // A page too short to scroll past the sentinel would never trigger the
+  // fixed header at all — reveal it up front instead.
   const revealIfPageTooShort = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     if (scrollable <= window.innerHeight * 0.6) setScrolled(true);
@@ -49,25 +33,29 @@ if ('IntersectionObserver' in window) {
   setScrolled(true); // no observer support: better present than never
 }
 
-// Mobile bottom nav — the Menu button opens a panel above the bar
-if (barToggle && barPanel) {
-  barToggle.addEventListener('click', (event) => {
+// Mobile header menu — the site's only mobile nav now. Click the toggle to
+// flip it, a tap outside or Escape to close it (returning focus to the
+// toggle), and closing on any link inside it so an in-page anchor doesn't
+// leave the panel hanging open.
+const menuToggle = document.querySelector('.mobile-menu-toggle');
+const menuPanel = document.querySelector('.mobile-menu-panel');
+if (menuToggle && menuPanel) {
+  const setMenuOpen = (open) => {
+    menuPanel.hidden = !open;
+    menuToggle.setAttribute('aria-expanded', String(open));
+  };
+  menuToggle.addEventListener('click', (event) => {
     event.stopPropagation();
-    setPanelOpen(barPanel.hidden);
+    setMenuOpen(menuPanel.hidden);
   });
-
-  // Close when a link is followed, so in-page anchors don't leave it hanging open
-  barPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setPanelOpen(false)));
-
-  // ...and on a tap outside or Escape, which is what people expect of a
-  // panel floating over the page
+  menuPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
   document.addEventListener('click', (event) => {
-    if (!barPanel.hidden && !barPanel.contains(event.target)) setPanelOpen(false);
+    if (!menuPanel.hidden && !menuPanel.contains(event.target)) setMenuOpen(false);
   });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !barPanel.hidden) {
-      setPanelOpen(false);
-      barToggle.focus();
+    if (event.key === 'Escape' && !menuPanel.hidden) {
+      setMenuOpen(false);
+      menuToggle.focus();
     }
   });
 }
