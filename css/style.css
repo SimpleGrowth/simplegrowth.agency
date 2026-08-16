@@ -455,17 +455,25 @@ button { font-family: inherit; }
   text-align: center;
 }
 .trust-logos {
+  width: 100%;
+  padding: 7.479px 0;
+}
+/* Desktop: one centred, wrapping row. display:contents lets the set's
+   logos wrap as direct flex children of the track, and the duplicate set
+   the mobile marquee needs is dropped entirely. */
+.trust-logos-track {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 56px;
-  padding: 7.479px 0;
   flex-wrap: wrap;
 }
+.trust-logos-set { display: contents; }
+.trust-logos-set--clone { display: none; }
 .trust-logos img { flex-shrink: 0; }
 /* explicit per-logo geometry, preserved from Figma */
 .logo-proshine     { width: 157px;     height: 42px; }
-.logo-shoreboxing  { width: 62.114px;  height: 42px; }
+.logo-shoreboxing  { width: 63px;      height: 42px; }
 .logo-inspirations { width: 195px;     height: 42px; }
 .logo-caledonian   { width: 96.721px;  height: 42px; }
 
@@ -524,42 +532,13 @@ button { font-family: inherit; }
   flex-wrap: wrap;
 }
 
-/* grouped avatars — Figma 404:1077 */
+/* grouped avatars — Figma 404:1077, now a single pre-grouped export
+   (images/grouped_avatars.png) rather than two cropped copies of the
+   group photo positioned by hand. */
 .avatars {
-  position: relative;
-  width: 124.286px;
-  height: 72px;
+  width: 134px;
+  height: 90px;
   flex-shrink: 0;
-}
-.avatar {
-  position: absolute;
-  top: 1.714px;
-  width: 68.571px;
-  height: 68.571px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: var(--purple-100);
-  border: 1.714px solid var(--white);
-}
-.avatar img { position: absolute; max-width: none; }
-.avatar-back { left: 55.287px; }
-.avatar-back img {
-  width: 275.602px;
-  height: 227.139px;
-  left: calc(50% - 30.86px);
-  top: calc(50% + 44.14px);
-  transform: translate(-50%, -50%) rotate(6.51deg);
-}
-.avatar-front {
-  left: 2.144px;
-  box-shadow: 0 1.714px 8.571px rgba(0, 0, 0, 0.1);
-}
-.avatar-front img {
-  width: 295.345px;
-  height: 243.429px;
-  left: calc(50% + 29.57px);
-  top: calc(50% + 30px);
-  transform: translate(-50%, -50%);
 }
 
 /* ════════════════════════════════════════
@@ -1072,7 +1051,52 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .trust { padding: 32px 24px; }
   .trust-inner { gap: 24px; }
   .trust-inner p { font-size: 16px; }
-  .trust-logos { gap: 32px; }
+
+  /* ── mobile: one row, scrolling infinitely ──
+     The track holds two identical sets. Each set carries its own trailing
+     gap as padding-right, so the set's outer width is (content + gap) and
+     translating the track by exactly -50% lands the clone precisely where
+     the original was — a seamless loop with no jump. */
+  .trust-logos {
+    --marquee-gap: 40px;
+    overflow: hidden;
+    /* fade the logos in and out at the edges rather than clipping hard */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .trust-logos-track {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: max-content;
+    gap: 0;
+    animation: trust-marquee 22s linear infinite;
+    will-change: transform;
+  }
+  .trust-logos-set,
+  .trust-logos-set--clone {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: var(--marquee-gap);
+    padding-right: var(--marquee-gap);
+  }
+
+  @keyframes trust-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Reduced motion: stop the animation, but keep the row usable by
+     letting it scroll by hand instead of hiding most of it. */
+  @media (prefers-reduced-motion: reduce) {
+    .trust-logos {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .trust-logos-track { animation: none; }
+    .trust-logos-set--clone { display: none; }
+  }
 
   .whoarewe { padding: 0 24px 40px; }
   .whoarewe-card {
@@ -1098,27 +1122,8 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   }
   .whoarewe-body { font-size: 20px; }
 
-  .avatars { width: 158px; height: 80px; }
-  .avatar { top: 0; width: 80px; height: 80px; border: none; }
-  .avatar-back { left: 62px; }
-  .avatar-back img {
-    width: 322px;
-    height: 265px;
-    left: calc(50% - 36px);
-    top: calc(50% + 51.5px);
-    transform: translate(-50%, -50%) rotate(6.5deg);
-  }
-  .avatar-front {
-    left: 0;
-    border: 2px solid var(--white);
-    box-shadow: none;
-  }
-  .avatar-front img {
-    width: 345px;
-    height: 284px;
-    left: calc(50% + 34.5px);
-    top: calc(50% + 35px);
-  }
+  /* keeps the export's 134:90 ratio */
+  .avatars { width: 158px; height: 106px; }
 
   /* inner-page layouts collapse to one column */
   .pain-inner { grid-template-columns: 1fr; gap: 40px; }

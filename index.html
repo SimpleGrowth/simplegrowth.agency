@@ -102,10 +102,23 @@
     <p class="only-desktop">Trusted by service based and shop businesses</p>
     <p class="only-mobile">Trusted by local Edinburgh businesses</p>
     <div class="trust-logos">
-      <img class="logo-proshine"     src="images/logos/proshine_logo.svg"     alt="Proshine"     width="157" height="42">
-      <img class="logo-shoreboxing"  src="images/logos/shoreboxing_logo.svg"  alt="Shore Boxing" width="62"  height="42">
-      <img class="logo-inspirations" src="images/logos/inspirations_logo.svg" alt="Inspirations" width="195" height="42">
-      <img class="logo-caledonian"   src="images/logos/caledonian_logo.svg"   alt="Caledonian"   width="97"  height="42">
+      <div class="trust-logos-track">
+        <div class="trust-logos-set">
+          <img class="logo-proshine"     src="images/logos/proshine_logo.svg"     alt="Proshine"     width="157" height="42">
+          <img class="logo-shoreboxing"  src="images/logos/shoreboxing_logo.svg"  alt="Shore Boxing" width="63"  height="42">
+          <img class="logo-inspirations" src="images/logos/inspirations_logo.svg" alt="Inspirations" width="195" height="42">
+          <img class="logo-caledonian"   src="images/logos/caledonian_logo.svg"   alt="Caledonian"   width="97"  height="42">
+        </div>
+        <!-- Duplicate set: the mobile marquee scrolls the track by exactly
+             one set, so a second copy keeps the loop seamless. Hidden from
+             assistive tech, and display:none on desktop. -->
+        <div class="trust-logos-set trust-logos-set--clone" aria-hidden="true">
+          <img class="logo-proshine"     src="images/logos/proshine_logo.svg"     alt="" width="157" height="42">
+          <img class="logo-shoreboxing"  src="images/logos/shoreboxing_logo.svg"  alt="" width="63"  height="42">
+          <img class="logo-inspirations" src="images/logos/inspirations_logo.svg" alt="" width="195" height="42">
+          <img class="logo-caledonian"   src="images/logos/caledonian_logo.svg"   alt="" width="97"  height="42">
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -127,14 +140,7 @@
     <p class="whoarewe-body only-mobile">We are not a regular one size fits all marketing agency. Lana and I pride ourselves on connecting with you on a personal level to understand your goals and vision. We’re obsessive over the details and are dedicated to making your business a success (just ask our clients). We would love to have a call and share what areas we think would help your business grow.</p>
 
     <div class="whoarewe-foot">
-      <div class="avatars">
-        <div class="avatar avatar-back">
-          <img src="images/client-lana-stuart.webp" alt="">
-        </div>
-        <div class="avatar avatar-front">
-          <img src="images/client-lana-stuart.webp" alt="">
-        </div>
-      </div>
+      <img class="avatars" src="images/grouped_avatars.png" alt="Lana and Stuart" width="134" height="90">
       <a href="about.html" class="btn-lg btn-white only-desktop">Find out more</a>
     </div>
 
