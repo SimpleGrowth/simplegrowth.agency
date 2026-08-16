@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — SimpleGrowth</title>
-  <meta name="description" content="Book a free marketing review with SimpleGrowth. No commitment, no jargon, just a clear plan for getting more customers.">
+  <title>Request a call — SimpleGrowth</title>
+  <meta name="description" content="Request a free 30-minute marketing call with SimpleGrowth. Leave your number and Stuart or Lana will ring you back — no sales pressure, no commitment.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
@@ -23,11 +23,11 @@
       <li aria-hidden="true" class="nav-dot"></li>
       <li><a href="about.html">About</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
-      <li><a href="contact.html" class="is-active">Contact</a></li>
+      <li><a href="contact.html">Contact</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
       <li><a href="pricing.html">Plans &amp; Pricing</a></li>
     </ul>
-    <a href="mailto:getsimplegrowth@gmail.com" class="btn-header only-desktop">Send message</a>
+    <a href="contact.html" class="btn-header only-desktop">Send message</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
       <span class="nav-toggle-bars" aria-hidden="true"></span>
     </button>
@@ -39,43 +39,49 @@
       <li><a href="about.html">About</a></li>
       <li><a href="pricing.html">Plans &amp; Pricing</a></li>
       <li><a href="index.html#faq">FAQ</a></li>
-      <li><a href="contact.html" class="is-active">Contact</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
-    <a href="mailto:getsimplegrowth@gmail.com" class="btn-header">Send message</a>
+    <a href="contact.html" class="btn-header">Send message</a>
   </nav>
 </header>
 
 <!-- PAGE HEADER -->
 <section class="page-header">
-  <div class="badge tone-pink reveal"><span class="dot"></span>Get in touch</div>
-  <h1 class="reveal">Ready to get more customers?</h1>
-  <p class="reveal">Have a project in mind, or just want to ask a question? We're here to help you grow.</p>
+  <div class="badge tone-lavender reveal"><span class="dot"></span>Request a call</div>
+  <h1 class="reveal">Prefer to talk it through?</h1>
+  <p class="reveal">Leave your number and we'll ring you back for a free 30-minute marketing review. No sales pressure, no commitment.</p>
 </section>
 
-<!-- CONTACT -->
+<!-- REQUEST A CALL -->
 <section class="page-section">
   <div class="container">
     <div class="contact-grid">
       <div class="reveal">
-        <h2 class="section-title" style="font-size:28px;">Talk to us directly</h2>
-        <p class="section-sub">No account managers, no call centres. You'll hear back from Stuart or Lana directly.</p>
+        <h2 class="section-title" style="font-size:28px;">What happens on the call</h2>
+        <p class="section-sub">Half an hour, straight to the point. You'll come away with something useful whether or not you work with us.</p>
         <div class="contact-info-list">
           <div class="contact-info-item">
             <div>
-              <h4>Email</h4>
-              <a href="mailto:getsimplegrowth@gmail.com">getsimplegrowth@gmail.com</a>
+              <h4>We ask about your business</h4>
+              <p>What you sell, who buys it, and where enquiries come from today.</p>
             </div>
           </div>
           <div class="contact-info-item">
             <div>
-              <h4>Response time</h4>
-              <p>We usually reply within one business day.</p>
+              <h4>We look at what's running</h4>
+              <p>Your website, your search visibility and any ads already live — and where the gaps are.</p>
             </div>
           </div>
           <div class="contact-info-item">
             <div>
-              <h4>Where we work</h4>
-              <p>Based in Edinburgh, working with local business owners. Happy to hear from businesses further afield too.</p>
+              <h4>You get a straight answer</h4>
+              <p>What we'd do first, roughly what it costs, and whether we're the right fit at all.</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div>
+              <h4>When we call</h4>
+              <p>Weekdays, usually within one business day. Tell us a better time in the message box and we'll work around you.</p>
             </div>
           </div>
         </div>
@@ -84,11 +90,13 @@
       <!-- Our own markup; submitted to HubSpot's Forms API by js/hubspot-form.js.
            Each input's name= is the HubSpot internal property name and must stay
            in sync with the form definition in HubSpot — rename a field there and
-           the submission is rejected until it is renamed here too. -->
-      <form class="contact-form reveal" id="contact-form"
+           the submission is rejected until it is renamed here too. Every field on
+           this form is required in HubSpot, company included. -->
+      <form class="contact-form reveal" id="callback-form"
             data-hs-portal-id="149109126"
-            data-hs-form-id="4e01d51a-4d93-4e37-b883-4023c5fda956"
-            data-hs-region="eu1">
+            data-hs-form-id="087f0a31-fa3d-44fa-8aff-db2a74d073a5"
+            data-hs-region="eu1"
+            data-hs-success="Thanks — we've got your number and will call you back within one business day.">
         <div class="form-row">
           <div class="form-field">
             <label for="firstname">First name</label>
@@ -100,20 +108,24 @@
           </div>
         </div>
         <div class="form-field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+44 7700 900000" autocomplete="tel" inputmode="tel" required>
+        </div>
+        <div class="form-field">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" placeholder="you@business.com" autocomplete="email" required>
         </div>
         <div class="form-field">
           <label for="company">Business name</label>
-          <input type="text" id="company" name="company" placeholder="Your business" autocomplete="organization">
+          <input type="text" id="company" name="company" placeholder="Your business" autocomplete="organization" required>
         </div>
         <div class="form-field">
-          <label for="message">What can we help with?</label>
-          <textarea id="message" name="message" rows="5" placeholder="Tell us a bit about your business and what you're looking for" required></textarea>
+          <label for="message">What would you like to talk about?</label>
+          <textarea id="message" name="message" rows="4" placeholder="A line or two about your business — and a good time to call, if you have one" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:100%;">Send message</button>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Request a call</button>
         <p class="form-note">By sending this, you agree to be contacted about your enquiry.</p>
-        <p class="form-status" id="contact-form-status" role="status" aria-live="polite" hidden></p>
+        <p class="form-status" role="status" aria-live="polite" hidden></p>
         <noscript>
           <p class="form-note">This form needs JavaScript to send. You can email us directly at
             <a href="mailto:getsimplegrowth@gmail.com">getsimplegrowth@gmail.com</a>.</p>
@@ -126,9 +138,9 @@
 <!-- CTA -->
 <section class="cta">
   <div class="cta-inner reveal">
-    <h2>Prefer a <em>quick call?</em></h2>
-    <p>Book a free 30-minute marketing review. No sales pressure, no commitment.</p>
-    <a href="request-a-call.html" class="btn btn-pink">Request a call</a>
+    <h2>Would rather <em>write it down?</em></h2>
+    <p>Send us a message instead and we'll reply by email within one business day.</p>
+    <a href="contact.html" class="btn btn-pink">Send a message</a>
   </div>
 </section>
 
