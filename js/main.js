@@ -1,4 +1,5 @@
 // Mobile bottom nav — the Menu button opens a panel above the bar
+const mobileBar = document.querySelector('.mobile-bar');
 const barToggle = document.querySelector('.mobile-bar-menu');
 const barPanel = document.querySelector('.mobile-bar-panel');
 if (barToggle && barPanel) {
@@ -6,6 +7,48 @@ if (barToggle && barPanel) {
     barPanel.hidden = !open;
     barToggle.setAttribute('aria-expanded', String(open));
   };
+
+  // The bar stays out of the way until the visitor has scrolled past the
+  // fold. Its Contact / Request call buttons duplicate the ones in the
+  // hero, so showing it immediately would put the same two actions on
+  // screen twice.
+  //
+  // A 60vh sentinel pinned to the top of the document does the measuring:
+  // once it scrolls out of view the bar comes in. That is an
+  // IntersectionObserver rather than a scroll handler — no listener firing
+  // on every frame, and the height is expressed in vh so it re-evaluates
+  // on rotation without a resize handler.
+  const setBarVisible = (show) => {
+    mobileBar.classList.toggle('is-visible', show);
+    // don't leave the panel hanging open as the bar slides away
+    if (!show && !barPanel.hidden) setOpen(false);
+  };
+
+  if ('IntersectionObserver' in window) {
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    Object.assign(sentinel.style, {
+      position: 'absolute', top: '0', left: '0',
+      width: '1px', height: '60vh',
+      pointerEvents: 'none', visibility: 'hidden',
+    });
+    document.body.appendChild(sentinel);
+    new IntersectionObserver(
+      ([entry]) => setBarVisible(!entry.isIntersecting)
+    ).observe(sentinel);
+
+    // A page too short to scroll past the sentinel would never reveal the
+    // bar at all, leaving mobile navigation unreachable. Every page clears
+    // it today, but that shouldn't be a thing a future short page breaks.
+    const revealIfPageTooShort = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollable <= window.innerHeight * 0.6) setBarVisible(true);
+    };
+    revealIfPageTooShort();
+    window.addEventListener('load', revealIfPageTooShort);
+  } else {
+    setBarVisible(true); // no observer support: better present than never
+  }
 
   barToggle.addEventListener('click', (event) => {
     event.stopPropagation();
