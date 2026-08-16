@@ -437,6 +437,20 @@ button { font-family: inherit; }
   max-width: none;
 }
 
+/* Past the 1280 design width the centred columns block stops growing and
+   the cut-out stops short of the right edge. Run the image column out to
+   the edge and pin the photo to it at full height and natural width.
+   Not object-fit: cover — a box wider than the photo's 0.854 ratio makes
+   cover scale by width, which would crop the tops of their heads. The
+   extra width to the photo's left is just hero gradient. */
+@media (min-width: 1281px) {
+  .hero-col-image { margin-right: calc((1280px - 100vw) / 2); }
+  .hero-photo img {
+    width: auto;
+    margin-left: auto;
+  }
+}
+
 /* ════════════════════════════════════════
    TRUST STRIP  (Figma 399:814)
    ════════════════════════════════════════ */
