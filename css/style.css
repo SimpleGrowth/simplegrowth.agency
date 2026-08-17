@@ -513,8 +513,9 @@ button { font-family: inherit; }
   width: 100%;
   max-width: var(--content-max);
   padding: 56px;
-  border-radius: 8px;
-  background: var(--purple-50);
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -678,25 +679,32 @@ section.page-section.tint { background: var(--purple-50); }
 /* pain points */
 .pain-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 48px;
   align-items: center;
 }
-.pain-list {
+.pain-grid {
   list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 0;
+}
+.pain-grid li {
+  aspect-ratio: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 32px;
-}
-.pain-list li {
-  display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: 12px;
-  font-size: 16px;
+  padding: 20px;
+  background: var(--purple-50);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  line-height: 1.4;
 }
-.pain-list li img { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px; }
-.pain-image img { border-radius: var(--radius-md); width: 100%; object-fit: cover; }
+.pain-grid li img { width: 24px; height: 24px; flex-shrink: 0; }
 
 /* how it works */
 .how { background: var(--sg-dark); color: var(--white); }
@@ -722,26 +730,54 @@ section.page-section.tint { background: var(--purple-50); }
 .how-step h3 { font-size: 19px; }
 .how-step p { color: rgba(255, 255, 255, 0.65); font-size: 15px; }
 
-/* testimonial */
-.testimonial { background: var(--purple-50); text-align: center; }
-.testimonial-inner { max-width: 760px; margin: 0 auto; }
-.testimonial img.quote-mark { width: 48px; margin: 0 auto 24px; }
-.testimonial blockquote {
+/* testimonial cards — Figma 431:2121 / 437:2209 */
+.testimonial-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.testimonial-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  aspect-ratio: 560 / 850;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--sg-dark);
+}
+.testimonial-card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.testimonial-card-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 80px 40px 40px;
+}
+/* the blur itself fades in via a mask, rather than switching on abruptly
+   at the text block's top edge — the dark gradient still handles the fade
+   to black underneath it */
+.testimonial-card-text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 55%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 65%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 65%);
+}
+.testimonial-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.testimonial-card-titles { display: flex; flex: 1 1 0; flex-direction: column; gap: 4px; color: var(--white); min-width: 0; }
+.testimonial-card-stat { font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 32px; line-height: 1.15; }
+.testimonial-card-stat-sub { font-family: 'Inter Tight', sans-serif; font-weight: 600; font-size: 22px; }
+.testimonial-card-logo { position: absolute; z-index: 2; top: 32px; left: 40px; height: 24px; width: auto; }
+.testimonial-card-logo--shoreboxing { height: 40px; }
+.testimonial-card-quote {
   font-family: 'Inter Tight', sans-serif;
   font-weight: 300;
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: 22px;
   line-height: 1.5;
-  margin-bottom: 32px;
+  color: var(--white);
 }
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-.testimonial-author img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
-.testimonial-author strong { display: block; font-size: 15px; }
-.testimonial-author span { font-size: 13px; color: var(--text-muted); }
 
 /* services cards */
 .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
@@ -1294,9 +1330,6 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .whoarewe-card {
     padding: 32px 24px;
     gap: 24px;
-    border-radius: var(--radius-md);
-    background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.1);
   }
   .whoarewe-heading-block {
     display: flex;
@@ -1319,9 +1352,20 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 
   /* inner-page layouts collapse to one column */
   .pain-inner { grid-template-columns: 1fr; gap: 40px; }
-  .pain-image { order: -1; }
+  /* three-across squares are too small a target on mobile — back to two,
+     and drop the forced square so the shorter mobile copy doesn't leave
+     a mostly-empty tall card */
+  .pain-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pain-grid li { aspect-ratio: auto; padding: 20px; }
   .how-grid { grid-template-columns: 1fr; gap: 32px; }
   .services-grid { grid-template-columns: 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  /* side-by-side title + logo doesn't fit a single narrow column — stack them */
+  .testimonial-card-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .testimonial-card-quote { display: none; }
+  .testimonial-card-text { padding: 24px; }
+  .testimonial-card-logo { left: 24px; }
+  .testimonial-card-stat-sub { font-size: 18px; }
   .bento-3col { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .pricing-grid, .pricing-grid--two { grid-template-columns: 1fr; }
