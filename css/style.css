@@ -933,6 +933,9 @@ section.page-section.tint { background: var(--purple-50); }
 .addon-card-price .price-amount { margin-bottom: 0; }
 
 /* ── pricing ── */
+/* Prices hidden site-wide for now (Aug 2026) — remove this rule to bring
+   them back; the £ amounts are still in the markup, just tagged .price-hidden. */
+.price-hidden { display: none !important; }
 .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
 /* one-off website builds — two cards rather than three tiers */
 .pricing-grid--two { grid-template-columns: repeat(2, 1fr); max-width: 780px; margin: 0 auto; }
