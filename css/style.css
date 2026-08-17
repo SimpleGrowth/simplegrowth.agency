@@ -1250,7 +1250,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     align-items: center;
     gap: 24px;
   }
-  .hero-eyebrow { justify-content: center; width: 100%; }
+  .hero-eyebrow { display: none; }
   .hero h1 {
     max-width: none;
     text-align: center;
