@@ -1715,8 +1715,17 @@ section.page-section.case-work { padding-bottom: 0; }
   margin-top: 16px;
   font-style: normal;
   font-size: 15px;
-  color: var(--purple-300);
+  color: var(--white);
 }
+
+/* Google-style review stars above the quote */
+.case-stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.case-stars img { width: 22px; height: 22px; }
 
 /* ════════════════════════════════════════
    LEGAL / LONG-FORM PROSE  (privacy notice)
