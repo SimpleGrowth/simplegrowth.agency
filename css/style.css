@@ -67,6 +67,23 @@ a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 button { font-family: inherit; }
 
+/* Keyboard focus. There was no focus style anywhere, so keyboard users got
+   the browser default, which all but vanishes on the dark sections. Only
+   :focus-visible, so a mouse click doesn't leave a ring behind. */
+:focus-visible {
+  outline: 2px solid var(--purple-700);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* the purple ring has nothing to sit against on the dark surfaces */
+.cta :focus-visible,
+footer :focus-visible,
+.case-result :focus-visible,
+.case-block--feature :focus-visible,
+.price-card.is-popular :focus-visible {
+  outline-color: var(--pink-200);
+}
+
 .container { max-width: var(--content-max); margin: 0 auto; padding: 0 24px; }
 .muted { color: var(--text-muted); }
 
@@ -1416,6 +1433,299 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .contact-form { padding: 24px 20px; }
   .addon-card { padding: 28px 24px; }
 }
+
+/* ════════════════════════════════════════
+   CASE STUDY — editorial treatment
+   Modelled on the Merkil project-page language the client asked for:
+   left-aligned, quiet labels instead of pills, square full-bleed imagery
+   with no shadow, tighter display tracking, and a lot more air. Scoped to
+   .case-page so the other eight pages keep the existing look.
+   ════════════════════════════════════════ */
+.case-page .case-wide {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* hero: no badge pill, no centring, just a kicker and the headline */
+.case-page .page-header--case {
+  background: var(--white);
+  text-align: left;
+  padding: 72px 0 48px;
+}
+.case-page .page-header--case h1 {
+  /* ~2-3 lines at desktop; .page-header h1 centres itself with auto margins */
+  max-width: 22ch;
+  margin: 0;
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+/* .page-header p sets `margin: 16px auto 0`, which centres the kicker */
+.case-page .page-header--case .case-kicker {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: none;
+  margin: 0 0 20px;
+}
+
+/* the image runs the full width of the viewport, square, unadorned */
+.case-bleed { width: 100%; margin: 0; }
+.case-bleed img { width: 100%; height: auto; display: block; }
+
+/* quiet section labels, in place of uppercase micro-eyebrows */
+/* .case-page prefix so this outranks `.case-overview-body p`, which would
+   otherwise drag the label down to body size */
+.case-page .case-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--sg-dark);
+  max-width: none;
+  margin-bottom: 20px;
+}
+
+.case-page section.page-section { padding: 104px 0; }
+
+/* overview beside the client meta */
+.case-overview-grid,
+.case-challenge-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.75fr;
+  gap: 72px;
+  align-items: start;
+}
+.case-overview-body p,
+.case-challenge-body p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+.case-overview-body p + p,
+.case-challenge-body p + p { margin-top: 18px; }
+.case-challenge-body strong { color: var(--sg-dark); font-weight: 600; }
+
+/* Merkil's meta list: plain sentence-case labels, no letter-spacing tricks */
+.case-meta { display: grid; gap: 28px; }
+.case-meta dt {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.case-meta dd {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--sg-dark);
+}
+
+.case-portrait { margin: 0; }
+.case-portrait img { width: 100%; height: auto; display: block; }
+
+/* left-aligned section headers, tighter tracking */
+.case-page .section-head { margin-bottom: 56px; }
+.case-page .section-title { letter-spacing: -0.02em; }
+.case-page .case-block-text h3 { letter-spacing: -0.02em; }
+
+/* screenshots: square and flat, the way the reference treats them */
+.case-page .case-figure img {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.case-page .case-figure figcaption {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .case-page .page-header--case { padding: 48px 0 32px; }
+  .case-page section.page-section { padding: 64px 0; }
+  .case-overview-grid,
+  .case-challenge-grid { grid-template-columns: 1fr; gap: 36px; }
+  .case-portrait { max-width: 420px; }
+  .case-page .section-head { margin-bottom: 36px; }
+}
+
+/* ════════════════════════════════════════
+   CASE STUDY
+   ════════════════════════════════════════ */
+/* the homepage result card's link through to the full study */
+.testimonial-card-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--pink-200);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.testimonial-card-link:hover { color: var(--white); }
+
+/* ── workstream blocks ──
+   Five blocks, deliberately not five identical cards. The screenshots are
+   the argument here, so they break out past the 1040px content column and
+   the composition changes between blocks to stop the page reading as a
+   template. Text keeps a ~68ch measure regardless of how wide the shots go. */
+.case-block { margin-top: 96px; }
+.case-block:first-of-type { margin-top: 0; }
+
+.case-wide {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.case-block-text { max-width: 680px; }
+.case-block-text h3 {
+  font-size: clamp(24px, 2.4vw, 30px);
+  color: var(--sg-dark);
+  margin-bottom: 12px;
+}
+.case-block-text p { color: var(--text-muted); font-size: 17px; line-height: 1.7; }
+.case-block-text a {
+  color: var(--purple-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* a screenshot, at whatever width its container allows */
+.case-figure { margin-top: 28px; }
+.case-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  /* screenshots are flat UI, so a tinted shadow reads better than a hard edge */
+  box-shadow: 0 18px 50px rgba(25, 15, 54, 0.10);
+}
+.case-figure figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--purple-500);
+}
+
+/* the secondary shot sits narrower and pushed right, so two stacked
+   screenshots don't read as two identical slabs */
+.case-figure--inset {
+  max-width: 880px;
+  margin-left: auto;
+}
+
+/* split blocks: text one side, screenshots the other */
+.case-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 56px;
+  align-items: start;
+}
+.case-split-grid--reverse { grid-template-columns: 1.35fr 1fr; }
+.case-split-grid--reverse .case-block-text { order: 2; }
+.case-split-grid--reverse .case-split-figures { order: 1; }
+.case-split-figures { display: grid; gap: 32px; }
+.case-split-grid .case-block-text { position: sticky; top: 120px; }
+
+/* the reporting block, which is the point the whole system builds to.
+   It runs straight into the results section rather than leaving a strip of
+   white between two dark blocks, which read as a seam. The two together
+   make one dark payoff: here is the measurement, here is what it measured. */
+.case-block--feature {
+  background: var(--sg-dark);
+  padding: 80px 0;
+  margin-top: 96px;
+}
+/* matching section.page-section's specificity, or its 88px wins */
+section.page-section.case-work { padding-bottom: 0; }
+.case-result { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.case-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.case-block--feature .case-block-text h3 { color: var(--white); }
+.case-block--feature .case-block-text p { color: rgba(255, 255, 255, 0.72); }
+.case-block--feature .case-figure { margin-top: 0; }
+.case-block--feature .case-figure img {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+.case-block--feature .case-figure figcaption { color: var(--purple-300); }
+
+@media (max-width: 900px) {
+  .case-block { margin-top: 64px; }
+  .case-split-grid,
+  .case-split-grid--reverse,
+  .case-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  /* sticky text would trap the reader above the images once stacked */
+  .case-split-grid .case-block-text { position: static; }
+  .case-split-grid--reverse .case-block-text { order: 1; }
+  .case-split-grid--reverse .case-split-figures { order: 2; }
+  .case-figure--inset { max-width: none; }
+  .case-block--feature { padding: 56px 0; margin-top: 64px; }
+}
+
+/* the headline number */
+.case-result { background: var(--sg-dark); }
+.case-result-inner { text-align: center; max-width: 860px; margin: 0 auto; }
+.case-result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+.case-result-stats > div { flex: 1 1 280px; max-width: 360px; }
+.case-result-stat {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(56px, 8vw, 96px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--pink-200);
+}
+.case-result-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--white);
+  margin-top: 10px;
+}
+.case-result-quote { margin-top: 40px; }
+.case-result-quote p {
+  font-size: 19px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+.case-result-quote cite {
+  display: block;
+  margin-top: 16px;
+  font-style: normal;
+  font-size: 15px;
+  color: var(--white);
+}
+
+/* Google-style review stars above the quote */
+.case-stars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.case-stars img { width: 22px; height: 22px; }
 
 /* ════════════════════════════════════════
    LEGAL / LONG-FORM PROSE  (privacy notice)
