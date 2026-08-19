@@ -1512,6 +1512,27 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   text-underline-offset: 2px;
 }
 
+/* screenshots of the work, inside a step */
+.case-step-shots {
+  margin-top: 20px;
+  display: grid;
+  gap: 16px;
+}
+.case-step-shots--two { grid-template-columns: 1fr 1fr; }
+.case-step-shots img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.case-step-shots figcaption {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--purple-500);
+}
+
 /* the headline number */
 .case-result { background: var(--sg-dark); }
 .case-result-inner { text-align: center; max-width: 860px; margin: 0 auto; }
@@ -1555,6 +1576,11 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .case-intro .container { flex-direction: column; gap: 32px; }
   .case-hero { flex: none; width: 100%; max-width: 420px; align-self: center; }
   .case-step { flex-direction: column; gap: 12px; padding: 24px; }
+}
+
+@media (max-width: 600px) {
+  /* two side-by-side screenshots stop being legible well before this */
+  .case-step-shots--two { grid-template-columns: 1fr; }
 }
 
 /* ════════════════════════════════════════
