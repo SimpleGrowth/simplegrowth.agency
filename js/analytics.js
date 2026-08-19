@@ -8,7 +8,7 @@
 // Paste the GA4 Measurement ID below (looks like 'G-ABC1234XYZ'). While
 // it's empty nothing loads at all — no gtag request, no banner — so this
 // file is safe to ship before the Google property exists.
-const GA_MEASUREMENT_ID = '';
+const GA_MEASUREMENT_ID = 'G-4GP5ZRGGYN';
 
 const CONSENT_KEY = 'sg-analytics-consent';
 const storedConsent = readConsent();
