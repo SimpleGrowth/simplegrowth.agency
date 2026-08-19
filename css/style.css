@@ -1418,6 +1418,146 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 }
 
 /* ════════════════════════════════════════
+   CASE STUDY
+   ════════════════════════════════════════ */
+/* the homepage result card's link through to the full study */
+.testimonial-card-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--pink-200);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.testimonial-card-link:hover { color: var(--white); }
+
+.case-intro .container {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+}
+.case-hero {
+  flex: 0 0 40%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--purple-50);
+}
+.case-hero img { width: 100%; height: auto; }
+
+.case-glance { flex: 1; padding-top: 8px; }
+.case-glance-logo { margin-bottom: 32px; }
+.case-glance-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.case-glance-facts > div {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.case-glance-facts > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.case-glance-facts dt {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--purple-500);
+  margin-bottom: 6px;
+}
+.case-glance-facts dd { font-size: 17px; color: var(--sg-dark); }
+
+.case-challenge-body {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+.case-challenge-body p + p { margin-top: 20px; }
+.case-challenge-body strong { color: var(--sg-dark); font-weight: 600; }
+
+/* numbered workstreams */
+.case-steps {
+  list-style: none;
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.case-step {
+  display: flex;
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+.case-step-num {
+  flex-shrink: 0;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--purple-300);
+  padding-top: 2px;
+}
+.case-step h3 { font-size: 19px; color: var(--sg-dark); margin-bottom: 8px; }
+.case-step p { color: var(--text-muted); line-height: 1.7; }
+.case-step a {
+  color: var(--purple-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* the headline number */
+.case-result { background: var(--sg-dark); }
+.case-result-inner { text-align: center; max-width: 860px; margin: 0 auto; }
+.case-result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+.case-result-stats > div { flex: 1 1 280px; max-width: 360px; }
+.case-result-stat {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(56px, 8vw, 96px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--pink-200);
+}
+.case-result-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--white);
+  margin-top: 10px;
+}
+.case-result-quote { margin-top: 40px; }
+.case-result-quote p {
+  font-size: 19px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+.case-result-quote cite {
+  display: block;
+  margin-top: 16px;
+  font-style: normal;
+  font-size: 15px;
+  color: var(--purple-300);
+}
+
+@media (max-width: 900px) {
+  .case-intro .container { flex-direction: column; gap: 32px; }
+  .case-hero { flex: none; width: 100%; max-width: 420px; align-self: center; }
+  .case-step { flex-direction: column; gap: 12px; padding: 24px; }
+}
+
+/* ════════════════════════════════════════
    LEGAL / LONG-FORM PROSE  (privacy notice)
    The only place on the site with sustained body copy, so it gets a
    measure of its own rather than the full content width.
