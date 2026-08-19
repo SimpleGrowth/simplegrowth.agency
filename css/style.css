@@ -1416,3 +1416,76 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .contact-form { padding: 24px 20px; }
   .addon-card { padding: 28px 24px; }
 }
+
+/* ════════════════════════════════════════
+   COOKIE CONSENT BANNER
+   Injected by js/analytics.js, and only while the visitor has yet to
+   answer. Above everything else on the page — the mobile menu panel,
+   the tallest thing here otherwise, sits at 55.
+   ════════════════════════════════════════ */
+.consent-banner {
+  position: fixed;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 20px 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.14);
+  animation: consent-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes consent-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consent-banner { animation: none; }
+}
+
+.consent-banner-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.consent-banner-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.consent-btn {
+  height: 44px;
+  padding: 0 24px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.consent-btn:hover { opacity: 0.85; }
+.consent-btn--accept { background: var(--sg-dark); color: var(--pink-200); }
+.consent-btn--decline { background: transparent; border-color: var(--sg-dark); color: var(--sg-dark); }
+
+/* Narrower than the 900px mobile frame on purpose: the row only actually
+   runs out of room once the text and both buttons can't share a line. */
+@media (max-width: 600px) {
+  .consent-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 20px;
+  }
+  .consent-banner-actions .consent-btn { flex: 1; }
+}
