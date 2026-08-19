@@ -1418,6 +1418,77 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 }
 
 /* ════════════════════════════════════════
+   LEGAL / LONG-FORM PROSE  (privacy notice)
+   The only place on the site with sustained body copy, so it gets a
+   measure of its own rather than the full content width.
+   ════════════════════════════════════════ */
+.legal-content {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+.legal-content .legal-meta {
+  font-size: 14px;
+  color: var(--purple-500);
+  margin-bottom: 40px;
+}
+.legal-content h2 {
+  font-size: 26px;
+  color: var(--sg-dark);
+  margin-top: 48px;
+  margin-bottom: 14px;
+}
+.legal-content h3 {
+  font-size: 19px;
+  color: var(--sg-dark);
+  margin-top: 32px;
+  margin-bottom: 10px;
+}
+.legal-content > :first-child { margin-top: 0; }
+.legal-content p { margin-bottom: 16px; }
+.legal-content ul {
+  margin: 0 0 16px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.legal-content li { padding-left: 4px; }
+.legal-content strong { color: var(--sg-dark); font-weight: 600; }
+.legal-content a {
+  color: var(--purple-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.legal-content code {
+  font-size: 15px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--purple-50);
+  color: var(--purple-700);
+}
+
+/* the footer's legal row — a link and the cookie control sitting together */
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-cookie-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.footer-cookie-link:hover { color: var(--white); }
+
+/* ════════════════════════════════════════
    COOKIE CONSENT BANNER
    Injected by js/analytics.js, and only while the visitor has yet to
    answer. Above everything else on the page — the mobile menu panel,
@@ -1455,6 +1526,11 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   font-size: 15px;
   line-height: 1.5;
   color: var(--text-muted);
+}
+.consent-banner-text a {
+  color: var(--purple-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .consent-banner-actions {
