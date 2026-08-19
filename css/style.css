@@ -1479,58 +1479,107 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 .case-challenge-body p + p { margin-top: 20px; }
 .case-challenge-body strong { color: var(--sg-dark); font-weight: 600; }
 
-/* numbered workstreams */
-.case-steps {
-  list-style: none;
-  max-width: 760px;
+/* ── workstream blocks ──
+   Five blocks, deliberately not five identical cards. The screenshots are
+   the argument here, so they break out past the 1040px content column and
+   the composition changes between blocks to stop the page reading as a
+   template. Text keeps a ~68ch measure regardless of how wide the shots go. */
+.case-block { margin-top: 96px; }
+.case-block:first-of-type { margin-top: 0; }
+
+.case-wide {
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  padding: 0 24px;
 }
-.case-step {
-  display: flex;
-  gap: 24px;
-  padding: 28px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--white);
+
+.case-block-text { max-width: 680px; }
+.case-block-text h3 {
+  font-size: clamp(24px, 2.4vw, 30px);
+  color: var(--sg-dark);
+  margin-bottom: 12px;
 }
-.case-step-num {
-  flex-shrink: 0;
-  font-family: 'Inter Tight', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--purple-300);
-  padding-top: 2px;
-}
-.case-step h3 { font-size: 19px; color: var(--sg-dark); margin-bottom: 8px; }
-.case-step p { color: var(--text-muted); line-height: 1.7; }
-.case-step a {
+.case-block-text p { color: var(--text-muted); font-size: 17px; line-height: 1.7; }
+.case-block-text a {
   color: var(--purple-700);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-/* screenshots of the work, inside a step */
-.case-step-shots {
-  margin-top: 20px;
-  display: grid;
-  gap: 16px;
-}
-.case-step-shots--two { grid-template-columns: 1fr 1fr; }
-.case-step-shots img {
+/* a screenshot, at whatever width its container allows */
+.case-figure { margin-top: 28px; }
+.case-figure img {
   width: 100%;
   height: auto;
   display: block;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
+  /* screenshots are flat UI, so a tinted shadow reads better than a hard edge */
+  box-shadow: 0 18px 50px rgba(25, 15, 54, 0.10);
 }
-.case-step-shots figcaption {
-  margin-top: 8px;
+.case-figure figcaption {
+  margin-top: 12px;
   font-size: 13px;
   line-height: 1.45;
   color: var(--purple-500);
+}
+
+/* the secondary shot sits narrower and pushed right, so two stacked
+   screenshots don't read as two identical slabs */
+.case-figure--inset {
+  max-width: 880px;
+  margin-left: auto;
+}
+
+/* split blocks: text one side, screenshots the other */
+.case-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 56px;
+  align-items: start;
+}
+.case-split-grid--reverse { grid-template-columns: 1.35fr 1fr; }
+.case-split-grid--reverse .case-block-text { order: 2; }
+.case-split-grid--reverse .case-split-figures { order: 1; }
+.case-split-figures { display: grid; gap: 32px; }
+.case-split-grid .case-block-text { position: sticky; top: 120px; }
+
+/* the reporting block, which is the point the whole system builds to */
+.case-block--feature {
+  background: var(--sg-dark);
+  padding: 80px 0;
+  margin-top: 96px;
+}
+.case-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.case-block--feature .case-block-text h3 { color: var(--white); }
+.case-block--feature .case-block-text p { color: rgba(255, 255, 255, 0.72); }
+.case-block--feature .case-figure { margin-top: 0; }
+.case-block--feature .case-figure img {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+.case-block--feature .case-figure figcaption { color: var(--purple-300); }
+
+@media (max-width: 900px) {
+  .case-block { margin-top: 64px; }
+  .case-split-grid,
+  .case-split-grid--reverse,
+  .case-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  /* sticky text would trap the reader above the images once stacked */
+  .case-split-grid .case-block-text { position: static; }
+  .case-split-grid--reverse .case-block-text { order: 1; }
+  .case-split-grid--reverse .case-split-figures { order: 2; }
+  .case-figure--inset { max-width: none; }
+  .case-block--feature { padding: 56px 0; margin-top: 64px; }
 }
 
 /* the headline number */
@@ -1575,12 +1624,6 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 @media (max-width: 900px) {
   .case-intro .container { flex-direction: column; gap: 32px; }
   .case-hero { flex: none; width: 100%; max-width: 420px; align-self: center; }
-  .case-step { flex-direction: column; gap: 12px; padding: 24px; }
-}
-
-@media (max-width: 600px) {
-  /* two side-by-side screenshots stop being legible well before this */
-  .case-step-shots--two { grid-template-columns: 1fr; }
 }
 
 /* ════════════════════════════════════════
