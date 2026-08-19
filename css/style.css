@@ -1435,6 +1435,126 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 }
 
 /* ════════════════════════════════════════
+   CASE STUDY — editorial treatment
+   Modelled on the Merkil project-page language the client asked for:
+   left-aligned, quiet labels instead of pills, square full-bleed imagery
+   with no shadow, tighter display tracking, and a lot more air. Scoped to
+   .case-page so the other eight pages keep the existing look.
+   ════════════════════════════════════════ */
+.case-page .case-wide {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* hero: no badge pill, no centring, just a kicker and the headline */
+.case-page .page-header--case {
+  background: var(--white);
+  text-align: left;
+  padding: 72px 0 48px;
+}
+.case-page .page-header--case h1 {
+  /* ~2-3 lines at desktop; .page-header h1 centres itself with auto margins */
+  max-width: 22ch;
+  margin: 0;
+  font-size: clamp(36px, 5vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+/* .page-header p sets `margin: 16px auto 0`, which centres the kicker */
+.case-page .page-header--case .case-kicker {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: none;
+  margin: 0 0 20px;
+}
+
+/* the image runs the full width of the viewport, square, unadorned */
+.case-bleed { width: 100%; margin: 0; }
+.case-bleed img { width: 100%; height: auto; display: block; }
+
+/* quiet section labels, in place of uppercase micro-eyebrows */
+/* .case-page prefix so this outranks `.case-overview-body p`, which would
+   otherwise drag the label down to body size */
+.case-page .case-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--sg-dark);
+  max-width: none;
+  margin-bottom: 20px;
+}
+
+.case-page section.page-section { padding: 104px 0; }
+
+/* overview beside the client meta */
+.case-overview-grid,
+.case-challenge-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.75fr;
+  gap: 72px;
+  align-items: start;
+}
+.case-overview-body p,
+.case-challenge-body p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+.case-overview-body p + p,
+.case-challenge-body p + p { margin-top: 18px; }
+.case-challenge-body strong { color: var(--sg-dark); font-weight: 600; }
+
+/* Merkil's meta list: plain sentence-case labels, no letter-spacing tricks */
+.case-meta { display: grid; gap: 28px; }
+.case-meta dt {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.case-meta dd {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--sg-dark);
+}
+
+.case-portrait { margin: 0; }
+.case-portrait img { width: 100%; height: auto; display: block; }
+
+/* left-aligned section headers, tighter tracking */
+.case-page .section-head { margin-bottom: 56px; }
+.case-page .section-title { letter-spacing: -0.02em; }
+.case-page .case-block-text h3 { letter-spacing: -0.02em; }
+
+/* screenshots: square and flat, the way the reference treats them */
+.case-page .case-figure img {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.case-page .case-figure figcaption {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .case-page .page-header--case { padding: 48px 0 32px; }
+  .case-page section.page-section { padding: 64px 0; }
+  .case-overview-grid,
+  .case-challenge-grid { grid-template-columns: 1fr; gap: 36px; }
+  .case-portrait { max-width: 420px; }
+  .case-page .section-head { margin-bottom: 36px; }
+}
+
+/* ════════════════════════════════════════
    CASE STUDY
    ════════════════════════════════════════ */
 /* the homepage result card's link through to the full study */
@@ -1449,52 +1569,6 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   text-underline-offset: 3px;
 }
 .testimonial-card-link:hover { color: var(--white); }
-
-.case-intro .container {
-  display: flex;
-  align-items: flex-start;
-  gap: 48px;
-}
-.case-hero {
-  flex: 0 0 40%;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--purple-50);
-}
-.case-hero img { width: 100%; height: auto; }
-
-.case-glance { flex: 1; padding-top: 8px; }
-.case-glance-logo { margin-bottom: 32px; }
-.case-glance-facts {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.case-glance-facts > div {
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border);
-}
-.case-glance-facts > div:last-child { border-bottom: 0; padding-bottom: 0; }
-.case-glance-facts dt {
-  font-family: 'Inter Tight', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--purple-500);
-  margin-bottom: 6px;
-}
-.case-glance-facts dd { font-size: 17px; color: var(--sg-dark); }
-
-.case-challenge-body {
-  max-width: 720px;
-  margin: 0 auto;
-  font-size: 18px;
-  line-height: 1.75;
-  color: var(--text-muted);
-}
-.case-challenge-body p + p { margin-top: 20px; }
-.case-challenge-body strong { color: var(--sg-dark); font-weight: 600; }
 
 /* ── workstream blocks ──
    Five blocks, deliberately not five identical cards. The screenshots are
@@ -1642,11 +1716,6 @@ section.page-section.case-work { padding-bottom: 0; }
   font-style: normal;
   font-size: 15px;
   color: var(--purple-300);
-}
-
-@media (max-width: 900px) {
-  .case-intro .container { flex-direction: column; gap: 32px; }
-  .case-hero { flex: none; width: 100%; max-width: 420px; align-self: center; }
 }
 
 /* ════════════════════════════════════════
