@@ -67,6 +67,23 @@ a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 button { font-family: inherit; }
 
+/* Keyboard focus. There was no focus style anywhere, so keyboard users got
+   the browser default, which all but vanishes on the dark sections. Only
+   :focus-visible, so a mouse click doesn't leave a ring behind. */
+:focus-visible {
+  outline: 2px solid var(--purple-700);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* the purple ring has nothing to sit against on the dark surfaces */
+.cta :focus-visible,
+footer :focus-visible,
+.case-result :focus-visible,
+.case-block--feature :focus-visible,
+.price-card.is-popular :focus-visible {
+  outline-color: var(--pink-200);
+}
+
 .container { max-width: var(--content-max); margin: 0 auto; padding: 0 24px; }
 .muted { color: var(--text-muted); }
 
@@ -1545,12 +1562,18 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 .case-split-figures { display: grid; gap: 32px; }
 .case-split-grid .case-block-text { position: sticky; top: 120px; }
 
-/* the reporting block, which is the point the whole system builds to */
+/* the reporting block, which is the point the whole system builds to.
+   It runs straight into the results section rather than leaving a strip of
+   white between two dark blocks, which read as a seam. The two together
+   make one dark payoff: here is the measurement, here is what it measured. */
 .case-block--feature {
   background: var(--sg-dark);
   padding: 80px 0;
   margin-top: 96px;
 }
+/* matching section.page-section's specificity, or its 88px wins */
+section.page-section.case-work { padding-bottom: 0; }
+.case-result { border-top: 1px solid rgba(255, 255, 255, 0.08); }
 .case-feature-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
