@@ -859,6 +859,11 @@ section.page-section.tint { background: var(--purple-50); }
 
 /* cta */
 .cta { background: var(--sg-dark); text-align: center; padding: 100px 24px; }
+/* .cta is always dark, so a .btn-outline inside it needs the light variant
+   used elsewhere on dark surfaces (see .price-card.is-popular) - the base
+   dark-on-transparent style is invisible against this background */
+.cta .btn-outline { border-color: rgba(255, 255, 255, 0.4); color: var(--white); }
+.cta .btn-outline:hover { background: var(--white); color: var(--sg-dark); }
 .cta-inner { max-width: 640px; margin: 0 auto; }
 .cta h2 {
   color: var(--white);
