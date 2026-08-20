@@ -3,8 +3,11 @@
   "configurations": [
     {
       "name": "simplegrowth",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "3456"],
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "-e",
+        "const http=require('http'),fs=require('fs'),path=require('path');const root='/Users/stuartwalker/Documents/Clients/Simplegrowth/simplegrowth.agency/.claude/worktrees/intelligent-feistel-8eea9d';const types={'.html':'text/html','.css':'text/css','.js':'application/javascript','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.json':'application/json','.xml':'application/xml','.txt':'text/plain'};http.createServer((req,res)=>{let p=decodeURIComponent(req.url.split('?')[0]);const fp=path.join(root,p);if(!fp.startsWith(root)){res.writeHead(403);res.end();return;}const send=(file)=>{const ext=path.extname(file);fs.readFile(file,(err,data)=>{if(err){res.writeHead(404);res.end('Not found');return;}res.writeHead(200,{'Content-Type':types[ext]||'application/octet-stream'});res.end(data);});};const candidates=p.endsWith('/')?[fp+'index.html']:[fp,fp+'.html',path.join(fp,'index.html')];const tryNext=(i)=>{if(i>=candidates.length){res.writeHead(404);res.end('Not found');return;}fs.stat(candidates[i],(err,stat)=>{if(!err&&stat.isFile())send(candidates[i]);else tryNext(i+1);});};tryNext(0);}).listen(3456,()=>console.log('listening on 3456'));"
+      ],
       "port": 3456,
       "autoPort": true
     }

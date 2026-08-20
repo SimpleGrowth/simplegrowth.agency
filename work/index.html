@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Message Sent | SimpleGrowth</title>
-  <meta name="description" content="Thanks for getting in touch with SimpleGrowth. We've got your message and will reply within one business day.">
-  <!-- Thank-you page: no unique content of its own, and both forms already
-       show this same confirmation inline without ever navigating here — see
-       js/hubspot-form.js. This exists as the redirect target HubSpot's own
-       tooling and any future ad conversion tracking can point at, so it
-       stays out of the sitemap and out of search results. -->
-  <meta name="robots" content="noindex, follow">
-  <link rel="canonical" href="https://simplegrowth.agency/success">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <title>Our Work | Client Case Studies | SimpleGrowth</title>
+  <meta name="description" content="Case studies from Edinburgh businesses SimpleGrowth has grown — the strategy, the build, and the numbers behind each one.">
+  <link rel="canonical" href="https://simplegrowth.agency/work">
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimpleGrowth">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:url" content="https://simplegrowth.agency/work">
+  <meta property="og:title" content="Our Work | Client Case Studies | SimpleGrowth">
+  <meta property="og:description" content="Case studies from Edinburgh businesses SimpleGrowth has grown — the strategy, the build, and the numbers behind each one.">
+  <meta property="og:image" content="https://simplegrowth.agency/images/og_homepage.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/analytics.js" defer></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/analytics.js" defer></script>
 </head>
 <body>
 
@@ -25,12 +27,12 @@
 <header class="site-header site-header--solid">
   <div class="site-header-inner">
     <a class="site-logo" href="/">
-      <img src="logo/purple.svg" alt="SimpleGrowth" width="174" height="32">
+      <img src="/logo/purple.svg" alt="SimpleGrowth" width="174" height="32">
     </a>
     <ul class="nav-links only-desktop">
       <li><a href="/services">Services</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
-      <li><a href="/work">Work</a></li>
+      <li><a href="/work" class="is-active">Work</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
       <li><a href="/about">About</a></li>
       <li aria-hidden="true" class="nav-dot"></li>
@@ -46,12 +48,11 @@
       </svg>
     </button>
   </div>
-  <!-- Mobile header menu — Figma 429:2072. See js/main.js's wireTogglePanel. -->
   <div class="mobile-menu-panel" id="mobile-menu-panel" hidden>
     <ul class="mobile-menu-links">
       <li><a href="/">Home</a></li>
       <li><a href="/services">Services</a></li>
-      <li><a href="/work">Work</a></li>
+      <li><a href="/work" class="is-active">Work</a></li>
       <li><a href="/contact">Contact</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/pricing">Plans &amp; Pricing</a></li>
@@ -65,12 +66,39 @@
 
 <!-- PAGE HEADER -->
 <section class="page-header">
-  <div class="badge tone-lavender reveal"><img src="icons/purple-check-contained.svg" alt="" width="18" height="18">Message sent</div>
-  <h1 class="reveal">Thanks — we've got it</h1>
-  <p class="reveal">We usually reply within one business day. In the meantime, feel free to have a look around.</p>
-  <div class="page-header-actions reveal">
-    <a href="/" class="btn btn-primary">Back to homepage</a>
-    <a href="/pricing" class="btn btn-outline">See plans &amp; pricing</a>
+  <div class="badge tone-sky reveal"><span class="dot"></span>Work</div>
+  <h1 class="reveal">Case studies from real Edinburgh businesses</h1>
+  <p class="reveal">The strategy, the build, and the numbers behind each one.</p>
+</section>
+
+<!-- CASE STUDY GRID -->
+<section class="page-section">
+  <div class="container">
+    <div class="work-grid">
+      <a href="/work/proshine" class="work-card reveal">
+        <figure class="work-card-media">
+          <img src="/images/work/proshine/mockup.webp"
+               alt="The Proshine Specialised Cleaning website shown on a laptop" width="900" height="600" loading="lazy">
+        </figure>
+        <div class="work-card-body">
+          <p class="work-card-client">Proshine Specialised Cleaning</p>
+          <p class="work-card-stat">334% more quote leads</p>
+          <span class="work-card-link">
+            Read the case study
+            <img src="/icons/arrow-right.svg" alt="" width="16" height="16">
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner reveal">
+    <h2>Want to be the <em>next one?</em></h2>
+    <p>Book a free review, no commitment, no jargon, just a clear plan.</p>
+    <a href="/contact" class="btn btn-pink">Book a free review</a>
   </div>
 </section>
 
@@ -79,7 +107,7 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="logo/simple_white.svg" alt="SimpleGrowth">
+        <img src="/logo/simple_white.svg" alt="SimpleGrowth">
         <p>An Edinburgh based marketing duo helping businesses like yours grow.</p>
       </div>
       <div class="footer-links">
@@ -122,6 +150,6 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

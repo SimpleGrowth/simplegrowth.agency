@@ -127,3 +127,40 @@ if (statEls.length) {
   }, { threshold: 0.4 });
   statEls.forEach(el => statObserver.observe(el));
 }
+
+// Case study showcase card - the site screenshot pans downward as the page
+// scrolls, so it reads as the real page scrolling. The card sits right at
+// the top of the document, so progress is measured from its own resting
+// position (0 at the top of the page) rather than from viewport entry -
+// otherwise it would start already part-scrolled and never show the top
+// of the site. Progress reaches 1 exactly as the card scrolls fully past
+// the top of the viewport.
+const showcaseCard = document.querySelector('[data-parallax-card]');
+if (showcaseCard && !reduceMotion) {
+  const track = showcaseCard.querySelector('[data-parallax-track]');
+  let docTop = 0;
+  let tickScheduled = false;
+
+  const measure = () => {
+    docTop = showcaseCard.getBoundingClientRect().top + window.scrollY;
+  };
+
+  const applyParallax = () => {
+    tickScheduled = false;
+    const cardHeight = showcaseCard.offsetHeight;
+    const progress = Math.min(Math.max(window.scrollY / (docTop + cardHeight), 0), 1);
+    const maxOffset = track.offsetHeight - cardHeight;
+    if (maxOffset > 0) track.style.transform = `translateY(${-progress * maxOffset}px)`;
+  };
+
+  const onScroll = () => {
+    if (tickScheduled) return;
+    tickScheduled = true;
+    requestAnimationFrame(applyParallax);
+  };
+
+  measure();
+  applyParallax();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { measure(); applyParallax(); });
+}
