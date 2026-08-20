@@ -1581,13 +1581,20 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 /* ════════════════════════════════════════
    WORK INDEX
    ════════════════════════════════════════ */
+/* flex, not grid: a grid's 1fr tracks always stretch to fill the row, so
+   fewer cards than columns leaves the odd ones flush-left with dead space
+   beside them. Flex-wrap plus justify-content:center collapses that gap
+   and centers whatever's left in an underfull last row too. */
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 32px;
 }
 .work-card {
   display: block;
+  flex: 1 1 380px;
+  max-width: 420px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -1619,8 +1626,8 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
 .work-card-link img { transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
 .work-card:hover .work-card-link img { transform: translateX(3px); }
 
-@media (max-width: 900px) {
-  .work-grid { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+  .work-card { flex-basis: 100%; max-width: none; }
 }
 
 /* ════════════════════════════════════════
