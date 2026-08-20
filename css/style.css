@@ -1475,9 +1475,29 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   margin: 0 0 20px;
 }
 
-/* the image runs the full width of the viewport, square, unadorned */
-.case-bleed { width: 100%; margin: 0; }
-.case-bleed img { width: 100%; height: auto; display: block; }
+/* the site itself, in a rounded card, panning downward as the card
+   scrolls through the viewport (see initCaseShowcase in main.js) - the
+   track image is taller than the card, so most of it starts off-screen */
+.case-showcase-card {
+  position: relative;
+  overflow: hidden;
+  height: clamp(280px, 53vw, 630px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(25, 15, 54, 0.12);
+}
+.case-showcase-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  will-change: transform;
+}
+.case-showcase-track img { width: 100%; height: auto; display: block; }
+
+@media (max-width: 900px) {
+  .case-showcase-card { border-radius: var(--radius-md); }
+}
 
 /* quiet section labels, in place of uppercase micro-eyebrows */
 /* .case-page prefix so this outranks `.case-overview-body p`, which would
