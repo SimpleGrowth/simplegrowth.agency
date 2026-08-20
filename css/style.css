@@ -1484,7 +1484,6 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   height: clamp(280px, 53vw, 630px);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  box-shadow: 0 24px 60px rgba(25, 15, 54, 0.12);
 }
 .case-showcase-track {
   position: absolute;
