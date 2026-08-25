@@ -96,13 +96,28 @@ function hideCookieSettings() {
 
 // Built here rather than sitting in all eight pages' markup — there's no
 // build step to share a partial, and it's only ever needed by visitors who
-// haven't answered yet. Deliberately non-modal: it doesn't trap focus or
-// block the page, since declining is a valid way to just carry on reading.
+// haven't answered yet.
+//
+// Non-modal on desktop: it doesn't trap focus or block the page there,
+// since declining is a valid way to just carry on reading. On mobile it
+// dims and blocks the rest of the page until answered instead — accepting
+// cookies is such a familiar pattern by now that the extra friction is
+// worth it for how much it declutters the small screen (it was otherwise
+// competing with the floating mobile CTA bar for the same bit of bottom
+// edge).
 function showConsentBanner() {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const previouslyFocused = document.activeElement;
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'consent-backdrop';
+
   const banner = document.createElement('div');
   banner.className = 'consent-banner';
-  banner.setAttribute('role', 'region');
+  banner.setAttribute('role', isMobile ? 'alertdialog' : 'region');
   banner.setAttribute('aria-label', 'Cookie consent');
+  banner.tabIndex = -1;
+  if (isMobile) banner.setAttribute('aria-modal', 'true');
   banner.innerHTML = `
     <p class="consent-banner-text">
       We use analytics cookies to understand how the site gets used, so we can
@@ -115,6 +130,16 @@ function showConsentBanner() {
     </div>
   `;
 
+  // `inert` keeps everything behind the dimmed backdrop out of the tab
+  // order and unclickable — a native focus trap without hand-rolling one.
+  const setBackgroundInert = (inert) => {
+    Array.from(document.body.children).forEach((el) => {
+      if (el === banner || el === backdrop) return;
+      if (inert) el.setAttribute('inert', '');
+      else el.removeAttribute('inert');
+    });
+  };
+
   const answer = (choice) => {
     try {
       localStorage.setItem(CONSENT_KEY, choice);
@@ -124,9 +149,23 @@ function showConsentBanner() {
     if (choice === 'granted') grantConsent();
     else withdrawConsent();
     banner.remove();
+    backdrop.remove();
+    if (isMobile) {
+      document.body.classList.remove('consent-modal-open');
+      setBackgroundInert(false);
+      if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
+    }
   };
 
   banner.querySelector('.consent-btn--accept').addEventListener('click', () => answer('granted'));
   banner.querySelector('.consent-btn--decline').addEventListener('click', () => answer('denied'));
+
+  document.body.appendChild(backdrop);
   document.body.appendChild(banner);
+
+  if (isMobile) {
+    document.body.classList.add('consent-modal-open');
+    setBackgroundInert(true);
+    banner.focus();
+  }
 }

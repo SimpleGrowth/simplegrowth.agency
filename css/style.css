@@ -1908,6 +1908,33 @@ section.page-section.case-work { padding-bottom: 0; }
   .consent-banner { animation: none; }
 }
 
+/* Dims and blocks the rest of the page while the banner is unanswered —
+   mobile only (desktop stays non-modal, see js/analytics.js). Sits just
+   under the banner's own z-index so it covers everything else, including
+   the mobile CTA bar underneath. */
+.consent-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .consent-backdrop {
+    background: rgba(25, 15, 54, 0.55);
+    pointer-events: auto;
+    animation: consent-backdrop-in 0.4s ease;
+  }
+  @keyframes consent-backdrop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .consent-backdrop { animation: none; }
+  }
+
+  body.consent-modal-open { overflow: hidden; }
+}
+
 .consent-banner-text {
   font-size: 15px;
   line-height: 1.5;
@@ -1974,12 +2001,12 @@ section.page-section.case-work { padding-bottom: 0; }
     right: 16px;
     bottom: calc(16px + env(safe-area-inset-bottom));
     z-index: 55;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 12px;
     background: var(--white);
     border-radius: var(--radius-pill);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
     transform: translateY(calc(100% + 32px));
-    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .has-scrolled .mobile-cta-bar { transform: none; }
   @media (prefers-reduced-motion: reduce) {
