@@ -1289,7 +1289,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     gap: 12px;
     width: 100%;
   }
-  .hero-actions .btn-lg { width: 100%; padding: 20px 24px; }
+  .hero-actions .btn-lg { width: 100%; height: 56px; padding: 0 24px; font-size: 17px; }
 
   /* stacked: the frame is full-width, so its own ratio drives the height
      again — don't let the desktop stretch rule override it */
@@ -1950,4 +1950,57 @@ section.page-section.case-work { padding-bottom: 0; }
     padding: 20px;
   }
   .consent-banner-actions .consent-btn { flex: 1; }
+}
+
+/* ════════════════════════════════════════
+   MOBILE CTA BAR (SG Kit, Figma node 400:1803)
+   Floating "Book a free review" / WhatsApp bar, mobile only. Slides up
+   once the visitor is past the fold — reuses the has-scrolled state
+   main.js already sets for the desktop header, rather than a second
+   scroll listener.
+   ════════════════════════════════════════ */
+.mobile-cta-bar { display: none; }
+
+@media (max-width: 900px) {
+  /* room at the foot of the page so the floating bar never sits over the
+     last row of footer links */
+  footer { padding-bottom: calc(32px + 96px + env(safe-area-inset-bottom)); }
+
+  .mobile-cta-bar {
+    display: flex;
+    gap: 12px;
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 55;
+    padding: 12px;
+    background: var(--white);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+    transform: translateY(calc(100% + 32px));
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .has-scrolled .mobile-cta-bar { transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-cta-bar { transition: none; }
+  }
+
+  .mobile-cta-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    transition: opacity 0.2s;
+  }
+  .mobile-cta-btn:active { opacity: 0.85; }
+  .mobile-cta-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .mobile-cta-btn--dark { background: var(--sg-dark); color: var(--pink-200); }
+  .mobile-cta-btn--whatsapp { background: #25D366; color: var(--white); }
 }
