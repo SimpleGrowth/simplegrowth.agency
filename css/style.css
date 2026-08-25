@@ -44,6 +44,11 @@
   --gutter: clamp(24px, 9.375vw, 120px);
   /* the Figma content frame — every section lines up to this */
   --content-max: 1040px;
+
+  /* set by js/analytics.js to the cookie banner's own height while it's
+     open, so the mobile CTA bar stacks above it instead of sitting
+     underneath */
+  --consent-offset: 0px;
 }
 
 html { scroll-behavior: smooth; }
@@ -1972,14 +1977,14 @@ section.page-section.case-work { padding-bottom: 0; }
     position: fixed;
     left: 16px;
     right: 16px;
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(16px + env(safe-area-inset-bottom) + var(--consent-offset));
     z-index: 55;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 12px;
     background: var(--white);
     border-radius: var(--radius-pill);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
     transform: translateY(calc(100% + 32px));
-    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .has-scrolled .mobile-cta-bar { transform: none; }
   @media (prefers-reduced-motion: reduce) {

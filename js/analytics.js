@@ -115,6 +115,13 @@ function showConsentBanner() {
     </div>
   `;
 
+  // Keeps the mobile CTA bar (fixed to the same bottom edge) stacked above
+  // the banner instead of sitting underneath it. Re-measured on resize
+  // since the banner's own height changes as its text reflows.
+  const updateConsentOffset = () => {
+    document.documentElement.style.setProperty('--consent-offset', `${banner.offsetHeight + 12}px`);
+  };
+
   const answer = (choice) => {
     try {
       localStorage.setItem(CONSENT_KEY, choice);
@@ -124,9 +131,13 @@ function showConsentBanner() {
     if (choice === 'granted') grantConsent();
     else withdrawConsent();
     banner.remove();
+    document.documentElement.style.removeProperty('--consent-offset');
+    window.removeEventListener('resize', updateConsentOffset);
   };
 
   banner.querySelector('.consent-btn--accept').addEventListener('click', () => answer('granted'));
   banner.querySelector('.consent-btn--decline').addEventListener('click', () => answer('denied'));
   document.body.appendChild(banner);
+  updateConsentOffset();
+  window.addEventListener('resize', updateConsentOffset);
 }
