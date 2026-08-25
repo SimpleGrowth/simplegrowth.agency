@@ -1289,7 +1289,7 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
     gap: 12px;
     width: 100%;
   }
-  .hero-actions .btn-lg { width: 100%; padding: 20px 24px; }
+  .hero-actions .btn-lg { width: 100%; height: 56px; padding: 0 24px; font-size: 17px; }
 
   /* stacked: the frame is full-width, so its own ratio drives the height
      again — don't let the desktop stretch rule override it */
