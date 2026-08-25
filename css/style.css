@@ -1976,7 +1976,7 @@ section.page-section.case-work { padding-bottom: 0; }
     z-index: 55;
     padding: 12px;
     background: var(--white);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-pill);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
     transform: translateY(calc(100% + 32px));
     transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
