@@ -1,0 +1,57 @@
+name: Update Instagram feed
+
+on:
+  schedule:
+    # 06:00 UTC daily
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch latest Instagram posts
+        id: fetch
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+        run: node scripts/fetch-instagram-feed.mjs
+
+      # Instagram access tokens are long-lived (60 days) but get refreshed
+      # to a new value roughly every run. Rotating the stored secret keeps
+      # the feed working indefinitely without anyone manually regenerating
+      # a token every couple of months. Only runs if a GH_PAT secret (a
+      # token with permission to manage this repo's Actions secrets) has
+      # been added — see docs/instagram-feed-setup.md.
+      - name: Rotate INSTAGRAM_ACCESS_TOKEN secret
+        if: steps.fetch.outputs.new_token != ''
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          NEW_TOKEN: ${{ steps.fetch.outputs.new_token }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::Access token was refreshed but GH_PAT is not set, so the INSTAGRAM_ACCESS_TOKEN secret could not be rotated. See docs/instagram-feed-setup.md."
+            exit 0
+          fi
+          gh secret set INSTAGRAM_ACCESS_TOKEN --repo "${{ github.repository }}" --body "$NEW_TOKEN"
+
+      - name: Commit updated feed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/instagram-feed.json; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git add data/instagram-feed.json
+          git commit -m "Update Instagram feed data"
+          git push
