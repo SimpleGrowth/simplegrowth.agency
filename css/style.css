@@ -827,20 +827,20 @@ section.page-section.tint { background: var(--purple-50); }
 .service-card h3 { font-size: 22px; margin-bottom: 8px; }
 .service-card p { color: rgba(255, 255, 255, 0.75); font-size: 15px; line-height: 1.5; }
 
-/* instagram feed */
-.instagram-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
-.instagram-tile { position: relative; display: block; aspect-ratio: 1; border-radius: var(--radius-sm); overflow: hidden; }
-.instagram-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-.instagram-tile-overlay {
-  position: absolute; inset: 0;
+/* instagram feed — native Instagram post embeds (embed.js) */
+.instagram-embeds { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 40px; }
+.instagram-embeds blockquote.instagram-media { margin: 0 !important; }
+/* shown only if embed.js fails to load (e.g. blocked by an ad blocker) */
+.instagram-embeds blockquote.instagram-media a {
   display: flex; align-items: center; justify-content: center;
-  background: rgba(25, 15, 54, 0);
-  transition: background 0.25s;
+  width: 240px; height: 240px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--purple);
+  font-weight: 600;
+  text-align: center;
+  padding: 24px;
 }
-.instagram-tile-overlay svg { opacity: 0; transition: opacity 0.25s; }
-.instagram-tile:hover img { transform: scale(1.06); }
-.instagram-tile:hover .instagram-tile-overlay { background: rgba(25, 15, 54, 0.45); }
-.instagram-tile:hover .instagram-tile-overlay svg { opacity: 1; }
 .instagram-follow { display: flex; justify-content: center; }
 
 /* faq */
@@ -1397,7 +1397,6 @@ footer { background: #120A28; color: rgba(255, 255, 255, 0.6); padding: 48px 24p
   .pain-grid li { aspect-ratio: auto; padding: 20px; }
   .how-grid { grid-template-columns: 1fr; gap: 32px; }
   .services-grid { grid-template-columns: 1fr; }
-  .instagram-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .testimonial-grid { grid-template-columns: 1fr; }
   /* side-by-side title + logo doesn't fit a single narrow column — stack them */
   .testimonial-card-head { flex-direction: column; align-items: flex-start; gap: 12px; }
