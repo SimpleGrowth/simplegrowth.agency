@@ -128,6 +128,54 @@ if (statEls.length) {
   statEls.forEach(el => statObserver.observe(el));
 }
 
+// Instagram scroller (mobile) — some browsers restore/anchor this
+// container's scroll position away from the start once the embed script
+// resizes the posts, so pin it back to the beginning.
+const instagramEmbeds = document.querySelector('.instagram-embeds');
+if (instagramEmbeds) {
+  const resetScroll = () => { instagramEmbeds.scrollLeft = 0; };
+  resetScroll();
+  window.addEventListener('load', resetScroll);
+  window.addEventListener('pageshow', resetScroll);
+}
+
+// Instagram embed cropping — each post is a cross-origin iframe (can't
+// reach inside it), so the profile header, comment box, and a 1px sliver
+// on each side are hidden by shifting the iframe up/left (see the
+// matching margin in style.css) and clipping its wrapper to the iframe's
+// real size minus those crops. The iframe's size is set async and
+// changes as embed.js finishes sizing it, so a ResizeObserver keeps the
+// wrapper in sync rather than reading it once.
+const INSTAGRAM_CROP_TOP = 56;
+const INSTAGRAM_CROP_BOTTOM = 45;
+const INSTAGRAM_CROP_SIDE = 1;
+const instagramFrames = document.querySelectorAll('.instagram-embed-frame');
+if (instagramFrames.length && 'ResizeObserver' in window) {
+  const fitFrame = (iframe, wrapper) => {
+    const h = iframe.offsetHeight;
+    const w = iframe.offsetWidth;
+    if (h > INSTAGRAM_CROP_TOP + INSTAGRAM_CROP_BOTTOM) {
+      wrapper.style.height = (h - INSTAGRAM_CROP_TOP - INSTAGRAM_CROP_BOTTOM) + 'px';
+    }
+    if (w > INSTAGRAM_CROP_SIDE * 2) {
+      wrapper.style.width = (w - INSTAGRAM_CROP_SIDE * 2) + 'px';
+    }
+  };
+  const watchForIframe = (wrapper) => {
+    const iframe = wrapper.querySelector('iframe.instagram-media');
+    if (!iframe) return false;
+    new ResizeObserver(() => fitFrame(iframe, wrapper)).observe(iframe);
+    return true;
+  };
+  instagramFrames.forEach(wrapper => {
+    if (watchForIframe(wrapper)) return;
+    const mo = new MutationObserver(() => {
+      if (watchForIframe(wrapper)) mo.disconnect();
+    });
+    mo.observe(wrapper, { childList: true });
+  });
+}
+
 // Case study showcase card - the site screenshot pans downward as the page
 // scrolls, so it reads as the real page scrolling. The card sits right at
 // the top of the document, so progress is measured from its own resting
