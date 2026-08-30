@@ -147,7 +147,7 @@ if (instagramEmbeds) {
 // changes as embed.js finishes sizing it, so a ResizeObserver keeps the
 // wrapper in sync rather than reading it once.
 const INSTAGRAM_CROP_TOP = 56;
-const INSTAGRAM_CROP_BOTTOM = 45;
+const INSTAGRAM_CROP_BOTTOM = 69;
 const INSTAGRAM_CROP_SIDE = 1;
 const instagramFrames = document.querySelectorAll('.instagram-embed-frame');
 if (instagramFrames.length && 'ResizeObserver' in window) {
