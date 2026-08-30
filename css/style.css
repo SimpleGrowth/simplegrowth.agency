@@ -828,12 +828,35 @@ section.page-section.tint { background: var(--purple-50); }
 .service-card p { color: rgba(255, 255, 255, 0.75); font-size: 15px; line-height: 1.5; }
 
 /* instagram feed — native Instagram post embeds (embed.js) */
-.instagram-embeds { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 40px; }
+/* desktop: fixed 3-column x 2-row grid */
+.instagram-embeds {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: start;
+  gap: 20px;
+  margin-bottom: 40px;
+}
 .instagram-embeds blockquote.instagram-media { margin: 0 !important; }
+/* Crops the profile header, comment box, and a 1px sliver off each side
+   of every embed. embed.js renders posts in a cross-origin iframe, so
+   its chrome can't be targeted directly — instead the wrapper clips to
+   a JS-measured size (js/main.js) and the iframe is shifted up/left to
+   hide the header and side slivers, which also clips the same amount
+   off the opposite edge. */
+.instagram-embed-frame {
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  /* the iframe's negative top margin pulls it out of normal flow, so
+     without a floor here the card would collapse to ~0 height until
+     embed.js reports the post's real size (js/main.js) */
+  min-height: 480px;
+}
+.instagram-embed-frame iframe.instagram-media { margin: -56px 0 0 -1px !important; display: block !important; }
 /* shown only if embed.js fails to load (e.g. blocked by an ad blocker) */
 .instagram-embeds blockquote.instagram-media a {
   display: flex; align-items: center; justify-content: center;
-  width: 240px; height: 240px;
+  width: 100%; height: 240px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--purple);
@@ -842,6 +865,29 @@ section.page-section.tint { background: var(--purple-50); }
   padding: 24px;
 }
 .instagram-follow { display: flex; justify-content: center; }
+
+/* mobile: single scrollable row */
+@media (max-width: 900px) {
+  .instagram-embeds {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-anchor: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding-bottom: 8px;
+    margin-bottom: 32px;
+  }
+  /* target the wrapper, not .instagram-media directly — embed.js
+     replaces the blockquote with a rendered iframe, and the wrapper is
+     the stable flex/grid item across both states. */
+  .instagram-embeds .instagram-embed-frame {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+  .instagram-embeds blockquote.instagram-media a { width: 280px; }
+}
 
 /* faq */
 .faq { background: var(--purple-50); }
